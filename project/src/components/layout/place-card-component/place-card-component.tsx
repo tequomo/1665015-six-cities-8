@@ -1,8 +1,6 @@
 type PlaceCardProps = {
-  vip: boolean;
+  vipOption: boolean;
 }
-
-// const vip = true;
 
 function PlaceCardMark(): JSX.Element {
   return (
@@ -12,10 +10,10 @@ function PlaceCardMark(): JSX.Element {
   );
 }
 
-function PlaceCardComponent(props: PlaceCardProps): JSX.Element {
+function PlaceCardComponent({vipOption}: PlaceCardProps): JSX.Element {
   return (
     <article className="cities__place-card place-card">
-      {props.vip ? <PlaceCardMark /> : ''}
+      {vipOption && <PlaceCardMark />}
       <div className="cities__image-wrapper place-card__image-wrapper">
         <a href="/">
           <img className="place-card__image" src="img/apartment-01.jpg" width="260" height="200" alt="Great Housing!" />

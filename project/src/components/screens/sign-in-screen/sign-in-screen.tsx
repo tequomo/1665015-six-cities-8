@@ -1,15 +1,9 @@
-import LogoComponent from '../logo-component/logo-component';
+import HeaderComponent from '../../layout/header-component/header-component';
 
 function SignInScreen(): JSX.Element {
   return (
     <div className="page page--gray page--login">
-      <header className="header">
-        <div className="container">
-          <div className="header__wrapper">
-            <LogoComponent />
-          </div>
-        </div>
-      </header>
+      <HeaderComponent renderAuth={false} />
 
       <main className="page__main page__main--login">
         <div className="page__login-container container">

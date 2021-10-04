@@ -1,17 +1,9 @@
-import AuthComponent from '../auth-component/auth-component';
-import LogoComponent from '../logo-component/logo-component';
+import HeaderComponent from '../../layout/header-component/header-component';
 
 function OfferScreen(): JSX.Element {
   return (
     <div className="page">
-      <header className="header">
-        <div className="container">
-          <div className="header__wrapper">
-            <LogoComponent />
-            <AuthComponent />
-          </div>
-        </div>
-      </header>
+      <HeaderComponent renderAuth />
 
       <main className="page__main page__main--property">
         <section className="property">

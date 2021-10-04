@@ -1,17 +1,10 @@
-import AuthComponent from '../auth-component/auth-component';
-import LogoComponent from '../logo-component/logo-component';
+import FooterComponent from '../../layout/footer-component/footer-component';
+import HeaderComponent from '../../layout/header-component/header-component';
 
 function FavoritesScreen(): JSX.Element {
   return (
     <div className="page">
-      <header className="header">
-        <div className="container">
-          <div className="header__wrapper">
-            <LogoComponent />
-            <AuthComponent />
-          </div>
-        </div>
-      </header>
+      <HeaderComponent renderAuth />
 
       <main className="page__main page__main--favorites">
         <div className="page__favorites-container container">
@@ -139,11 +132,7 @@ function FavoritesScreen(): JSX.Element {
           </section>
         </div>
       </main>
-      <footer className="footer container">
-        <a className="footer__logo-link" href="main.html">
-          <img className="footer__logo" src="img/logo.svg" alt="6 cities logo" width="64" height="33" />
-        </a>
-      </footer>
+      <FooterComponent />
     </div>
   );
 }
