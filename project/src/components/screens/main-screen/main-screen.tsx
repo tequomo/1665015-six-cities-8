@@ -1,3 +1,4 @@
+import { OfferType } from '../../../types/offer-type';
 import HeaderComponent from '../../layout/header-component/header-component';
 import LocationsComponent from '../../layout/locations-component/locations-component';
 import MainMapComponent from '../../layout/main-map-component/main-map-component';
@@ -5,11 +6,12 @@ import PlaceCardComponent from '../../layout/place-card-component/place-card-com
 import PlacesSortComponent from '../../layout/places-sort-component/places-sort-component';
 
 type MainProps = {
-  offersCount: number;
-  offersShown: number;
+  offersCount: number,
+  offersShown: number,
+  offers: OfferType[],
 }
 
-function MainScreen({offersCount, offersShown}: MainProps): JSX.Element {
+function MainScreen({offersCount, offersShown, offers}: MainProps): JSX.Element {
   return (
     <div className="page page--gray page--main">
       <HeaderComponent renderAuth />
