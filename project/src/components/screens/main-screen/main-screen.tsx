@@ -7,11 +7,10 @@ import PlacesSortComponent from '../../layout/places-sort-component/places-sort-
 
 type MainProps = {
   offersCount: number,
-  offersShown: number,
   offers: OfferType[],
 }
 
-function MainScreen({offersCount, offersShown, offers}: MainProps): JSX.Element {
+function MainScreen({offersCount, offers}: MainProps): JSX.Element {
   return (
     <div className="page page--gray page--main">
       <HeaderComponent renderAuth />
@@ -29,11 +28,11 @@ function MainScreen({offersCount, offersShown, offers}: MainProps): JSX.Element 
               <PlacesSortComponent />
               <div className="cities__places-list places__list tabs__content">
                 {
-                  new Array(offersShown)
-                    .fill(null)
-                    .map(() =>
-                      <PlaceCardComponent key={Math.random()} vipOption={Math.random() > 0.5} />,
-                    )
+                  offers.map((offer) => {
+                    const keyValue = `${offer.id}-${offer.city.name}`;
+                    return <PlaceCardComponent key={keyValue} {...offer} />;
+                  },
+                  )
                 }
               </div>
             </section>
