@@ -2,7 +2,7 @@ import { OfferType } from '../../../types/offer-type';
 import HeaderComponent from '../../layout/header-component/header-component';
 import LocationsComponent from '../../layout/locations-component/locations-component';
 import MainMapComponent from '../../layout/main-map-component/main-map-component';
-import PlaceCardComponent from '../../layout/place-card-component/place-card-component';
+import OffersListComponent from '../../layout/offers-list-component/offers-list-component';
 import PlacesSortComponent from '../../layout/places-sort-component/places-sort-component';
 
 type MainProps = {
@@ -27,13 +27,7 @@ function MainScreen({offersCount, offers}: MainProps): JSX.Element {
               <b className="places__found">{offersCount} places to stay in Amsterdam</b>
               <PlacesSortComponent />
               <div className="cities__places-list places__list tabs__content">
-                {
-                  offers.map((offer) => {
-                    const keyValue = `${offer.id}-${offer.city.name}`;
-                    return <PlaceCardComponent key={keyValue} {...offer} />;
-                  },
-                  )
-                }
+                <OffersListComponent offers={offers} />
               </div>
             </section>
             <div className="cities__right-section">
