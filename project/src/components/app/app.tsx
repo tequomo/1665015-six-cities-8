@@ -23,7 +23,7 @@ function App({offersCount, offers}: MainProps): JSX.Element {
         <Route exact path={AppRoute.SignIn}>
           <SignInScreen />
         </Route>
-        <PrivateRoute exact path={AppRoute.Favorites} render={() => <FavoritesScreen />} authStatus={AuthStatus.NoAuth}>
+        <PrivateRoute exact path={AppRoute.Favorites} render={() => <FavoritesScreen offers={offers}/>} authStatus={AuthStatus.Auth}>
         </PrivateRoute>
         <Route exact path={AppRoute.Room}>
           <OfferScreen />
