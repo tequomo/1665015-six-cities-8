@@ -2,24 +2,24 @@ import { OfferType } from '../../../types/offer-type';
 import FavoritesCardComponent from '../favorites-card-component/favorites-card-component';
 
 type FavoritePropsType = {
-  locationsOffersProps: OfferType[],
+  locationsOffers: OfferType[],
 }
 
-function FavoritesLocationsComponent({locationsOffersProps}: FavoritePropsType): JSX.Element {
+function FavoritesLocationsComponent({locationsOffers}: FavoritePropsType): JSX.Element {
   return (
     <li className="favorites__locations-items">
       <div className="favorites__locations locations locations--current">
         <div className="locations__item">
           <a className="locations__item-link" href="/">
-            <span>{locationsOffersProps[0].city.name}</span>
+            <span>{locationsOffers[0].city.name}</span>
           </a>
         </div>
       </div>
       <div className="favorites__places">
         {
-          locationsOffersProps.map((offer) => {
+          locationsOffers.map((offer) => {
             const keyValue = `${offer.id}-${offer.city.name}`;
-            return <FavoritesCardComponent key={keyValue} favoriteCard={offer} />;
+            return <FavoritesCardComponent key={keyValue} favoriteOffer={offer} />;
           },
           )
         }

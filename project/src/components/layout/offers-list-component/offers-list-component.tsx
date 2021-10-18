@@ -9,18 +9,18 @@ type OffersListPropsType = {
 }
 
 function OffersListComponent({offers, reviews}: OffersListPropsType): JSX.Element {
-  const [activeCard, setActiveCard] = useState<OfferType | null>(null);
+  const [activeCardId, setActiveCardId] = useState<number | null>(null);
 
-  const handleMouseEnter = (offer: OfferType) => {
-    setActiveCard(offer);
+  const handleMouseEnter = (id: number) => {
+    setActiveCardId(id);
     // eslint-disable-next-line no-console
-    console.log(activeCard);
+    console.log(activeCardId);
   };
 
   const handleMouseLeave = (): void => {
-    setActiveCard(null);
+    setActiveCardId(null);
     // eslint-disable-next-line no-console
-    console.log(activeCard);
+    console.log(activeCardId);
   };
 
   return (

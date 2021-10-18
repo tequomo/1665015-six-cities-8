@@ -2,7 +2,7 @@ import { useParams } from 'react-router';
 import { offers } from '../../../mock/offers';
 import { getRatingWidth } from '../../../utils';
 import HeaderComponent from '../../layout/header-component/header-component';
-import NearPlacesComponent from '../../near-places-component/near-places-component';
+import NearPlacesListComponent from '../../near-places-list-component/near-places-list-component';
 import ReviewsFormComponent from '../../reviews-form-component/reviews-form-component';
 
 type ParamsType = {
@@ -155,7 +155,7 @@ function OfferScreen(): JSX.Element {
           <section className="property__map map"></section>
         </section>
         <div className="container">
-          <NearPlacesComponent nearPlacesData={offers.filter((offer) => offer.id !== +offerParams.id)}/>
+          <NearPlacesListComponent nearPlaces={offers.filter((offer) => offer.id !== +offerParams.id)}/>
         </div>
       </main>
     </div>

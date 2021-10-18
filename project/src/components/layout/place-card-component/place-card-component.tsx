@@ -6,7 +6,7 @@ import { capitalizeWord, getRatingWidth } from '../../../utils';
 
 type CardPropsType = {
   offer: OfferType,
-  onCardOver: (offer: OfferType) => void,
+  onCardOver: (id: number) => void,
   onCardOut: () => void,
 }
 
@@ -21,7 +21,7 @@ function PlaceCardMark(): JSX.Element {
 function PlaceCardComponent({offer, onCardOver, onCardOut}: CardPropsType): JSX.Element {
   const { isPremium, isFavorite, price, type, title, rating, previewImage, id } = offer;
   return (
-    <article className="cities__place-card place-card" onMouseEnter={() => onCardOver(offer)} onMouseLeave={() => onCardOut()}>
+    <article className="cities__place-card place-card" onMouseEnter={() => onCardOver(id)} onMouseLeave={() => onCardOut()}>
       {isPremium && <PlaceCardMark />}
       <div className="cities__image-wrapper place-card__image-wrapper">
         <a href="/">

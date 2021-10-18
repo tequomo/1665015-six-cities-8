@@ -15,7 +15,7 @@ function FavoritesListComponent({offers}: FavoriteListPropsType): JSX.Element {
       <ul className="favorites__list">
         {
           favoriteCities
-            .map((city) => <FavoritesLocationsComponent key={city} locationsOffersProps={favorites.filter((favorite) => (favorite.city.name === city))} />,
+            .map((city) => <FavoritesLocationsComponent key={city} locationsOffers={favorites.filter((favorite) => (favorite.city.name === city))} />,
             )
         }
       </ul>

@@ -1,17 +1,13 @@
 import { Link } from 'react-router-dom';
-import { AppRoute } from '../../const';
-import { OfferType } from '../../types/offer-type';
-import { capitalizeWord, getRatingWidth } from '../../utils';
+import { AppRoute } from '../../../const';
+import { OfferType } from '../../../types/offer-type';
+import { capitalizeWord, getRatingWidth } from '../../../utils';
 
-type NearPlacesPropsType = {
-  nearPlacesData: OfferType[],
-}
-
-type NearPlacesListPropsType = {
+type NearPlacePropsType = {
   nearPlace: OfferType,
 }
 
-function NearPlacesListComponent({nearPlace}: NearPlacesListPropsType): JSX.Element {
+function NearPlaceComponent({nearPlace}: NearPlacePropsType): JSX.Element {
   const {isFavorite, price, type, title, rating, previewImage, id} = nearPlace;
   return (
     <article className="near-places__card place-card">
@@ -50,15 +46,4 @@ function NearPlacesListComponent({nearPlace}: NearPlacesListPropsType): JSX.Elem
   );
 }
 
-function NearPlacesComponent({nearPlacesData}: NearPlacesPropsType): JSX.Element {
-  return (
-    <section className="near-places places">
-      <h2 className="near-places__title">Other places in the neighbourhood</h2>
-      <div className="near-places__list places__list">
-        {nearPlacesData.map((place) => <NearPlacesListComponent key={place.id} nearPlace={place}/>)}
-      </div>
-    </section>
-  );
-}
-
-export default NearPlacesComponent;
+export default NearPlaceComponent;

@@ -4,11 +4,11 @@ import { OfferType } from '../../../types/offer-type';
 import { capitalizeWord, getRatingWidth } from '../../../utils';
 
 type FavoriteCardPropsType = {
-  favoriteCard: OfferType,
+  favoriteOffer: OfferType,
 }
 
-function FavoritesCardComponent({favoriteCard}: FavoriteCardPropsType): JSX.Element {
-  const { price, type, title, rating, previewImage, id } = favoriteCard;
+function FavoritesCardComponent({favoriteOffer}: FavoriteCardPropsType): JSX.Element {
+  const { price, type, title, rating, previewImage, id } = favoriteOffer;
   return (
     <article className="favorites__card place-card">
       <div className="favorites__image-wrapper place-card__image-wrapper">
