@@ -3,20 +3,18 @@ import FavoritesListComponent from '../../layout/favorites-list-component/favori
 import FooterComponent from '../../layout/footer-component/footer-component';
 import HeaderComponent from '../../layout/header-component/header-component';
 
-type MainProps = {
+type FavoritesPropsType = {
   offers: OfferType[],
 }
 
-function FavoritesScreen({offers}: MainProps): JSX.Element {
-// eslint-disable-next-line no-console
-  console.log('received props', offers);
+function FavoritesScreen({offers}: FavoritesPropsType): JSX.Element {
   return (
     <div className="page">
       <HeaderComponent renderAuth />
 
       <main className="page__main page__main--favorites">
         <div className="page__favorites-container container">
-          <FavoritesListComponent {...offers} />
+          <FavoritesListComponent offers={offers} />
         </div>
       </main>
       <FooterComponent />

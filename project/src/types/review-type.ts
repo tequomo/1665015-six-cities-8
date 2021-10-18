@@ -6,7 +6,6 @@ type UserType = {
 }
 
 export type ReviewType = {
-  offersID: number,
   comment: string,
   date: Date,
   id: number,

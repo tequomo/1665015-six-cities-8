@@ -1,8 +1,14 @@
+import { Link } from 'react-router-dom';
+import { AppRoute } from '../../../const';
 import { OfferType } from '../../../types/offer-type';
 import { capitalizeWord, getRatingWidth } from '../../../utils';
 
-function FavoritesCardComponent(offerProps: OfferType): JSX.Element {
-  const { price, type, title, rating, previewImage } = offerProps;
+type FavoriteCardPropsType = {
+  favoriteCard: OfferType,
+}
+
+function FavoritesCardComponent({favoriteCard}: FavoriteCardPropsType): JSX.Element {
+  const { price, type, title, rating, previewImage, id } = favoriteCard;
   return (
     <article className="favorites__card place-card">
       <div className="favorites__image-wrapper place-card__image-wrapper">
@@ -30,7 +36,9 @@ function FavoritesCardComponent(offerProps: OfferType): JSX.Element {
           </div>
         </div>
         <h2 className="place-card__name">
-          <a href="/">{title}</a>
+          <Link to={`${AppRoute.Offer}${id}`}>
+            {title}
+          </Link>
         </h2>
         <p className="place-card__type">{capitalizeWord(type)}</p>
       </div>

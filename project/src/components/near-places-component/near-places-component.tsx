@@ -1,29 +1,21 @@
-// import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { AppRoute } from '../../../const';
-import { OfferType } from '../../../types/offer-type';
-import { capitalizeWord, getRatingWidth } from '../../../utils';
+import { AppRoute } from '../../const';
+import { OfferType } from '../../types/offer-type';
+import { capitalizeWord, getRatingWidth } from '../../utils';
 
-type CardPropsType = {
-  offer: OfferType,
-  onCardOver: (offer: OfferType) => void,
-  onCardOut: () => void,
+type NearPlacesPropsType = {
+  nearPlacesData: OfferType[],
 }
 
-function PlaceCardMark(): JSX.Element {
-  return (
-    <div className="place-card__mark">
-      <span>Premium</span>
-    </div>
-  );
+type NearPlacesListPropsType = {
+  nearPlace: OfferType,
 }
 
-function PlaceCardComponent({offer, onCardOver, onCardOut}: CardPropsType): JSX.Element {
-  const { isPremium, isFavorite, price, type, title, rating, previewImage, id } = offer;
+function NearPlacesListComponent({nearPlace}: NearPlacesListPropsType): JSX.Element {
+  const {isFavorite, price, type, title, rating, previewImage, id} = nearPlace;
   return (
-    <article className="cities__place-card place-card" onMouseEnter={() => onCardOver(offer)} onMouseLeave={() => onCardOut()}>
-      {isPremium && <PlaceCardMark />}
-      <div className="cities__image-wrapper place-card__image-wrapper">
+    <article className="near-places__card place-card">
+      <div className="near-places__image-wrapper place-card__image-wrapper">
         <a href="/">
           <img className="place-card__image" src={previewImage} width="260" height="200" alt="Great Housing!" />
         </a>
@@ -38,7 +30,7 @@ function PlaceCardComponent({offer, onCardOver, onCardOut}: CardPropsType): JSX.
             <svg className="place-card__bookmark-icon" width="18" height="19">
               <use xlinkHref="#icon-bookmark"></use>
             </svg>
-            <span className="visually-hidden">${isFavorite ? 'In bookmarks' : 'To bookmarks'}</span>
+            <span className="visually-hidden">{isFavorite ? 'In bookmarks' : 'To bookmarks'}</span>
           </button>
         </div>
         <div className="place-card__rating rating">
@@ -58,4 +50,15 @@ function PlaceCardComponent({offer, onCardOver, onCardOut}: CardPropsType): JSX.
   );
 }
 
-export default PlaceCardComponent;
+function NearPlacesComponent({nearPlacesData}: NearPlacesPropsType): JSX.Element {
+  return (
+    <section className="near-places places">
+      <h2 className="near-places__title">Other places in the neighbourhood</h2>
+      <div className="near-places__list places__list">
+        {nearPlacesData.map((place) => <NearPlacesListComponent key={place.id} nearPlace={place}/>)}
+      </div>
+    </section>
+  );
+}
+
+export default NearPlacesComponent;

@@ -15,7 +15,7 @@ export const offers: OfferType[] = [
     'description': 'A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam.',
     'goods': ['Heating', 'Kitchen', 'Cable TV', 'Washing machine', 'Coffee machine', 'Dishwasher'],
     'host': {
-      'avatarUrl': 'img/avatar-angelina.png',
+      'avatarUrl': 'img/avatar-angelina.jpg',
       'id': 3,
       'isPro': true,
       'name': 'Angelina',
@@ -120,7 +120,7 @@ export const offers: OfferType[] = [
       'avatarUrl': 'img/avatar-max.jpg',
       'id': 3,
       'isPro': true,
-      'name': 'Angelina',
+      'name': 'Max',
     },
     'id': 4,
     'images': ['img/1.png', 'img/2.png'],

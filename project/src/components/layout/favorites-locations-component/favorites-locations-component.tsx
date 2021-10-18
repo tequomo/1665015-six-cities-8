@@ -1,7 +1,11 @@
 import { OfferType } from '../../../types/offer-type';
 import FavoritesCardComponent from '../favorites-card-component/favorites-card-component';
 
-function FavoritesLocationsComponent(locationsOffersProps: OfferType[]): JSX.Element {
+type FavoritePropsType = {
+  locationsOffersProps: OfferType[],
+}
+
+function FavoritesLocationsComponent({locationsOffersProps}: FavoritePropsType): JSX.Element {
   return (
     <li className="favorites__locations-items">
       <div className="favorites__locations locations locations--current">
@@ -15,7 +19,7 @@ function FavoritesLocationsComponent(locationsOffersProps: OfferType[]): JSX.Ele
         {
           locationsOffersProps.map((offer) => {
             const keyValue = `${offer.id}-${offer.city.name}`;
-            return <FavoritesCardComponent key={keyValue} {...offer} />;
+            return <FavoritesCardComponent key={keyValue} favoriteCard={offer} />;
           },
           )
         }
