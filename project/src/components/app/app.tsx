@@ -6,22 +6,26 @@ import OfferScreen from '../screens/offer-screen/offer-screen';
 import NotFoundScreen from '../screens/not-found/not-found';
 import { AppRoute, AuthStatus } from '../../const';
 import PrivateRoute from '../routes/private-route';
+import { OfferType } from '../../types/offer-type';
+import { ReviewType } from '../../types/review-type';
+
 type MainProps = {
-  offersCount: number;
-  offersShown: number;
+  offersCount: number,
+  offers: OfferType[],
+  reviews: ReviewType[],
 }
 
-function App({offersCount, offersShown}: MainProps): JSX.Element {
+function App({offersCount, offers, reviews}: MainProps): JSX.Element {
   return (
     <BrowserRouter>
       <Switch>
         <Route exact path={AppRoute.Main}>
-          <MainScreen offersCount={offersCount} offersShown={offersShown}/>
+          <MainScreen offersCount={offersCount} offers={offers} reviews={reviews}/>
         </Route>
         <Route exact path={AppRoute.SignIn}>
           <SignInScreen />
         </Route>
-        <PrivateRoute exact path={AppRoute.Favorites} render={() => <FavoritesScreen />} authStatus={AuthStatus.NoAuth}>
+        <PrivateRoute exact path={AppRoute.Favorites} render={() => <FavoritesScreen offers={offers}/>} authStatus={AuthStatus.Auth}>
         </PrivateRoute>
         <Route exact path={AppRoute.Room}>
           <OfferScreen />

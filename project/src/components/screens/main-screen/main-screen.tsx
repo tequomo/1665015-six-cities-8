@@ -1,15 +1,18 @@
+import { OfferType } from '../../../types/offer-type';
+import { ReviewType } from '../../../types/review-type';
 import HeaderComponent from '../../layout/header-component/header-component';
 import LocationsComponent from '../../layout/locations-component/locations-component';
 import MainMapComponent from '../../layout/main-map-component/main-map-component';
-import PlaceCardComponent from '../../layout/place-card-component/place-card-component';
+import OffersListComponent from '../../layout/offers-list-component/offers-list-component';
 import PlacesSortComponent from '../../layout/places-sort-component/places-sort-component';
 
 type MainProps = {
-  offersCount: number;
-  offersShown: number;
+  offersCount: number,
+  offers: OfferType[],
+  reviews: ReviewType[],
 }
 
-function MainScreen({offersCount, offersShown}: MainProps): JSX.Element {
+function MainScreen({offersCount, offers, reviews}: MainProps): JSX.Element {
   return (
     <div className="page page--gray page--main">
       <HeaderComponent renderAuth />
@@ -26,13 +29,7 @@ function MainScreen({offersCount, offersShown}: MainProps): JSX.Element {
               <b className="places__found">{offersCount} places to stay in Amsterdam</b>
               <PlacesSortComponent />
               <div className="cities__places-list places__list tabs__content">
-                {
-                  new Array(offersShown)
-                    .fill(null)
-                    .map(() =>
-                      <PlaceCardComponent key={Math.random()} vipOption={Math.random() > 0.5} />,
-                    )
-                }
+                <OffersListComponent offers={offers} reviews={reviews} />
               </div>
             </section>
             <div className="cities__right-section">
