@@ -12,7 +12,7 @@ export const offers: OfferType[] = [
       },
       'name': 'Amsterdam',
     },
-    'description': 'A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam.',
+    'description': 'A quiet cozy and unique lightness of Amsterdam.',
     'goods': ['Heating', 'Kitchen', 'Cable TV', 'Washing machine', 'Coffee machine', 'Dishwasher'],
     'host': {
       'avatarUrl': 'img/avatar-angelina.jpg',
@@ -25,8 +25,8 @@ export const offers: OfferType[] = [
     'isFavorite': true,
     'isPremium': true,
     'location': {
-      'latitude': 52.35514938496378,
-      'longitude': 4.673877537499948,
+      'latitude': 52.3909553943508,
+      'longitude': 4.85309666406198,
       'zoom': 8,
     },
     'maxAdults': 4,
@@ -40,13 +40,13 @@ export const offers: OfferType[] = [
     'bedrooms': 2,
     'city': {
       'location': {
-        'latitude': 49.564310,
-        'longitude': 14.650098,
+        'latitude': 52.370216,
+        'longitude': 4.895168,
         'zoom': 8,
       },
-      'name': 'Geneva',
+      'name': 'Amsterdam',
     },
-    'description': 'A quiet cozy and picturesque that hides behind a a river by the unique lightness of Geneva.',
+    'description': 'A picturesque river by the unique lightness of Amsterdam.',
     'goods': ['Heating', 'Kitchen', 'Cable TV', 'Washing machine'],
     'host': {
       'avatarUrl': 'img/avatar-max.jpg',
@@ -59,8 +59,8 @@ export const offers: OfferType[] = [
     'isFavorite': false,
     'isPremium': false,
     'location': {
-      'latitude': 49.35514938496378,
-      'longitude': 14.673877537499948,
+      'latitude': 52.369553943508,
+      'longitude': 4.85309666406198,
       'zoom': 8,
     },
     'maxAdults': 3,
@@ -74,13 +74,13 @@ export const offers: OfferType[] = [
     'bedrooms': 2,
     'city': {
       'location': {
-        'latitude': 41.370216,
-        'longitude': 18.895168,
+        'latitude': 52.370216,
+        'longitude': 4.895168,
         'zoom': 10,
       },
-      'name': 'Porto',
+      'name': 'Amsterdam',
     },
-    'description': 'A quiet cozy and picturesque that hides behind a a river by the unique lightness of Porto.',
+    'description': 'A quiet cozy and picturesque lightness of Amsterdam.',
     'goods': ['Heating', 'Cable TV', 'Coffee machine', 'Dishwasher'],
     'host': {
       'avatarUrl': 'img/avatar-angelina.jpg',
@@ -93,8 +93,8 @@ export const offers: OfferType[] = [
     'isFavorite': true,
     'isPremium': false,
     'location': {
-      'latitude': 41.35514938496378,
-      'longitude': 18.673877537499948,
+      'latitude': 52.3909553943508,
+      'longitude': 4.929309666406198,
       'zoom': 8,
     },
     'maxAdults': 2,
@@ -108,13 +108,13 @@ export const offers: OfferType[] = [
     'bedrooms': 5,
     'city': {
       'location': {
-        'latitude': 55.370216,
-        'longitude': 11.895168,
+        'latitude': 52.370216,
+        'longitude': 4.895168,
         'zoom': 9,
       },
-      'name': 'Lisboa',
+      'name': 'Amsterdam',
     },
-    'description': 'A quiet cozy and picturesque that hides behind a a river by the unique lightness of Lisboa.',
+    'description': 'A river by the unique lightness of Amsterdam.',
     'goods': ['Kitchen', 'Washing machine', 'Coffee machine'],
     'host': {
       'avatarUrl': 'img/avatar-max.jpg',
@@ -127,8 +127,8 @@ export const offers: OfferType[] = [
     'isFavorite': true,
     'isPremium': true,
     'location': {
-      'latitude': 55.35514938496378,
-      'longitude': 11.673877537499948,
+      'latitude': 52.3809553943508,
+      'longitude': 4.939309666406198,
       'zoom': 8,
     },
     'maxAdults': 3,

@@ -20,4 +20,18 @@ export enum RatingNames {
   perfect,
 }
 
+export enum Cities {
+  'Paris',
+  'Cologne',
+  'Brussels',
+  'Amsterdam',
+  'Hamburg',
+  'Dusseldorf',
+}
+
+export enum PinIconUrl {
+  Default = 'img/pin.svg',
+  Active = 'img/pin-active.svg',
+}
+
 export const MAX_RATING_VALUE = 5;
