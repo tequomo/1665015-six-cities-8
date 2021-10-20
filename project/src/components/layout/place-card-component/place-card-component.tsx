@@ -1,6 +1,6 @@
 // import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { AppRoute } from '../../../const';
+import { AppRoutes } from '../../../const';
 import { OfferType } from '../../../types/offer-type';
 import { capitalizeWord, getRatingWidth } from '../../../utils';
 
@@ -48,7 +48,7 @@ function PlaceCardComponent({offer, onCardOver, onCardOut}: CardPropsType): JSX.
           </div>
         </div>
         <h2 className="place-card__name">
-          <Link to={`${AppRoute.Offer}${id}`}>
+          <Link to={`${AppRoutes.Offer}${id}`}>
             {title}
           </Link>
         </h2>
