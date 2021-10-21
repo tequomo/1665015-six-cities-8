@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { AppRoute } from '../../../const';
+import { AppRoutes } from '../../../const';
 import { OfferType } from '../../../types/offer-type';
 import { capitalizeWord, getRatingWidth } from '../../../utils';
 
@@ -36,7 +36,7 @@ function FavoritesCardComponent({favoriteOffer}: FavoriteCardPropsType): JSX.Ele
           </div>
         </div>
         <h2 className="place-card__name">
-          <Link to={`${AppRoute.Offer}${id}`}>
+          <Link to={`${AppRoutes.Offer}${id}`}>
             {title}
           </Link>
         </h2>

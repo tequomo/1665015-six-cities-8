@@ -1,5 +1,5 @@
 import { ChangeEvent, useState } from 'react';
-import RatingStarsComponent from '../layout/rating-stars-component/rating-stars-component';
+import RatingStarsComponent from '../rating-stars-component/rating-stars-component';
 
 type ReviewElementsType = {
   offerRank: number,

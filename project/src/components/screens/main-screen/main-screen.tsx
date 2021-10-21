@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { OfferType } from '../../../types/offer-type';
 import { ReviewType } from '../../../types/review-type';
 import HeaderComponent from '../../layout/header-component/header-component';
@@ -13,6 +14,13 @@ type MainProps = {
 }
 
 function MainScreen({offersCount, offers, reviews}: MainProps): JSX.Element {
+
+  const [selectedOfferId, setSelectedOfferId] = useState<number | null>(null);
+
+  const getActiveOfferId = (id: number | null) => {
+    setSelectedOfferId(id);
+  };
+
   return (
     <div className="page page--gray page--main">
       <HeaderComponent renderAuth />
@@ -29,11 +37,13 @@ function MainScreen({offersCount, offers, reviews}: MainProps): JSX.Element {
               <b className="places__found">{offersCount} places to stay in Amsterdam</b>
               <PlacesSortComponent />
               <div className="cities__places-list places__list tabs__content">
-                <OffersListComponent offers={offers} reviews={reviews} />
+                <OffersListComponent offers={offers} reviews={reviews} transferActiveOfferId={getActiveOfferId}/>
               </div>
             </section>
             <div className="cities__right-section">
-              <MainMapComponent />
+              <section className="cities__map map">
+                <MainMapComponent city={offers[0].city} offers={offers} selectedOfferId={selectedOfferId} />
+              </section>
             </div>
           </div>
         </div>

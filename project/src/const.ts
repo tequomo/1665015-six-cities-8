@@ -1,4 +1,4 @@
-export enum AppRoute {
+export enum AppRoutes {
   Main = '/',
   SignIn = '/login',
   Favorites = '/favorites',
@@ -18,6 +18,20 @@ export enum RatingNames {
   notBad,
   good,
   perfect,
+}
+
+export const CITIES: string[] = [
+  'Paris',
+  'Cologne',
+  'Brussels',
+  'Amsterdam',
+  'Hamburg',
+  'Dusseldorf',
+];
+
+export enum PinIconUrl {
+  Default = 'img/pin.svg',
+  Active = 'img/pin-active.svg',
 }
 
 export const MAX_RATING_VALUE = 5;

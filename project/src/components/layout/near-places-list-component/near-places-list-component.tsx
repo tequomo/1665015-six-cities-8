@@ -1,5 +1,5 @@
-import { OfferType } from '../../types/offer-type';
-import NearPlaceComponent from '../layout/near-place-component/near-place-component';
+import { OfferType } from '../../../types/offer-type';
+import NearPlaceComponent from '../near-place-component/near-place-component';
 
 type NearPlacesListPropsType = {
   nearPlaces: OfferType[],

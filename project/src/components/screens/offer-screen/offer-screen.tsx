@@ -2,8 +2,8 @@ import { useParams } from 'react-router';
 import { offers } from '../../../mock/offers';
 import { getRatingWidth } from '../../../utils';
 import HeaderComponent from '../../layout/header-component/header-component';
-import NearPlacesListComponent from '../../near-places-list-component/near-places-list-component';
-import ReviewsFormComponent from '../../reviews-form-component/reviews-form-component';
+import NearPlacesListComponent from '../../layout/near-places-list-component/near-places-list-component';
+import ReviewsFormComponent from '../../layout/reviews-form-component/reviews-form-component';
 
 type ParamsType = {
   id: string,
