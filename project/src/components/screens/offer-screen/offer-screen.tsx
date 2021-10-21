@@ -1,13 +1,20 @@
 import { useParams } from 'react-router';
 import { offers } from '../../../mock/offers';
+import { reviews } from '../../../mock/reviews';
+// import { ReviewType } from '../../../types/review-type';
 import { getRatingWidth } from '../../../utils';
 import HeaderComponent from '../../layout/header-component/header-component';
 import NearPlacesListComponent from '../../layout/near-places-list-component/near-places-list-component';
 import ReviewsFormComponent from '../../layout/reviews-form-component/reviews-form-component';
+import ReviewsListComponent from '../../layout/reviews-list-component/review-list-component';
 
-type ParamsType = {
+type ParamsPropsType = {
   id: string,
 }
+
+// type LocationPropsType = {
+//   reviews: ReviewType[],
+// }
 
 type GoodsType = {
   goods: string[],
@@ -28,8 +35,8 @@ function GoodsList({goods}: GoodsType): JSX.Element {
 }
 
 function OfferScreen(): JSX.Element {
-  const offerParams: ParamsType = useParams();
-  // const offerdata = offers.find((offer) => offer.id === +offerParams.id);
+  const offerParams = useParams<ParamsPropsType>();
+  const offerReviews = reviews.filter((review) => review.id === +offerParams.id);
   const [{isPremium, isFavorite, title, rating, type, bedrooms, maxAdults, price, goods, host:{avatarUrl, isPro, name}}] = offers.filter((offer) => offer.id === +offerParams.id);
   return (
     <div className="page">
@@ -123,31 +130,7 @@ function OfferScreen(): JSX.Element {
                 </div>
               </div>
               <section className="property__reviews reviews">
-                <h2 className="reviews__title">Reviews &middot; <span className="reviews__amount">1</span></h2>
-                <ul className="reviews__list">
-                  <li className="reviews__item">
-                    <div className="reviews__user user">
-                      <div className="reviews__avatar-wrapper user__avatar-wrapper">
-                        <img className="reviews__avatar user__avatar" src="img/avatar-max.jpg" width="54" height="54" alt="Reviews avatar" />
-                      </div>
-                      <span className="reviews__user-name">
-                      Max
-                      </span>
-                    </div>
-                    <div className="reviews__info">
-                      <div className="reviews__rating rating">
-                        <div className="reviews__stars rating__stars">
-                          <span style={{width: '80%'}}></span>
-                          <span className="visually-hidden">Rating</span>
-                        </div>
-                      </div>
-                      <p className="reviews__text">
-                      A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam. The building is green and from 18th century.
-                      </p>
-                      <time className="reviews__time" dateTime="2019-04-24">April 2019</time>
-                    </div>
-                  </li>
-                </ul>
+                <ReviewsListComponent reviews={offerReviews}/>
                 <ReviewsFormComponent />
               </section>
             </div>

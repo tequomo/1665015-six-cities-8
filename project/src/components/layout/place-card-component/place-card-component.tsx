@@ -2,10 +2,12 @@
 import { Link } from 'react-router-dom';
 import { AppRoutes } from '../../../const';
 import { OfferType } from '../../../types/offer-type';
+import { ReviewType } from '../../../types/review-type';
 import { capitalizeWord, getRatingWidth } from '../../../utils';
 
 type CardPropsType = {
   offer: OfferType,
+  reviews: ReviewType[],
   onCardOver: (id: number) => void,
   onCardOut: () => void,
 }
@@ -18,7 +20,7 @@ function PlaceCardMark(): JSX.Element {
   );
 }
 
-function PlaceCardComponent({offer, onCardOver, onCardOut}: CardPropsType): JSX.Element {
+function PlaceCardComponent({offer, reviews, onCardOver, onCardOut}: CardPropsType): JSX.Element {
   const { isPremium, isFavorite, price, type, title, rating, previewImage, id } = offer;
   return (
     <article className="cities__place-card place-card" onMouseEnter={() => onCardOver(id)} onMouseLeave={() => onCardOut()}>

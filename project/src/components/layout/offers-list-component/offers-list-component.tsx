@@ -31,8 +31,8 @@ function OffersListComponent({offers, reviews, transferActiveOfferId}: OffersLis
       {
         offers.map((offer: OfferType) => {
           const keyValue = `${offer.id}-${offer.city.name}`;
-          // const offerReviews =
-          return <PlaceCardComponent key={keyValue} offer={offer} onCardOver={handleMouseEnter} onCardOut={handleMouseLeave} />;
+          const offerReviews = reviews.filter((review) => review.id === offer.id);
+          return <PlaceCardComponent key={keyValue} offer={offer} reviews={offerReviews} onCardOver={handleMouseEnter} onCardOut={handleMouseLeave} />;
         },
         )
       }
