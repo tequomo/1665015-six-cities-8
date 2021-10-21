@@ -36,9 +36,7 @@ function MainScreen({offersCount, offers, reviews}: MainProps): JSX.Element {
               <h2 className="visually-hidden">Places</h2>
               <b className="places__found">{offersCount} places to stay in Amsterdam</b>
               <PlacesSortComponent />
-              <div className="cities__places-list places__list tabs__content">
-                <OffersListComponent offers={offers} reviews={reviews} transferActiveOfferId={getActiveOfferId}/>
-              </div>
+              <OffersListComponent offers={offers} reviews={reviews} transferActiveOfferId={getActiveOfferId}/>
             </section>
             <div className="cities__right-section">
               <section className="cities__map map">

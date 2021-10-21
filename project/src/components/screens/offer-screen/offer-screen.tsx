@@ -1,9 +1,12 @@
 import { useParams } from 'react-router';
+// import { useState } from 'react';
 import { offers } from '../../../mock/offers';
 import { reviews } from '../../../mock/reviews';
 // import { ReviewType } from '../../../types/review-type';
 import { getRatingWidth } from '../../../utils';
 import HeaderComponent from '../../layout/header-component/header-component';
+import MainMapComponent from '../../layout/main-map-component/main-map-component';
+// import OffersListComponent from '../../layout/offers-list-component/offers-list-component';
 import NearPlacesListComponent from '../../layout/near-places-list-component/near-places-list-component';
 import ReviewsFormComponent from '../../layout/reviews-form-component/reviews-form-component';
 import ReviewsListComponent from '../../layout/reviews-list-component/review-list-component';
@@ -11,10 +14,6 @@ import ReviewsListComponent from '../../layout/reviews-list-component/review-lis
 type ParamsPropsType = {
   id: string,
 }
-
-// type LocationPropsType = {
-//   reviews: ReviewType[],
-// }
 
 type GoodsType = {
   goods: string[],
@@ -38,6 +37,16 @@ function OfferScreen(): JSX.Element {
   const offerParams = useParams<ParamsPropsType>();
   const offerReviews = reviews.filter((review) => review.id === +offerParams.id);
   const [{isPremium, isFavorite, title, rating, type, bedrooms, maxAdults, price, goods, host:{avatarUrl, isPro, name}}] = offers.filter((offer) => offer.id === +offerParams.id);
+
+  // const [selectedOfferId, setSelectedOfferId] = useState<number | null>(null);
+
+  // const getActiveOfferId = (id: number | null) => {
+  //   setSelectedOfferId(id);
+  // };
+
+  // // eslint-disable-next-line no-console
+  // console.log(selectedOfferId);
+
   return (
     <div className="page">
       <HeaderComponent renderAuth />
@@ -135,10 +144,13 @@ function OfferScreen(): JSX.Element {
               </section>
             </div>
           </div>
-          <section className="property__map map"></section>
+          <section className="property__map map">
+            <MainMapComponent city={offers[0].city} offers={offers} selectedOfferId={+offerParams.id} />
+          </section>
         </section>
         <div className="container">
           <NearPlacesListComponent nearPlaces={offers.filter((offer) => offer.id !== +offerParams.id)}/>
+          {/* <OffersListComponent offers={offers.filter((offer) => offer.id !== +offerParams.id)} reviews={reviews} transferActiveOfferId={getActiveOfferId}/> */}
         </div>
       </main>
     </div>

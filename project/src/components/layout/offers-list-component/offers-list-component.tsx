@@ -27,7 +27,7 @@ function OffersListComponent({offers, reviews, transferActiveOfferId}: OffersLis
   };
 
   return (
-    <>
+    <div className="cities__places-list places__list tabs__content">
       {
         offers.map((offer: OfferType) => {
           const keyValue = `${offer.id}-${offer.city.name}`;
@@ -36,7 +36,7 @@ function OffersListComponent({offers, reviews, transferActiveOfferId}: OffersLis
         },
         )
       }
-    </>
+    </div>
   );
 }
 
