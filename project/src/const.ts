@@ -20,14 +20,14 @@ export enum RatingNames {
   perfect,
 }
 
-export enum Cities {
+export const CITIES: string[] = [
   'Paris',
   'Cologne',
   'Brussels',
   'Amsterdam',
   'Hamburg',
   'Dusseldorf',
-}
+];
 
 export enum PinIconUrl {
   Default = 'img/pin.svg',

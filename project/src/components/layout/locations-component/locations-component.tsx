@@ -1,37 +1,26 @@
+import { useState } from 'react';
+import { MouseEvent } from 'react';
+import { CITIES } from '../../../const';
+import LocationsItemComponent from './locations-item-component';
+
+
 function LocationsComponent(): JSX.Element {
+
+  const [selectedCity, setSelectedCity] = useState<string>(CITIES[3]);
+
+  const handleMouseClick = (e: MouseEvent<HTMLAnchorElement>) => {
+    e.preventDefault();
+    setSelectedCity('');
+    // eslint-disable-next-line no-console
+    console.log(e.target);
+  };
+
   return (
     <section className="locations container">
       <ul className="locations__list tabs__list">
-        <li className="locations__item">
-          <a className="locations__item-link tabs__item" href="/">
-            <span>Paris</span>
-          </a>
-        </li>
-        <li className="locations__item">
-          <a className="locations__item-link tabs__item" href="/">
-            <span>Cologne</span>
-          </a>
-        </li>
-        <li className="locations__item">
-          <a className="locations__item-link tabs__item" href="/">
-            <span>Brussels</span>
-          </a>
-        </li>
-        <li className="locations__item">
-          <a className="locations__item-link tabs__item tabs__item--active"  href="/">
-            <span>Amsterdam</span>
-          </a>
-        </li>
-        <li className="locations__item">
-          <a className="locations__item-link tabs__item" href="/">
-            <span>Hamburg</span>
-          </a>
-        </li>
-        <li className="locations__item">
-          <a className="locations__item-link tabs__item" href="/">
-            <span>Dusseldorf</span>
-          </a>
-        </li>
+        {
+          CITIES.map((city) => <LocationsItemComponent key={city} cityName={city} selectedCity={selectedCity} onMenuItemClick={handleMouseClick}/>)
+        }
       </ul>
     </section>
   );
