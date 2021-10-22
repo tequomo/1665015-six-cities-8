@@ -7,12 +7,9 @@ type NearPlacesListPropsType = {
 
 function NearPlacesListComponent({nearPlaces}: NearPlacesListPropsType): JSX.Element {
   return (
-    <section className="near-places places">
-      <h2 className="near-places__title">Other places in the neighbourhood</h2>
-      <div className="near-places__list places__list">
-        {nearPlaces.map((place) => <NearPlaceComponent key={place.id} nearPlace={place}/>)}
-      </div>
-    </section>
+    <div className="near-places__list places__list">
+      {nearPlaces.map((place) => <NearPlaceComponent key={place.id} nearPlace={place}/>)}
+    </div>
   );
 }
 

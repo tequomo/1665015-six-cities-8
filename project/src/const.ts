@@ -1,3 +1,5 @@
+import { CardClassType } from './types/classes-type';
+
 export enum AppRoutes {
   Main = '/',
   SignIn = '/login',
@@ -35,3 +37,17 @@ export enum PinIconUrl {
 }
 
 export const MAX_RATING_VALUE = 5;
+
+export const CardCustomClasses: CardClassType = {
+  CitiesPlaces: {
+    listClassName: 'cities__places-list',
+    tabsClassName: 'tabs__content',
+    cardClassName: 'cities__place-card',
+    wrapperClassName: 'cities__image-wrapper',
+  },
+  NearPlaces: {
+    listClassName: 'near-places__list',
+    cardClassName: 'near-places__card',
+    wrapperClassName: 'near-places__image-wrapper',
+  },
+};

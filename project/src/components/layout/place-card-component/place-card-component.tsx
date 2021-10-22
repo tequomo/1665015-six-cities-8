@@ -1,6 +1,7 @@
 // import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { AppRoutes } from '../../../const';
+import { PlacesClassType } from '../../../types/classes-type';
 import { OfferType } from '../../../types/offer-type';
 import { ReviewType } from '../../../types/review-type';
 import { capitalizeWord, getRatingWidth } from '../../../utils';
@@ -10,6 +11,7 @@ type CardPropsType = {
   reviews: ReviewType[],
   onCardOver: (id: number) => void,
   onCardOut: () => void,
+  customClasses: PlacesClassType,
 }
 
 function PlaceCardMark(): JSX.Element {
@@ -20,12 +22,13 @@ function PlaceCardMark(): JSX.Element {
   );
 }
 
-function PlaceCardComponent({offer, reviews, onCardOver, onCardOut}: CardPropsType): JSX.Element {
+function PlaceCardComponent({offer, reviews, onCardOver, onCardOut, customClasses}: CardPropsType): JSX.Element {
   const { isPremium, isFavorite, price, type, title, rating, previewImage, id } = offer;
+  const {cardClassName, wrapperClassName} = customClasses;
   return (
-    <article className="cities__place-card place-card" onMouseEnter={() => onCardOver(id)} onMouseLeave={() => onCardOut()}>
+    <article className={`${cardClassName} place-card`} onMouseEnter={() => onCardOver(id)} onMouseLeave={() => onCardOut()}>
       {isPremium && <PlaceCardMark />}
-      <div className="cities__image-wrapper place-card__image-wrapper">
+      <div className={`${wrapperClassName} place-card__image-wrapper`}>
         <a href="/">
           <img className="place-card__image" src={previewImage} width="260" height="200" alt="Great Housing!" />
         </a>

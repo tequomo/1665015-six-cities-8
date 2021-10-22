@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { CardCustomClasses } from '../../../const';
 import { OfferType } from '../../../types/offer-type';
 import { ReviewType } from '../../../types/review-type';
 import HeaderComponent from '../../layout/header-component/header-component';
@@ -36,7 +37,7 @@ function MainScreen({offersCount, offers, reviews}: MainProps): JSX.Element {
               <h2 className="visually-hidden">Places</h2>
               <b className="places__found">{offersCount} places to stay in Amsterdam</b>
               <PlacesSortComponent />
-              <OffersListComponent offers={offers} reviews={reviews} transferActiveOfferId={getActiveOfferId}/>
+              <OffersListComponent offers={offers} reviews={reviews} transferActiveOfferId={getActiveOfferId} customClasses={CardCustomClasses.CitiesPlaces}/>
             </section>
             <div className="cities__right-section">
               <section className="cities__map map">
