@@ -1,36 +1,38 @@
 import { useParams } from 'react-router';
+import { useState } from 'react';
 import { offers } from '../../../mock/offers';
+import { reviews } from '../../../mock/reviews';
+// import { ReviewType } from '../../../types/review-type';
 import { getRatingWidth } from '../../../utils';
 import HeaderComponent from '../../layout/header-component/header-component';
-import NearPlacesListComponent from '../../layout/near-places-list-component/near-places-list-component';
+import MainMapComponent from '../../layout/main-map-component/main-map-component';
+import OffersListComponent from '../../layout/offers-list-component/offers-list-component';
 import ReviewsFormComponent from '../../layout/reviews-form-component/reviews-form-component';
+import ReviewsListComponent from '../../layout/reviews-list-component/review-list-component';
+import { OfferType } from '../../../types/offer-type';
+import { CardCustomClasses } from '../../../const';
+import GoodsListComponent from './goods-list-component';
 
-type ParamsType = {
+type ParamsPropsType = {
   id: string,
 }
 
-type GoodsType = {
-  goods: string[],
-}
-
-function GoodsList({goods}: GoodsType): JSX.Element {
-  return (
-    <div className="property__inside">
-      <h2 className="property__inside-title">What&apos;s inside</h2>
-      <ul className="property__inside-list">
-        {goods.map((good) => (
-          <li key={`${good}-1`} className="property__inside-item">
-            {good}
-          </li>))}
-      </ul>
-    </div>
-  );
-}
-
 function OfferScreen(): JSX.Element {
-  const offerParams: ParamsType = useParams();
-  // const offerdata = offers.find((offer) => offer.id === +offerParams.id);
+  const offerParams = useParams<ParamsPropsType>();
+  const offerReviews = reviews.filter((review) => review.id === +offerParams.id);
   const [{isPremium, isFavorite, title, rating, type, bedrooms, maxAdults, price, goods, host:{avatarUrl, isPro, name}}] = offers.filter((offer) => offer.id === +offerParams.id);
+
+  const closestOffers: OfferType[] = offers.filter((offer) => offer.id !== +offerParams.id);
+
+  const [selectedOfferId, setSelectedOfferId] = useState<number | null>(null);
+
+  const getActiveOfferId = (id: number | null) => {
+    setSelectedOfferId(id);
+  };
+
+  // eslint-disable-next-line no-console
+  console.log(selectedOfferId);
+
   return (
     <div className="page">
       <HeaderComponent renderAuth />
@@ -98,7 +100,7 @@ function OfferScreen(): JSX.Element {
                 <b className="property__price-value">&euro;{price}</b>
                 <span className="property__price-text">&nbsp;night</span>
               </div>
-              {<GoodsList goods={goods} />}
+              {<GoodsListComponent goods={goods} />}
               <div className="property__host">
                 <h2 className="property__host-title">Meet the host</h2>
                 <div className="property__host-user user">
@@ -123,39 +125,20 @@ function OfferScreen(): JSX.Element {
                 </div>
               </div>
               <section className="property__reviews reviews">
-                <h2 className="reviews__title">Reviews &middot; <span className="reviews__amount">1</span></h2>
-                <ul className="reviews__list">
-                  <li className="reviews__item">
-                    <div className="reviews__user user">
-                      <div className="reviews__avatar-wrapper user__avatar-wrapper">
-                        <img className="reviews__avatar user__avatar" src="img/avatar-max.jpg" width="54" height="54" alt="Reviews avatar" />
-                      </div>
-                      <span className="reviews__user-name">
-                      Max
-                      </span>
-                    </div>
-                    <div className="reviews__info">
-                      <div className="reviews__rating rating">
-                        <div className="reviews__stars rating__stars">
-                          <span style={{width: '80%'}}></span>
-                          <span className="visually-hidden">Rating</span>
-                        </div>
-                      </div>
-                      <p className="reviews__text">
-                      A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam. The building is green and from 18th century.
-                      </p>
-                      <time className="reviews__time" dateTime="2019-04-24">April 2019</time>
-                    </div>
-                  </li>
-                </ul>
+                <ReviewsListComponent reviews={offerReviews}/>
                 <ReviewsFormComponent />
               </section>
             </div>
           </div>
-          <section className="property__map map"></section>
+          <section className="property__map map">
+            <MainMapComponent city={offers[0].city} offers={closestOffers} selectedOfferId={selectedOfferId}/>
+          </section>
         </section>
         <div className="container">
-          <NearPlacesListComponent nearPlaces={offers.filter((offer) => offer.id !== +offerParams.id)}/>
+          <section className="near-places places">
+            <h2 className="near-places__title">Other places in the neighbourhood</h2>
+            <OffersListComponent offers={closestOffers} reviews={reviews} transferActiveOfferId={getActiveOfferId} customClasses={CardCustomClasses.NearPlaces}/>
+          </section>
         </div>
       </main>
     </div>

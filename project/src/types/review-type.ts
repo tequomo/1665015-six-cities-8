@@ -7,7 +7,7 @@ type UserType = {
 
 export type ReviewType = {
   comment: string,
-  date: Date,
+  date: string,
   id: number,
   rating: number,
   user: UserType,
