@@ -10,9 +10,9 @@ function LocationsComponent(): JSX.Element {
 
   const handleMouseClick = (e: MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();
-    setSelectedCity('');
+    setSelectedCity(e.currentTarget.innerText);
     // eslint-disable-next-line no-console
-    console.log(e.target);
+    console.log(e.currentTarget.innerText);
   };
 
   return (
