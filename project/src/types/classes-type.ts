@@ -8,4 +8,10 @@ export type PlacesClassType = {
 export type CardClassType = {
   CitiesPlaces: PlacesClassType,
   NearPlaces: PlacesClassType,
+  NoPlaces: NoPlacesClassType,
+}
+
+export type NoPlacesClassType = {
+  mainClassName: string,
+  divClasName: string,
 }

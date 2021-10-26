@@ -1,4 +1,4 @@
-import { ActionType, LoadOffersAction, ResetStateAction, SelectCityAction } from '../types/action';
+import { ActionType, FilterOffersAction, ResetStateAction, SelectCityAction } from '../types/action';
 import { OfferType } from '../types/offer-type';
 
 export const selectCity = (selectedCity:string ): SelectCityAction => ({
@@ -6,8 +6,8 @@ export const selectCity = (selectedCity:string ): SelectCityAction => ({
   payload: selectedCity,
 } as const);
 
-export const loadOffers = (offers: OfferType[]): LoadOffersAction => ({
-  type: ActionType.LoadOffers,
+export const filterOffers = (offers: OfferType[]): FilterOffersAction => ({
+  type: ActionType.FilterOffers,
   payload: offers,
 } as const);
 

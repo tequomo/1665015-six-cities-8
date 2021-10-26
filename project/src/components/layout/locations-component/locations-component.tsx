@@ -16,8 +16,6 @@ function LocationsComponent({onMenuItemClick, selectedCity}: LocationsProps): JS
     e.preventDefault();
     // setSelectedCity(e.currentTarget.innerText);
     onMenuItemClick(e.currentTarget.innerText);
-    // eslint-disable-next-line no-console
-    console.log(e.currentTarget.innerText);
   };
 
   return (

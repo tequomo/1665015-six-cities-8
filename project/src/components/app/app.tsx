@@ -10,17 +10,16 @@ import { OfferType } from '../../types/offer-type';
 import { ReviewType } from '../../types/review-type';
 
 type MainProps = {
-  offersCount: number,
   offers: OfferType[],
   reviews: ReviewType[],
 }
 
-function App({offersCount, offers, reviews}: MainProps): JSX.Element {
+function App({offers, reviews}: MainProps): JSX.Element {
   return (
     <BrowserRouter>
       <Switch>
         <Route exact path={AppRoutes.Main}>
-          <MainScreen offersCount={offersCount} offers={offers} reviews={reviews}/>
+          <MainScreen reviews={reviews}/>
         </Route>
         <Route exact path={AppRoutes.SignIn}>
           <SignInScreen />

@@ -7,10 +7,9 @@ import { reducer } from './store/reducer';
 import { createStore } from 'redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import { Provider } from 'react-redux';
+// import { OfferType } from './types/offer-type';
 
-const Parameters = {
-  OFFERS_COUNT: 312,
-};
+// const offers: OfferType[] = [];
 
 const store = createStore(
   reducer,
@@ -20,7 +19,7 @@ const store = createStore(
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
-      <App offersCount={Parameters.OFFERS_COUNT} offers={offers} reviews={reviews}/>
+      <App offers={offers} reviews={reviews}/>
     </Provider>
   </React.StrictMode>,
   document.getElementById('root'));
