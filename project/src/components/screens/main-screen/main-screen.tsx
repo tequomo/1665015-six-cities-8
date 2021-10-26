@@ -1,7 +1,12 @@
 import { useState } from 'react';
+import { connect, ConnectedProps } from 'react-redux';
+import { Dispatch } from 'redux';
 import { CardCustomClasses } from '../../../const';
+import { selectCity } from '../../../store/action';
+import { Actions } from '../../../types/action';
 import { OfferType } from '../../../types/offer-type';
 import { ReviewType } from '../../../types/review-type';
+import { State } from '../../../types/state';
 import HeaderComponent from '../../layout/header-component/header-component';
 import LocationsComponent from '../../layout/locations-component/locations-component';
 import MainMapComponent from '../../layout/main-map-component/main-map-component';
@@ -12,9 +17,25 @@ type MainProps = {
   offersCount: number,
   offers: OfferType[],
   reviews: ReviewType[],
+  selectedCity: string,
 }
 
-function MainScreen({offersCount, offers, reviews}: MainProps): JSX.Element {
+const mapStateToProps = ({selectedCity}: State) => ({
+  selectedCity,
+});
+
+const mapDispatchToProps = (dispatch: Dispatch<Actions>) => ({
+  onMenuItemClick(selectedCity: string) {
+    dispatch(selectCity(selectedCity));
+  },
+});
+
+const connector = connect(mapStateToProps, mapDispatchToProps);
+
+type PropsFromRedux = ConnectedProps<typeof connector>;
+type ConnectedComponentProps = PropsFromRedux & MainProps;
+
+function MainScreen({offersCount, offers, reviews, onMenuItemClick, selectedCity}: ConnectedComponentProps): JSX.Element {
 
   const [selectedOfferId, setSelectedOfferId] = useState<number | null>(null);
 
@@ -29,7 +50,7 @@ function MainScreen({offersCount, offers, reviews}: MainProps): JSX.Element {
       <main className="page__main page__main--index">
         <h1 className="visually-hidden">Cities</h1>
         <div className="tabs">
-          <LocationsComponent />
+          <LocationsComponent onMenuItemClick={onMenuItemClick} selectedCity={selectedCity}/>
         </div>
         <div className="cities">
           <div className="cities__places-container container">
@@ -51,4 +72,5 @@ function MainScreen({offersCount, offers, reviews}: MainProps): JSX.Element {
   );
 }
 
-export default MainScreen;
+export {MainScreen};
+export default connector(MainScreen);

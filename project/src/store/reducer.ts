@@ -6,16 +6,18 @@ import { getSelectedCityOffers } from '../utils';
 const DEFAULT_CITY = 'Amsterdam';
 
 const initialState: State = {
-  currentCity: DEFAULT_CITY,
+  selectedCity: DEFAULT_CITY,
   offers: getSelectedCityOffers(offers, DEFAULT_CITY),
 };
 
 const reducer = (state: State = initialState, action: Actions): State => {
   switch (action.type) {
     case ActionType.SelectCity:
-      return {...state, currentCity: action.payload};
+      return {...state, selectedCity: action.payload};
     case ActionType.LoadOffers:
       return {...state, offers: action.payload};
+    case ActionType.ResetState:
+      return {...initialState};
     default:
       return state;
   }

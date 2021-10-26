@@ -2,14 +2,14 @@ import { MouseEvent } from 'react';
 
 type LocItemPropsType = {
   cityName: string;
-  selectedCity?: string,
-  onMenuItemClick: (e:  MouseEvent<HTMLAnchorElement>) => void,
+  selectedCity: string,
+  onLocationClick: (e:  MouseEvent<HTMLAnchorElement>) => void,
 }
 
-function LocationsItemComponent({cityName, selectedCity = 'Amsterdam', onMenuItemClick}: LocItemPropsType): JSX.Element {
+function LocationsItemComponent({cityName, selectedCity = 'Amsterdam', onLocationClick}: LocItemPropsType): JSX.Element {
   return (
     <li className="locations__item">
-      <a className={`locations__item-link tabs__item ${selectedCity === cityName ? 'tabs__item--active' : ''}`} href="/" onClick={onMenuItemClick}>
+      <a className={`locations__item-link tabs__item ${selectedCity === cityName ? 'tabs__item--active' : ''}`} href="/" onClick={onLocationClick}>
         <span>{cityName}</span>
       </a>
     </li>

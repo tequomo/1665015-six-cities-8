@@ -3,6 +3,7 @@ import { OfferType } from './offer-type';
 export enum ActionType {
   SelectCity = 'main/SelectCity',
   LoadOffers = 'main/LoadOffers',
+  ResetState = 'main/ResetState',
 }
 
 export type SelectCityAction = {
@@ -15,4 +16,8 @@ export type LoadOffersAction = {
   payload: OfferType[],
 }
 
-export type Actions = SelectCityAction | LoadOffersAction;
+export type ResetStateAction = {
+  type: ActionType.ResetState,
+}
+
+export type Actions = SelectCityAction | LoadOffersAction | ResetStateAction;
