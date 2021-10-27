@@ -22,7 +22,7 @@ function OfferScreen(): JSX.Element {
   const offerReviews = reviews.filter((review) => review.id === +offerParams.id);
   const [{isPremium, isFavorite, title, rating, type, bedrooms, maxAdults, price, goods, host:{avatarUrl, isPro, name}}] = offers.filter((offer) => offer.id === +offerParams.id);
 
-  const closestOffers: OfferType[] = offers.filter((offer) => offer.id !== +offerParams.id);
+  const closestOffers: OfferType[] = offers.filter((offer) => offer.id !== +offerParams.id).slice(0, 3);
 
   const [selectedOfferId, setSelectedOfferId] = useState<number | null>(null);
 

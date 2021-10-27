@@ -138,4 +138,38 @@ export const offers: OfferType[] = [
     'title': 'Beautiful & luxurious hall at great location',
     'type': 'hall',
   },
+  {
+    'bedrooms': 3,
+    'city': {
+      'location': {
+        'latitude': 48.866001,
+        'longitude': 2.343257,
+        'zoom': 10,
+      },
+      'name': 'Paris',
+    },
+    'description': 'A quiet cozy and unique lightness of Paris.',
+    'goods': ['Heating', 'Kitchen', 'Washing machine', 'Coffee machine'],
+    'host': {
+      'avatarUrl': 'img/avatar-angelina.jpg',
+      'id': 3,
+      'isPro': true,
+      'name': 'Angie',
+    },
+    'id': 5,
+    'images': ['img/1.png', 'img/2.png'],
+    'isFavorite': true,
+    'isPremium': true,
+    'location': {
+      'latitude': 48.88677076547600,
+      'longitude': 2.35424580932106,
+      'zoom': 8,
+    },
+    'maxAdults': 2,
+    'previewImage': 'img/apartment-01.jpg',
+    'price': 209,
+    'rating': 4.3,
+    'title': 'Beautiful & luxurious loft at great location',
+    'type': 'loft',
+  },
 ];

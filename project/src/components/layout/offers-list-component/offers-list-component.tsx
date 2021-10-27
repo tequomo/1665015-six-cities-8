@@ -19,7 +19,7 @@ function OffersListComponent({offers, reviews, transferActiveOfferId, customClas
     setActiveCardId(id);
     transferActiveOfferId(id);
     // eslint-disable-next-line no-console
-    console.log(activeCardId);
+    // console.log(activeCardId);
   };
 
   const handleMouseLeave = (): void => {

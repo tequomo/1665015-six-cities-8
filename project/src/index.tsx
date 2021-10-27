@@ -9,8 +9,6 @@ import { composeWithDevTools } from 'redux-devtools-extension';
 import { Provider } from 'react-redux';
 // import { OfferType } from './types/offer-type';
 
-// const offers: OfferType[] = [];
-
 const store = createStore(
   reducer,
   composeWithDevTools(),

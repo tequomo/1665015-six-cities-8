@@ -2,12 +2,11 @@ import { useState } from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 import { Dispatch } from 'redux';
 import { CardCustomClasses } from '../../../const';
-import { selectCity, filterOffers } from '../../../store/action';
+import { selectCity } from '../../../store/action';
 import { Actions } from '../../../types/action';
-import { OfferType } from '../../../types/offer-type';
-// import { OfferType } from '../../../types/offer-type';
 import { ReviewType } from '../../../types/review-type';
 import { State } from '../../../types/state';
+import { getSelectedCityOffers } from '../../../utils';
 import HeaderComponent from '../../layout/header-component/header-component';
 import LocationsComponent from '../../layout/locations-component/locations-component';
 import MainMapComponent from '../../layout/main-map-component/main-map-component';
@@ -16,22 +15,18 @@ import PlacesSortComponent from '../../layout/places-sort-component/places-sort-
 import NoPlaces from './no-places';
 
 type MainProps = {
-  // offers: OfferType[],
   reviews: ReviewType[],
   selectedCity: string,
 }
 
 const mapStateToProps = ({selectedCity, offers}: State) => ({
   selectedCity,
-  offers,
+  offers: getSelectedCityOffers(offers, selectedCity),
 });
 
 const mapDispatchToProps = (dispatch: Dispatch<Actions>) => ({
   onMenuItemClick(selectedCity: string) {
     dispatch(selectCity(selectedCity));
-  },
-  onChangeCity(offers: OfferType[]) {
-    dispatch(filterOffers(offers));
   },
 });
 
@@ -41,8 +36,10 @@ type PropsFromRedux = ConnectedProps<typeof connector>;
 type ConnectedComponentProps = PropsFromRedux & MainProps;
 
 
-function MainScreen({offers, reviews, onMenuItemClick, selectedCity, onChangeCity}: ConnectedComponentProps): JSX.Element {
+function MainScreen({offers, reviews, onMenuItemClick, selectedCity}: ConnectedComponentProps): JSX.Element {
 
+  // eslint-disable-next-line no-console
+  console.log(offers[0].city);
   const [selectedOfferId, setSelectedOfferId] = useState<number | null>(null);
 
   const getActiveOfferId = (id: number | null) => {
@@ -63,7 +60,7 @@ function MainScreen({offers, reviews, onMenuItemClick, selectedCity, onChangeCit
             {offers.length ?
               <section className="cities__places places">
                 <h2 className="visually-hidden">Places</h2>
-                <b className="places__found">{offers.length} places to stay in {selectedCity}</b>
+                <b className="places__found">{offers.length} place{offers.length > 1 ? 's' : ''} to stay in {selectedCity}</b>
                 <PlacesSortComponent />
                 <OffersListComponent offers={offers} reviews={reviews} transferActiveOfferId={getActiveOfferId} customClasses={CardCustomClasses.CitiesPlaces}/>
               </section> :  <NoPlaces selectedCity={selectedCity} />}
