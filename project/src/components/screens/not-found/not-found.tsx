@@ -1,11 +1,11 @@
-import HeaderComponent from '../../layout/header-component/header-component';
+import Header from '../../layout/header/header';
 import { Link } from 'react-router-dom';
 import './not-found.css';
 
 function NotFoundScreen(): JSX.Element {
   return (
     <div className="page page--favorites-empty">
-      <HeaderComponent renderAuth />
+      <Header renderAuth />
 
       <main className="page__main">
         <div className="container">
