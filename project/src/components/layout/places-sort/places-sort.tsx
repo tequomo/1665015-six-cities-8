@@ -1,18 +1,43 @@
-function PlacesSort(): JSX.Element {
+import { MouseEvent, useState } from 'react';
+import { SortingTypes } from '../../../const';
+
+type SortProps = {
+  currentSortingType: string,
+  onSelectSorting: (sortingType: string) => void,
+}
+
+function PlacesSort({currentSortingType, onSelectSorting}: SortProps): JSX.Element {
+
+  const [isOpened, setIsOpened] = useState(false);
+
+  const handleSortFormClick = (): void => {
+    setIsOpened((prevState) => prevState = !prevState);
+  };
+
+  const handleSortItemClick = (e: MouseEvent<HTMLElement>): void => {
+    e.stopPropagation();
+    onSelectSorting(e.currentTarget.innerText);
+    setIsOpened((prevState) => prevState = !prevState);
+  };
+
   return (
-    <form className="places__sorting" action="#" method="get">
-      <span className="places__sorting-caption">Sort by</span>
+    <form className="places__sorting" action="#" method="get"  onClick={() => handleSortFormClick()}>
+      <span className="places__sorting-caption">Sort by </span>
       <span className="places__sorting-type" tabIndex={0}>
-    Popular
+        {currentSortingType}
         <svg className="places__sorting-arrow" width="7" height="4">
           <use xlinkHref="#icon-arrow-select"></use>
         </svg>
       </span>
-      <ul className="places__options places__options--custom places__options--opened">
-        <li className="places__option places__option--active" tabIndex={0}>Popular</li>
-        <li className="places__option" tabIndex={0}>Price: low to high</li>
-        <li className="places__option" tabIndex={0}>Price: high to low</li>
-        <li className="places__option" tabIndex={0}>Top rated first</li>
+      <ul className={`places__options places__options--custom ${isOpened ? 'places__options--opened' : ''}`}>
+        {
+          Object.values(SortingTypes)
+            .map((type) => (
+              <li key={type} className={`places__option ${currentSortingType === type ? 'places__option--active' : ''}`} tabIndex={0} onClick={(e) => handleSortItemClick(e)}>
+                {type}
+              </li>),
+            )
+        }
       </ul>
     </form>
   );

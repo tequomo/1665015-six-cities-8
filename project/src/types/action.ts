@@ -4,6 +4,7 @@ export enum ActionType {
   SelectCity = 'main/SelectCity',
   FilterOffers = 'main/FilterOffers',
   ResetState = 'main/ResetState',
+  SelectSorting = 'main/SelectSorting',
 }
 
 export type SelectCityAction = {
@@ -20,4 +21,9 @@ export type ResetStateAction = {
   type: ActionType.ResetState,
 }
 
-export type Actions = SelectCityAction | FilterOffersAction | ResetStateAction;
+export type SelectSortingAction = {
+  type: ActionType.SelectSorting,
+  payload: string,
+}
+
+export type Actions = SelectCityAction | FilterOffersAction | ResetStateAction | SelectSortingAction;

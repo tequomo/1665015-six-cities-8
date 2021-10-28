@@ -1,4 +1,4 @@
-import { MAX_RATING_VALUE } from './const';
+import { MAX_RATING_VALUE, SortingTypes } from './const';
 import { OfferType } from './types/offer-type';
 
 export const capitalizeWord = (word: string): string => word.charAt(0).toUpperCase() + word.slice(1);
@@ -16,3 +16,17 @@ export const formatReviewDate = (reviewDate: string): string[] => {
 };
 
 export const getSelectedCityOffers = (offers: OfferType[], selectedCity: string): OfferType[]  => offers.filter((offer) => offer.city.name === selectedCity);
+
+
+export const sortingOffers = (currentSortingType: string, offers: OfferType[]): OfferType[] => {
+  switch (currentSortingType) {
+    case SortingTypes.PRICE_UP:
+      return [...offers].sort((a, b) => a.price - b.price);
+    case SortingTypes.PRICE_DOWN:
+      return [...offers].sort((a, b) => b.price - a.price);
+    case SortingTypes.TOP_RATED:
+      return [...offers].sort((a, b) => b.rating - a.rating);
+    default:
+      return offers;
+  }
+};

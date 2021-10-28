@@ -14,10 +14,6 @@ function ReviewsForm(): JSX.Element {
   });
 
   const {offerRank, offerReview} = userReview;
-  // eslint-disable-next-line no-console
-  console.log(offerRank);
-  // eslint-disable-next-line no-console
-  console.log(offerReview);
 
   const ratingChangeHandler = (e: ChangeEvent<HTMLInputElement>): void => {
     e.preventDefault();
