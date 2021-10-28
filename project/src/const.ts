@@ -50,4 +50,8 @@ export const CardCustomClasses: CardClassType = {
     cardClassName: 'near-places__card',
     wrapperClassName: 'near-places__image-wrapper',
   },
+  NoPlaces: {
+    mainClassName: 'page__main--index-empty',
+    divClasName: 'cities__places-container--empty',
+  },
 };

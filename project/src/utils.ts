@@ -1,4 +1,5 @@
 import { MAX_RATING_VALUE } from './const';
+import { OfferType } from './types/offer-type';
 
 export const capitalizeWord = (word: string): string => word.charAt(0).toUpperCase() + word.slice(1);
 
@@ -13,3 +14,5 @@ export const formatReviewDate = (reviewDate: string): string[] => {
     rawDate.toLocaleString('en-US', { month: 'long', year: 'numeric' }),
   ];
 };
+
+export const getSelectedCityOffers = (offers: OfferType[], selectedCity: string): OfferType[]  => offers.filter((offer) => offer.city.name === selectedCity);

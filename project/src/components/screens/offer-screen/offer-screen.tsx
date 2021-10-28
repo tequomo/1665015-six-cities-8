@@ -2,16 +2,15 @@ import { useParams } from 'react-router';
 import { useState } from 'react';
 import { offers } from '../../../mock/offers';
 import { reviews } from '../../../mock/reviews';
-// import { ReviewType } from '../../../types/review-type';
 import { getRatingWidth } from '../../../utils';
-import HeaderComponent from '../../layout/header-component/header-component';
-import MainMapComponent from '../../layout/main-map-component/main-map-component';
-import OffersListComponent from '../../layout/offers-list-component/offers-list-component';
-import ReviewsFormComponent from '../../layout/reviews-form-component/reviews-form-component';
-import ReviewsListComponent from '../../layout/reviews-list-component/review-list-component';
+import Header from '../../layout/header/header';
+import MainMap from '../../layout/main-map/main-map';
+import OffersList from '../../layout/offers-list/offers-list';
+import ReviewsForm from '../../layout/reviews-form/reviews-form';
+import ReviewsList from '../../layout/reviews-list/review-list';
 import { OfferType } from '../../../types/offer-type';
 import { CardCustomClasses } from '../../../const';
-import GoodsListComponent from './goods-list-component';
+import GoodsList from './goods-list';
 
 type ParamsPropsType = {
   id: string,
@@ -22,7 +21,7 @@ function OfferScreen(): JSX.Element {
   const offerReviews = reviews.filter((review) => review.id === +offerParams.id);
   const [{isPremium, isFavorite, title, rating, type, bedrooms, maxAdults, price, goods, host:{avatarUrl, isPro, name}}] = offers.filter((offer) => offer.id === +offerParams.id);
 
-  const closestOffers: OfferType[] = offers.filter((offer) => offer.id !== +offerParams.id);
+  const closestOffers: OfferType[] = offers.filter((offer) => offer.id !== +offerParams.id).slice(0, 3);
 
   const [selectedOfferId, setSelectedOfferId] = useState<number | null>(null);
 
@@ -35,7 +34,7 @@ function OfferScreen(): JSX.Element {
 
   return (
     <div className="page">
-      <HeaderComponent renderAuth />
+      <Header renderAuth />
 
       <main className="page__main page__main--property">
         <section className="property">
@@ -100,7 +99,7 @@ function OfferScreen(): JSX.Element {
                 <b className="property__price-value">&euro;{price}</b>
                 <span className="property__price-text">&nbsp;night</span>
               </div>
-              {<GoodsListComponent goods={goods} />}
+              {<GoodsList goods={goods} />}
               <div className="property__host">
                 <h2 className="property__host-title">Meet the host</h2>
                 <div className="property__host-user user">
@@ -125,19 +124,19 @@ function OfferScreen(): JSX.Element {
                 </div>
               </div>
               <section className="property__reviews reviews">
-                <ReviewsListComponent reviews={offerReviews}/>
-                <ReviewsFormComponent />
+                <ReviewsList reviews={offerReviews}/>
+                <ReviewsForm />
               </section>
             </div>
           </div>
           <section className="property__map map">
-            <MainMapComponent city={offers[0].city} offers={closestOffers} selectedOfferId={selectedOfferId}/>
+            <MainMap city={offers[0].city} offers={closestOffers} selectedOfferId={selectedOfferId}/>
           </section>
         </section>
         <div className="container">
           <section className="near-places places">
             <h2 className="near-places__title">Other places in the neighbourhood</h2>
-            <OffersListComponent offers={closestOffers} reviews={reviews} transferActiveOfferId={getActiveOfferId} customClasses={CardCustomClasses.NearPlaces}/>
+            <OffersList offers={closestOffers} reviews={reviews} transferActiveOfferId={getActiveOfferId} customClasses={CardCustomClasses.NearPlaces}/>
           </section>
         </div>
       </main>

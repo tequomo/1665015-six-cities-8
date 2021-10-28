@@ -1,7 +1,7 @@
 import { OfferType } from '../../../types/offer-type';
-import FavoritesListComponent from '../../layout/favorites-list-component/favorites-list-component';
-import FooterComponent from '../../layout/footer-component/footer-component';
-import HeaderComponent from '../../layout/header-component/header-component';
+import FavoritesList from '../../layout/favorites-list/favorites-list';
+import Footer from '../../layout/footer/footer';
+import Header from '../../layout/header/header';
 
 type FavoritesPropsType = {
   offers: OfferType[],
@@ -10,14 +10,14 @@ type FavoritesPropsType = {
 function FavoritesScreen({offers}: FavoritesPropsType): JSX.Element {
   return (
     <div className="page">
-      <HeaderComponent renderAuth />
+      <Header renderAuth />
 
       <main className="page__main page__main--favorites">
         <div className="page__favorites-container container">
-          <FavoritesListComponent offers={offers} />
+          <FavoritesList offers={offers} />
         </div>
       </main>
-      <FooterComponent />
+      <Footer />
     </div>
   );
 }
