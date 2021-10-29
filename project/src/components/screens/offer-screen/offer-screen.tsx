@@ -29,9 +29,6 @@ function OfferScreen(): JSX.Element {
     setSelectedOfferId(id);
   };
 
-  // eslint-disable-next-line no-console
-  console.log(selectedOfferId);
-
   return (
     <div className="page">
       <Header renderAuth />

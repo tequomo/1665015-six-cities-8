@@ -6,8 +6,6 @@ type ReviewsListPropsType = {
 }
 
 function ReviewsList({reviews}: ReviewsListPropsType): JSX.Element {
-  // eslint-disable-next-line no-console
-  console.log(reviews);
   return (
     <>
       <h2 className="reviews__title">Reviews &middot; <span className="reviews__amount">{reviews.length}</span></h2>

@@ -1,4 +1,5 @@
 import { CardClassType } from './types/classes-type';
+import { SortTypes } from './types/sort';
 
 export enum AppRoutes {
   Main = '/',
@@ -31,6 +32,8 @@ export const CITIES: string[] = [
   'Dusseldorf',
 ];
 
+export const DEFAULT_CITY = 'Paris';
+
 export enum PinIconUrl {
   Default = 'img/pin.svg',
   Active = 'img/pin-active.svg',
@@ -54,4 +57,15 @@ export const CardCustomClasses: CardClassType = {
     mainClassName: 'page__main--index-empty',
     divClasName: 'cities__places-container--empty',
   },
+  PlacesSort: {
+    listClassName: 'places__options--opened',
+    itemClassName: 'places__option--active',
+  },
+};
+
+export const SortingTypes: SortTypes =  {
+  DEFAULT: 'Popular',
+  PRICE_UP: 'Price: low to high',
+  PRICE_DOWN: 'Price: high to low',
+  TOP_RATED: 'Top rated first',
 };

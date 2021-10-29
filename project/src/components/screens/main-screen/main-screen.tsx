@@ -2,11 +2,11 @@ import { useState } from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 import { Dispatch } from 'redux';
 import { CardCustomClasses } from '../../../const';
-import { selectCity } from '../../../store/action';
+import { selectCity, selectSorting } from '../../../store/action';
 import { Actions } from '../../../types/action';
 import { ReviewType } from '../../../types/review-type';
 import { State } from '../../../types/state';
-import { getSelectedCityOffers } from '../../../utils';
+import { getSelectedCityOffers, sortingOffers } from '../../../utils';
 import Header from '../../layout/header/header';
 import Locations from '../../layout/locations/locations';
 import MainMap from '../../layout/main-map/main-map';
@@ -19,14 +19,18 @@ type MainProps = {
   selectedCity: string,
 }
 
-const mapStateToProps = ({selectedCity, offers}: State) => ({
+const mapStateToProps = ({selectedCity, offers, currentSortingType}: State) => ({
   selectedCity,
-  offers: getSelectedCityOffers(offers, selectedCity),
+  offers: sortingOffers(currentSortingType, getSelectedCityOffers(offers, selectedCity)),
+  currentSortingType,
 });
 
 const mapDispatchToProps = (dispatch: Dispatch<Actions>) => ({
   onMenuItemClick(selectedCity: string) {
     dispatch(selectCity(selectedCity));
+  },
+  onSelectSorting(currentSortingType: string) {
+    dispatch(selectSorting(currentSortingType));
   },
 });
 
@@ -36,7 +40,7 @@ type PropsFromRedux = ConnectedProps<typeof connector>;
 type ConnectedComponentProps = PropsFromRedux & MainProps;
 
 
-function MainScreen({offers, reviews, onMenuItemClick, selectedCity}: ConnectedComponentProps): JSX.Element {
+function MainScreen({offers, reviews, onMenuItemClick, selectedCity, onSelectSorting, currentSortingType}: ConnectedComponentProps): JSX.Element {
 
   const [selectedOfferId, setSelectedOfferId] = useState<number | null>(null);
 
@@ -59,7 +63,7 @@ function MainScreen({offers, reviews, onMenuItemClick, selectedCity}: ConnectedC
               <section className="cities__places places">
                 <h2 className="visually-hidden">Places</h2>
                 <b className="places__found">{offers.length} place{offers.length > 1 ? 's' : ''} to stay in {selectedCity}</b>
-                <PlacesSort />
+                <PlacesSort onSelectSorting={onSelectSorting} currentSortingType={currentSortingType}/>
                 <OffersList offers={offers} reviews={reviews} transferActiveOfferId={getActiveOfferId} customClasses={CardCustomClasses.CitiesPlaces}/>
               </section> :  <NoPlaces selectedCity={selectedCity} />}
             <div className="cities__right-section">

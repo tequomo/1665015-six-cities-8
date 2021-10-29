@@ -7,7 +7,6 @@ import { reducer } from './store/reducer';
 import { createStore } from 'redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import { Provider } from 'react-redux';
-// import { OfferType } from './types/offer-type';
 
 const store = createStore(
   reducer,
