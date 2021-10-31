@@ -69,3 +69,9 @@ export const SortingTypes: SortTypes =  {
   PRICE_DOWN: 'Price: high to low',
   TOP_RATED: 'Top rated first',
 };
+
+export enum APIRoutes {
+    Hotels = '/hotels',
+    Login = '/login',
+    Logout = '/logout',
+}

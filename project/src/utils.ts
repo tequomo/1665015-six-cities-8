@@ -1,4 +1,4 @@
-import { MAX_RATING_VALUE, SortingTypes } from './const';
+import { AuthStatus, MAX_RATING_VALUE, SortingTypes } from './const';
 import { OfferType } from './types/offer-type';
 
 export const capitalizeWord = (word: string): string => word.charAt(0).toUpperCase() + word.slice(1);
@@ -30,3 +30,6 @@ export const sortingOffers = (currentSortingType: string, offers: OfferType[]): 
       return offers;
   }
 };
+
+export const isCheckedAuth = (authStatus: AuthStatus): boolean =>
+  authStatus === AuthStatus.Unknown;

@@ -8,13 +8,34 @@ import { AppRoutes, AuthStatus } from '../../const';
 import PrivateRoute from '../routes/private-route';
 import { OfferType } from '../../types/offer-type';
 import { ReviewType } from '../../types/review-type';
+import { State } from '../../types/state';
+import { connect, ConnectedProps } from 'react-redux';
+import { isCheckedAuth } from '../../utils';
+import Loader from '../screens/loader/loader';
 
 type MainProps = {
   offers: OfferType[],
   reviews: ReviewType[],
 }
 
-function App({offers, reviews}: MainProps): JSX.Element {
+const mapStateToProps = ({authStatus, isDataLoaded}: State) => ({
+  authStatus,
+  isDataLoaded,
+});
+
+const connector = connect(mapStateToProps);
+
+type PropsFromRedux = ConnectedProps<typeof connector>;
+type ConnectedComponentProps = PropsFromRedux & MainProps;
+
+function App({authStatus, isDataLoaded, offers, reviews}: ConnectedComponentProps): JSX.Element {
+
+  if (isCheckedAuth(authStatus) || !isDataLoaded) {
+    return (
+      <Loader />
+    );
+  }
+
   return (
     <BrowserRouter>
       <Switch>
@@ -37,4 +58,6 @@ function App({offers, reviews}: MainProps): JSX.Element {
   );
 }
 
-export default App;
+export { App };
+export default connector(App);
+
