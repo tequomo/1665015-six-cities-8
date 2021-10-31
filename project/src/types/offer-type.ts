@@ -16,6 +16,13 @@ export type HostType = {
   name: string,
 }
 
+export type BackendHostType = {
+  ['avatar_url']: string,
+  id: number,
+  ['is_pro']: boolean,
+  name: string,
+}
+
 export type OfferType = {
   bedrooms: number,
   city: CityType,
@@ -29,6 +36,25 @@ export type OfferType = {
   location: LocationType;
   maxAdults: number,
   previewImage: string,
+  price: number,
+  rating: number,
+  title: string,
+  type: string,
+}
+
+export type BackendOfferType = {
+  bedrooms: number,
+  city: CityType,
+  description: string,
+  goods: string[],
+  host: BackendHostType,
+  id: number,
+  images: string[],
+  ['is_favorite']: boolean,
+  ['is_premium']: boolean,
+  location: LocationType;
+  ['max_adults']: number,
+  ['preview_image']: string,
   price: number,
   rating: number,
   title: string,
