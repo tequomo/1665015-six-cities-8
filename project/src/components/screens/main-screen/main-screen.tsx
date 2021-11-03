@@ -4,6 +4,7 @@ import { Dispatch } from 'redux';
 import { CardCustomClasses } from '../../../const';
 import { selectCity, selectSorting } from '../../../store/action';
 import { Actions } from '../../../types/action';
+import { OfferType } from '../../../types/offer-type';
 import { ReviewType } from '../../../types/review-type';
 import { State } from '../../../types/state';
 import { getSelectedCityOffers, sortingOffers } from '../../../utils';
@@ -18,6 +19,10 @@ type MainProps = {
   reviews: ReviewType[],
   selectedCity: string,
 }
+
+const getCityData = (offers: OfferType[], cityName: string) => offers
+  .filter((offer) => offer.city.name === cityName)[0].city;
+  // .reduce((_city, offer) => offer.city, {});
 
 const mapStateToProps = ({selectedCity, offers, currentSortingType}: State) => ({
   selectedCity,
@@ -41,6 +46,9 @@ type ConnectedComponentProps = PropsFromRedux & MainProps;
 
 
 function MainScreen({offers, reviews, onMenuItemClick, selectedCity, onSelectSorting, currentSortingType}: ConnectedComponentProps): JSX.Element {
+
+  // eslint-disable-next-line no-console
+  // console.log(getCityData(offers, selectedCity));
 
   const [selectedOfferId, setSelectedOfferId] = useState<number | null>(null);
 
@@ -69,7 +77,7 @@ function MainScreen({offers, reviews, onMenuItemClick, selectedCity, onSelectSor
             <div className="cities__right-section">
               {offers.length &&
               <section className="cities__map map">
-                <MainMap city={offers[0].city} offers={offers} selectedOfferId={selectedOfferId} />
+                <MainMap city={getCityData(offers, selectedCity)} offers={offers} selectedOfferId={selectedOfferId} />
               </section>}
             </div>
           </div>
