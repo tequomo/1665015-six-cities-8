@@ -11,12 +11,23 @@ import ReviewsList from '../../layout/reviews-list/review-list';
 import { OfferType } from '../../../types/offer-type';
 import { CardCustomClasses } from '../../../const';
 import GoodsList from './goods-list';
+import { State } from '../../../types/state';
+import { connect, ConnectedProps } from 'react-redux';
 
 type ParamsPropsType = {
   id: string,
 }
 
-function OfferScreen(): JSX.Element {
+const mapStateToProps = ({isNearbyLoaded}: State) => ({
+  isNearbyLoaded,
+});
+
+const connector = connect(mapStateToProps);
+
+type PropsFromRedux = ConnectedProps<typeof connector>;
+// type ConnectedComponentProps = PropsFromRedux & MainProps;
+
+function OfferScreen({isNearbyLoaded}: PropsFromRedux): JSX.Element {
   const offerParams = useParams<ParamsPropsType>();
   const offerReviews = reviews.filter((review) => review.id === +offerParams.id);
   const [{isPremium, isFavorite, title, rating, type, bedrooms, maxAdults, price, goods, host:{avatarUrl, isPro, name}}] = offers.filter((offer) => offer.id === +offerParams.id);
@@ -133,7 +144,7 @@ function OfferScreen(): JSX.Element {
         <div className="container">
           <section className="near-places places">
             <h2 className="near-places__title">Other places in the neighbourhood</h2>
-            <OffersList offers={closestOffers} reviews={reviews} transferActiveOfferId={getActiveOfferId} customClasses={CardCustomClasses.NearPlaces}/>
+            <OffersList offers={closestOffers} reviews={reviews} transferActiveOfferId={getActiveOfferId} customClasses={CardCustomClasses.NearPlaces} isLoad={isNearbyLoaded}/>
           </section>
         </div>
       </main>
@@ -141,4 +152,5 @@ function OfferScreen(): JSX.Element {
   );
 }
 
-export default OfferScreen;
+export { OfferScreen };
+export default connector(OfferScreen);

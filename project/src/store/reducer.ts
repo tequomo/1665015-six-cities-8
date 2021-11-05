@@ -7,9 +7,11 @@ import { State } from '../types/state';
 const initialState: State = {
   selectedCity: DEFAULT_CITY,
   offers: [],
+  nearbyOffers: [],
   currentSortingType: SortingTypes.DEFAULT,
   authStatus: AuthStatus.Unknown,
   isDataLoaded: false,
+  isNearbyLoaded: false,
 };
 
 const reducer = (state: State = initialState, action: Actions): State => {
@@ -23,12 +25,20 @@ const reducer = (state: State = initialState, action: Actions): State => {
     case ActionType.SelectSorting:
       return {...state, currentSortingType: action.payload};
     case ActionType.LoadOffers:
-      return {...state, offers: action.payload};
+      return {
+        ...state,
+        offers: action.payload,
+        isDataLoaded: true,
+      };
+    case ActionType.LoadNearbyOffers:
+      return {...state,
+        nearbyOffers: action.payload,
+        isNearbyLoaded: true,
+      };
     case ActionType.RequireAuthorization:
       return {
         ...state,
         authStatus: action.payload,
-        isDataLoaded: true,
       };
     case ActionType.RequireLogout:
       return {...state, authStatus: AuthStatus.NoAuth};

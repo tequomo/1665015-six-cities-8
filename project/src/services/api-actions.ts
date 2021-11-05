@@ -1,15 +1,27 @@
 import { APIRoutes, AuthStatus } from '../const';
-import { loadOffers, requireAuthorization, requireLogout } from '../store/action';
+import { loadCurrentOffer, loadNearbyOffers, loadOffers, requireAuthorization, requireLogout } from '../store/action';
 import { ThunkActionResult } from '../types/action';
 import { AuthData } from '../types/auth-data';
 import { BackendOfferType } from '../types/offer-type';
-import { adaptToClient } from './adapter';
+import { adaptSingleToClient, adaptMultipleToClient } from './adapter';
 import { dropToken, saveToken, Token } from './token';
 
 export const fetchOffersAction = (): ThunkActionResult =>
   async (dispatch, _getState, api): Promise<void> => {
     const {data} = await api.get<BackendOfferType[]>(APIRoutes.Hotels);
-    dispatch(loadOffers(adaptToClient(data)));
+    dispatch(loadOffers(adaptMultipleToClient(data)));
+  };
+
+export const fetchCurrentOfferAction = (id: string): ThunkActionResult =>
+  async (dispatch, _getState, api): Promise<void> => {
+    const {data} = await api.get<BackendOfferType>(`${APIRoutes.Hotels}/${id}`);
+    dispatch(loadCurrentOffer(adaptSingleToClient(data)));
+  };
+
+export const fetchNearbyOffersAction = (id: string): ThunkActionResult =>
+  async (dispatch, _getState, api): Promise<void> => {
+    const { data } = await api.get<BackendOfferType[]>(`${APIRoutes.Hotels}/${id}${APIRoutes.Nearby}`);
+    dispatch(loadNearbyOffers(adaptMultipleToClient(data)));
   };
 
 export const checkAuthAction = (): ThunkActionResult =>

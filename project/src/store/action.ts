@@ -1,5 +1,5 @@
 import { AuthStatus } from '../const';
-import { ActionType, FilterOffersAction, LoadOffersAction, RequireAuthorization, RequireLogout, ResetStateAction, SelectCityAction, SelectSortingAction } from '../types/action';
+import { ActionType, FilterOffersAction, LoadCurrentOfferAction, LoadNearbyOffersAction, LoadOffersAction, RequireAuthorization, RequireLogout, ResetStateAction, SelectCityAction, SelectSortingAction } from '../types/action';
 import { OfferType } from '../types/offer-type';
 
 export const selectCity = (selectedCity:string ): SelectCityAction => ({
@@ -24,6 +24,16 @@ export const selectSorting = (currentSortingType: string): SelectSortingAction =
 export const loadOffers = (offers: OfferType[]): LoadOffersAction => ({
   type: ActionType.LoadOffers,
   payload: offers,
+} as const);
+
+export const loadCurrentOffer = (currentOffer: OfferType): LoadCurrentOfferAction => ({
+  type: ActionType.LoadCurrentOffer,
+  payload: currentOffer,
+} as const);
+
+export const loadNearbyOffers = (nearbyOffers: OfferType[]): LoadNearbyOffersAction => ({
+  type: ActionType.LoadNearbyOffers,
+  payload: nearbyOffers,
 } as const);
 
 export const requireAuthorization = (authStatus: AuthStatus): RequireAuthorization => ({

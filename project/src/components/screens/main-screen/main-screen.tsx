@@ -24,10 +24,11 @@ const getCityData = (offers: OfferType[], cityName: string) => offers
   .filter((offer) => offer.city.name === cityName)[0].city;
   // .reduce((_city, offer) => offer.city, {});
 
-const mapStateToProps = ({selectedCity, offers, currentSortingType}: State) => ({
+const mapStateToProps = ({selectedCity, offers, currentSortingType, isDataLoaded}: State) => ({
   selectedCity,
   offers: sortingOffers(currentSortingType, getSelectedCityOffers(offers, selectedCity)),
   currentSortingType,
+  isDataLoaded,
 });
 
 const mapDispatchToProps = (dispatch: Dispatch<Actions>) => ({
@@ -45,7 +46,7 @@ type PropsFromRedux = ConnectedProps<typeof connector>;
 type ConnectedComponentProps = PropsFromRedux & MainProps;
 
 
-function MainScreen({offers, reviews, onMenuItemClick, selectedCity, onSelectSorting, currentSortingType}: ConnectedComponentProps): JSX.Element {
+function MainScreen({offers, reviews, onMenuItemClick, selectedCity, onSelectSorting, currentSortingType, isDataLoaded}: ConnectedComponentProps): JSX.Element {
 
   // eslint-disable-next-line no-console
   // console.log(getCityData(offers, selectedCity));
@@ -72,7 +73,7 @@ function MainScreen({offers, reviews, onMenuItemClick, selectedCity, onSelectSor
                 <h2 className="visually-hidden">Places</h2>
                 <b className="places__found">{offers.length} place{offers.length > 1 ? 's' : ''} to stay in {selectedCity}</b>
                 <PlacesSort onSelectSorting={onSelectSorting} currentSortingType={currentSortingType}/>
-                <OffersList offers={offers} reviews={reviews} transferActiveOfferId={getActiveOfferId} customClasses={CardCustomClasses.CitiesPlaces}/>
+                <OffersList offers={offers} reviews={reviews} transferActiveOfferId={getActiveOfferId} customClasses={CardCustomClasses.CitiesPlaces} isLoad={isDataLoaded}/>
               </section> :  <NoPlaces selectedCity={selectedCity} />}
             <div className="cities__right-section">
               {offers.length &&

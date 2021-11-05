@@ -1,14 +1,16 @@
 import { useState } from 'react';
+import withLoader from '../../../hoc/withloader';
 import { PlacesClassType } from '../../../types/classes-type';
 import { OfferType } from '../../../types/offer-type';
 import { ReviewType } from '../../../types/review-type';
 import PlaceCard from '../place-card/place-card';
 
-type OffersListPropsType = {
+export type OffersListPropsType = {
   offers: OfferType[],
   reviews: ReviewType[],
   transferActiveOfferId: (id: number | null) => void,
   customClasses: PlacesClassType,
+  isLoad: boolean,
 }
 
 function OffersList({offers, reviews, transferActiveOfferId, customClasses}: OffersListPropsType): JSX.Element {
@@ -43,4 +45,6 @@ function OffersList({offers, reviews, transferActiveOfferId, customClasses}: Off
   );
 }
 
-export default OffersList;
+export { OffersList };
+export default withLoader(OffersList);
+// export default OffersList;

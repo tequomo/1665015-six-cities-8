@@ -10,6 +10,8 @@ export enum ActionType {
   ResetState = 'main/resetState',
   SelectSorting = 'main/selectSorting',
   LoadOffers = 'data/loadOffers',
+  LoadCurrentOffer = 'data/loadCurrentOffer',
+  LoadNearbyOffers = 'data/loadNearbyOffers',
   RequireAuthorization = 'user/requireAuthorization',
   RequireLogout = 'user/requireLogout',
 }
@@ -38,6 +40,16 @@ export type LoadOffersAction = {
   payload: OfferType[],
 }
 
+export type LoadCurrentOfferAction = {
+  type: ActionType.LoadCurrentOffer,
+  payload: OfferType,
+}
+
+export type LoadNearbyOffersAction = {
+  type: ActionType.LoadNearbyOffers,
+  payload: OfferType[],
+}
+
 export type RequireAuthorization = {
   type: ActionType.RequireAuthorization,
   payload: AuthStatus,
@@ -53,6 +65,8 @@ export type Actions =
   | ResetStateAction
   | SelectSortingAction
   | LoadOffersAction
+  | LoadCurrentOfferAction
+  | LoadNearbyOffersAction
   | RequireAuthorization
   | RequireLogout;
 
