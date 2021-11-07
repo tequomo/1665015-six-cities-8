@@ -80,4 +80,6 @@ export enum APIRoutes {
     Login = '/login',
     Logout = '/logout',
     Nearby = '/nearby',
+    Favorite = '/favorite',
+    Reviews = '/comments',
 }

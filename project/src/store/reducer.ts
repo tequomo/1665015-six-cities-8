@@ -7,10 +7,12 @@ import { State } from '../types/state';
 const initialState: State = {
   selectedCity: DEFAULT_CITY,
   offers: [],
+  currentOffer: null,
   nearbyOffers: [],
   currentSortingType: SortingTypes.DEFAULT,
   authStatus: AuthStatus.Unknown,
   isDataLoaded: false,
+  isCurrentOfferLoaded: false,
   isNearbyLoaded: false,
   authUserData: null,
 };
@@ -30,6 +32,12 @@ const reducer = (state: State = initialState, action: Actions): State => {
         ...state,
         offers: action.payload,
         isDataLoaded: true,
+      };
+    case ActionType.LoadCurrentOffer:
+      return {
+        ...state,
+        currentOffer: action.payload,
+        isCurrentOfferLoaded: true,
       };
     case ActionType.LoadNearbyOffers:
       return {...state,

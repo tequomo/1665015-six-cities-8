@@ -1,9 +1,10 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { connect, ConnectedProps } from 'react-redux';
-import { Dispatch } from 'redux';
+// import { Dispatch } from 'redux';
 import { CardCustomClasses } from '../../../const';
+import { fetchOffersAction } from '../../../services/api-actions';
 import { selectCity, selectSorting } from '../../../store/action';
-import { Actions } from '../../../types/action';
+import { /*Actions, */ThunkAppDispatch } from '../../../types/action';
 // import { OfferType } from '../../../types/offer-type';
 import { ReviewType } from '../../../types/review-type';
 import { State } from '../../../types/state';
@@ -28,12 +29,16 @@ const mapStateToProps = ({selectedCity, offers, currentSortingType, isDataLoaded
   isDataLoaded,
 });
 
-const mapDispatchToProps = (dispatch: Dispatch<Actions>) => ({
+// const mapDispatchToProps = (dispatch: Dispatch<Actions>) => ({
+const mapDispatchToProps = (dispatch: ThunkAppDispatch) => ({
   onMenuItemClick(selectedCity: string) {
     dispatch(selectCity(selectedCity));
   },
   onSelectSorting(currentSortingType: string) {
     dispatch(selectSorting(currentSortingType));
+  },
+  fetchOffers() {
+    dispatch(fetchOffersAction());
   },
 });
 
@@ -43,7 +48,11 @@ type PropsFromRedux = ConnectedProps<typeof connector>;
 type ConnectedComponentProps = PropsFromRedux & MainProps;
 
 
-function MainScreen({offers, reviews, onMenuItemClick, selectedCity, onSelectSorting, currentSortingType, isDataLoaded}: ConnectedComponentProps): JSX.Element {
+function MainScreen({offers, reviews, onMenuItemClick, selectedCity, onSelectSorting, currentSortingType, isDataLoaded, fetchOffers}: ConnectedComponentProps): JSX.Element {
+
+  useEffect(() => {
+    fetchOffers();
+  }, [fetchOffers]);
 
   const [selectedOfferId, setSelectedOfferId] = useState<number | null>(null);
 
@@ -52,10 +61,10 @@ function MainScreen({offers, reviews, onMenuItemClick, selectedCity, onSelectSor
   };
 
   return (
-    <LoaderWrapper isLoad={isDataLoaded}>
-      <div className="page page--gray page--main">
-        <Header renderAuth />
+    <div className="page page--gray page--main">
+      <Header renderAuth />
 
+      <LoaderWrapper isLoad={isDataLoaded}>
         <main className={`page__main page__main--index ${!offers.length ? 'page__main--index-empty' : ''}`}>
           <h1 className="visually-hidden">Cities</h1>
           <div className="tabs">
@@ -79,8 +88,8 @@ function MainScreen({offers, reviews, onMenuItemClick, selectedCity, onSelectSor
             </div>
           </div>
         </main>
-      </div>
-    </LoaderWrapper>
+      </LoaderWrapper>
+    </div>
   );
 }
 

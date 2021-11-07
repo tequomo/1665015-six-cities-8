@@ -12,7 +12,7 @@ import { requireAuthorization } from './store/action';
 import { AuthStatus } from './const';
 import thunk from 'redux-thunk';
 import { ThunkAppDispatch } from './types/action';
-import { checkAuthAction, fetchOffersAction } from './services/api-actions';
+import { checkAuthAction } from './services/api-actions';
 
 const api = createAPI(
   () => store.dispatch(requireAuthorization(AuthStatus.NoAuth)),
@@ -27,7 +27,7 @@ const store = createStore(
 );
 
 (store.dispatch as ThunkAppDispatch)(checkAuthAction());
-(store.dispatch as ThunkAppDispatch)(fetchOffersAction());
+// (store.dispatch as ThunkAppDispatch)(fetchOffersAction());
 
 ReactDOM.render(
   <React.StrictMode>

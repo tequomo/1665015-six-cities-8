@@ -1,5 +1,5 @@
 import { useParams } from 'react-router';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { offers } from '../../../mock/offers';
 import { reviews } from '../../../mock/reviews';
 import { getRatingWidth } from '../../../utils';
@@ -13,26 +13,48 @@ import { CardCustomClasses } from '../../../const';
 import GoodsList from './goods-list';
 import { State } from '../../../types/state';
 import { connect, ConnectedProps } from 'react-redux';
+import { ThunkAppDispatch } from '../../../types/action';
+import { fetchCurrentOfferAction, fetchNearbyOffersAction } from '../../../services/api-actions';
 
 type ParamsPropsType = {
-  id: string,
+  offerId: string,
 }
 
-const mapStateToProps = ({isNearbyLoaded}: State) => ({
+const mapStateToProps = ({currentOffer, isCurrentOfferLoaded, nearbyOffers, isNearbyLoaded}: State) => ({
+  currentOffer,
+  nearbyOffers,
+  isCurrentOfferLoaded,
   isNearbyLoaded,
 });
 
-const connector = connect(mapStateToProps);
+const mapDispatchToProps = (dispatch: ThunkAppDispatch) => ({
+  fetchCurrentOffer(id: string) {
+    dispatch(fetchCurrentOfferAction(id));
+  },
+  fetchNearbyOffers(id: string) {
+    dispatch(fetchNearbyOffersAction(id));
+  },
+});
+
+const connector = connect(mapStateToProps, mapDispatchToProps);
 
 type PropsFromRedux = ConnectedProps<typeof connector>;
 // type ConnectedComponentProps = PropsFromRedux & MainProps;
 
-function OfferScreen({isNearbyLoaded}: PropsFromRedux): JSX.Element {
-  const offerParams = useParams<ParamsPropsType>();
-  const offerReviews = reviews.filter((review) => review.id === +offerParams.id);
-  const [{isPremium, isFavorite, title, rating, type, bedrooms, maxAdults, price, goods, host:{avatarUrl, isPro, name}}] = offers.filter((offer) => offer.id === +offerParams.id);
+function OfferScreen({currentOffer, isCurrentOfferLoaded, nearbyOffers, isNearbyLoaded, fetchCurrentOffer, fetchNearbyOffers}: PropsFromRedux): JSX.Element {
+  const {offerId} = useParams<ParamsPropsType>();
+  const offerReviews = reviews.filter((review) => review.id === +offerId);
+  const [{isPremium, isFavorite, title, rating, type, bedrooms, maxAdults, price, goods, host:{avatarUrl, isPro, name}}] = offers.filter((offer) => offer.id === +offerId);
+  // const {isPremium, isFavorite, title, rating, type, bedrooms, maxAdults, price, goods, host:{avatarUrl, isPro, name}} = currentOffer;
+  // eslint-disable-next-line no-console
+  console.log(currentOffer);
+  const closestOffers: OfferType[] = offers.filter((offer) => offer.id !== +offerId).slice(0, 3);
 
-  const closestOffers: OfferType[] = offers.filter((offer) => offer.id !== +offerParams.id).slice(0, 3);
+  useEffect(() => {
+    fetchCurrentOffer(offerId);
+    fetchNearbyOffers(offerId);
+    // fetchCurrentOfferComments(offerId);
+  }, [fetchCurrentOffer, fetchNearbyOffers, offerId]);
 
   const [selectedOfferId, setSelectedOfferId] = useState<number | null>(null);
 
