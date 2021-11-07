@@ -1,5 +1,6 @@
-import { AuthStatus } from '../const';
-import { ActionType, FilterOffersAction, LoadOffersAction, RequireAuthorization, RequireLogout, ResetStateAction, SelectCityAction, SelectSortingAction } from '../types/action';
+import { AppRoutes, AuthStatus } from '../const';
+import { ActionType, FilterOffersAction, LoadCurrentOfferAction, LoadNearbyOffersAction, LoadOffersAction, ReceiveAuthDataAction, RedirectToRouteAction, RequireAuthorizationAction, RequireLogoutAction, ResetStateAction, SelectCityAction, SelectSortingAction } from '../types/action';
+import { AuthUserData } from '../types/auth-data';
 import { OfferType } from '../types/offer-type';
 
 export const selectCity = (selectedCity:string ): SelectCityAction => ({
@@ -26,11 +27,31 @@ export const loadOffers = (offers: OfferType[]): LoadOffersAction => ({
   payload: offers,
 } as const);
 
-export const requireAuthorization = (authStatus: AuthStatus): RequireAuthorization => ({
+export const loadCurrentOffer = (currentOffer: OfferType): LoadCurrentOfferAction => ({
+  type: ActionType.LoadCurrentOffer,
+  payload: currentOffer,
+} as const);
+
+export const loadNearbyOffers = (nearbyOffers: OfferType[]): LoadNearbyOffersAction => ({
+  type: ActionType.LoadNearbyOffers,
+  payload: nearbyOffers,
+} as const);
+
+export const requireAuthorization = (authStatus: AuthStatus): RequireAuthorizationAction => ({
   type: ActionType.RequireAuthorization,
   payload: authStatus,
 } as const);
 
-export const requireLogout = (): RequireLogout => ({
+export const requireLogout = (): RequireLogoutAction => ({
   type: ActionType.RequireLogout,
+} as const);
+
+export const redirectToRoute = (url: AppRoutes): RedirectToRouteAction => ({
+  type: ActionType.RedirectToRoute,
+  payload: url,
+} as const);
+
+export const receiveAuthData = (authUserData: AuthUserData): ReceiveAuthDataAction => ({
+  type: ActionType.ReceiveAuthData,
+  payload: authUserData,
 } as const);

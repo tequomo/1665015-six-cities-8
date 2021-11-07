@@ -4,6 +4,7 @@ import { SortTypes } from './types/sort';
 export enum AppRoutes {
   Main = '/',
   SignIn = '/login',
+  SignOut = '/logout',
   Favorites = '/favorites',
   Room = '/offer/:id',
   Offer = '/offer/',
@@ -61,6 +62,10 @@ export const CardCustomClasses: CardClassType = {
     listClassName: 'places__options--opened',
     itemClassName: 'places__option--active',
   },
+  HeaderAuth: {
+    spanAuthClassName: 'header__user-name user__name',
+    spanNoAuthClassName: 'header__login',
+  },
 };
 
 export const SortingTypes: SortTypes =  {
@@ -74,4 +79,5 @@ export enum APIRoutes {
     Hotels = '/hotels',
     Login = '/login',
     Logout = '/logout',
+    Nearby = '/nearby',
 }

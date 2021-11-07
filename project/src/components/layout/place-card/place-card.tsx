@@ -29,9 +29,9 @@ function PlaceCard({offer, reviews, onCardOver, onCardOut, customClasses}: CardP
     <article className={`${cardClassName} place-card`} onMouseEnter={() => onCardOver(id)} onMouseLeave={() => onCardOut()}>
       {isPremium && <PlaceCardMark />}
       <div className={`${wrapperClassName} place-card__image-wrapper`}>
-        <a href="/">
+        <Link to={`${AppRoutes.Offer}${id}`}>
           <img className="place-card__image" src={previewImage} width="260" height="200" alt="Great Housing!" />
-        </a>
+        </Link>
       </div>
       <div className="place-card__info">
         <div className="place-card__price-wrapper">
