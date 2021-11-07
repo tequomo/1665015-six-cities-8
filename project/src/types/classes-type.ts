@@ -10,6 +10,7 @@ export type CardClassType = {
   NearPlaces: PlacesClassType,
   NoPlaces: NoPlacesClassType,
   PlacesSort: PlacesSortType,
+  HeaderAuth: HeaderAuthType,
 }
 
 export type NoPlacesClassType = {
@@ -20,4 +21,9 @@ export type NoPlacesClassType = {
 export type PlacesSortType = {
   listClassName: string,
   itemClassName: string,
+}
+
+export type HeaderAuthType = {
+  spanAuthClassName: string,
+  spanNoAuthClassName: string,
 }

@@ -12,6 +12,7 @@ const initialState: State = {
   authStatus: AuthStatus.Unknown,
   isDataLoaded: false,
   isNearbyLoaded: false,
+  authUserData: null,
 };
 
 const reducer = (state: State = initialState, action: Actions): State => {
@@ -41,7 +42,13 @@ const reducer = (state: State = initialState, action: Actions): State => {
         authStatus: action.payload,
       };
     case ActionType.RequireLogout:
-      return {...state, authStatus: AuthStatus.NoAuth};
+      return {...state,
+        authStatus: AuthStatus.NoAuth,
+      };
+    case ActionType.ReceiveAuthData:
+      return {...state,
+        authUserData: action.payload,
+      };
     default:
       return state;
   }

@@ -1,25 +1,52 @@
+import { MouseEvent } from 'react';
+import { connect, ConnectedProps } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { AppRoutes } from '../../../const';
+import { AppRoutes, AuthStatus, CardCustomClasses } from '../../../const';
+import { logoutAction } from '../../../services/api-actions';
+import { ThunkAppDispatch } from '../../../types/action';
+import { State } from '../../../types/state';
+import SignOutBlock from './signout-block';
 
-function Auth(): JSX.Element {
+const mapStateToProps = ({authStatus, authUserData}: State) => ({
+  authStatus,
+  authUserData,
+});
+
+const mapDispatchToProps = (dispatch: ThunkAppDispatch) => ({
+  onSignOutClick() {
+    dispatch(logoutAction());
+  },
+});
+
+const connector = connect(mapStateToProps, mapDispatchToProps);
+type PropsFromRedux = ConnectedProps<typeof connector>;
+
+function Auth({authStatus, authUserData, onSignOutClick}: PropsFromRedux): JSX.Element {
+
+  const isAuth = authStatus === AuthStatus.Auth;
+
+  const handleSignOut = (e: MouseEvent<HTMLAnchorElement>) => {
+    e.preventDefault();
+    onSignOutClick();
+  };
+
   return (
     <nav className="header__nav">
       <ul className="header__nav-list">
         <li className="header__nav-item user">
-          <Link className="header__nav-link header__nav-link--profile" to={AppRoutes.Favorites}>
-            <div className="header__avatar-wrapper user__avatar-wrapper">
+          <Link className="header__nav-link header__nav-link--profile" to={isAuth ? AppRoutes.Favorites : AppRoutes.SignIn}>
+            <div className="header__avatar-wrapper user__avatar-wrapper" style={isAuth ? {backgroundImage: `url(${authUserData?.avatarUrl})`, borderRadius: '50%'} : {}}>
             </div>
-            <span className="header__user-name user__name">Oliver.conner@gmail.com</span>
+            <span className={isAuth ? CardCustomClasses.HeaderAuth.spanAuthClassName : CardCustomClasses.HeaderAuth.spanNoAuthClassName}>{isAuth ? authUserData?.email : 'Sign in'}</span>
           </Link>
         </li>
-        <li className="header__nav-item">
-          <a className="header__nav-link" href="/">
-            <span className="header__signout">Sign out</span>
-          </a>
-        </li>
+        {
+          isAuth && <SignOutBlock handleSignOut={handleSignOut} />
+        }
       </ul>
     </nav>
   );
 }
 
-export default Auth;
+export { Auth };
+export default connector(Auth);

@@ -1,3 +1,4 @@
+import { AuthDataResponse, AuthUserData } from '../types/auth-data';
 import { BackendOfferType, OfferType } from '../types/offer-type';
 
 export const adaptSingleToClient = (offer: BackendOfferType): OfferType => (
@@ -30,3 +31,16 @@ export const adaptMultipleToClient = (data: BackendOfferType[]): OfferType[] =>
   data.map((offer: BackendOfferType) => (
     adaptSingleToClient(offer)
   ));
+
+export const adaptAuthDataToClient = (data: AuthDataResponse): AuthUserData => {
+  const {
+    'avatar_url': del1,
+    'is_pro': del2,
+    ...adaptedProps
+  } = {
+    ...data,
+    avatarUrl: data['avatar_url'],
+    isPro: data['is_pro'],
+  };
+  return adaptedProps;
+};

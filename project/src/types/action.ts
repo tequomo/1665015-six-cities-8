@@ -1,6 +1,7 @@
 import { AxiosInstance } from 'axios';
 import { ThunkAction, ThunkDispatch } from 'redux-thunk';
-import { AuthStatus } from '../const';
+import { AppRoutes, AuthStatus } from '../const';
+import { AuthUserData } from './auth-data';
 import { OfferType } from './offer-type';
 import { State } from './state';
 
@@ -14,6 +15,8 @@ export enum ActionType {
   LoadNearbyOffers = 'data/loadNearbyOffers',
   RequireAuthorization = 'user/requireAuthorization',
   RequireLogout = 'user/requireLogout',
+  RedirectToRoute = 'main/redirectToRoute',
+  ReceiveAuthData = 'user/receiveAuthData',
 }
 
 export type SelectCityAction = {
@@ -50,13 +53,23 @@ export type LoadNearbyOffersAction = {
   payload: OfferType[],
 }
 
-export type RequireAuthorization = {
+export type RequireAuthorizationAction = {
   type: ActionType.RequireAuthorization,
   payload: AuthStatus,
 }
 
-export type RequireLogout = {
+export type RequireLogoutAction = {
   type: ActionType.RequireLogout,
+}
+
+export type RedirectToRouteAction = {
+  type: ActionType.RedirectToRoute,
+  payload: AppRoutes,
+}
+
+export type ReceiveAuthDataAction = {
+  type: ActionType.ReceiveAuthData,
+  payload: AuthUserData,
 }
 
 export type Actions =
@@ -67,8 +80,10 @@ export type Actions =
   | LoadOffersAction
   | LoadCurrentOfferAction
   | LoadNearbyOffersAction
-  | RequireAuthorization
-  | RequireLogout;
+  | RequireAuthorizationAction
+  | RequireLogoutAction
+  | RedirectToRouteAction
+  | ReceiveAuthDataAction;
 
 export type ThunkActionResult<R = Promise<void>> = ThunkAction<R, State, AxiosInstance, Actions>;
 

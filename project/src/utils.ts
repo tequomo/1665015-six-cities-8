@@ -1,5 +1,5 @@
 import { AuthStatus, MAX_RATING_VALUE, SortingTypes } from './const';
-import { OfferType } from './types/offer-type';
+import { CityType, OfferType } from './types/offer-type';
 
 export const capitalizeWord = (word: string): string => word.charAt(0).toUpperCase() + word.slice(1);
 
@@ -33,3 +33,7 @@ export const sortingOffers = (currentSortingType: string, offers: OfferType[]): 
 
 export const isCheckedAuth = (authStatus: AuthStatus): boolean =>
   authStatus === AuthStatus.Unknown;
+
+export const getCityData = (offers: OfferType[], cityName: string): CityType => offers
+  .filter((offer) => offer.city.name === cityName)[0].city;
+  // .reduce((_city, offer) => offer.city, {});
