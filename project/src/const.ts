@@ -66,6 +66,10 @@ export const CardCustomClasses: CardClassType = {
     spanAuthClassName: 'header__user-name user__name',
     spanNoAuthClassName: 'header__login',
   },
+  CurrentOffer: {
+    buttonFavoriteClassName: 'property__bookmark-button--active',
+    divProClassName: 'property__avatar-wrapper--pro',
+  },
 };
 
 export const SortingTypes: SortTypes =  {

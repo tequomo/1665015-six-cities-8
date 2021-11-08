@@ -14,8 +14,13 @@ export const fetchOffersAction = (): ThunkActionResult =>
 
 export const fetchCurrentOfferAction = (id: string): ThunkActionResult =>
   async (dispatch, _getState, api): Promise<void> => {
+    // try {
     const { data } = await api.get<BackendOfferType>(`${APIRoutes.Hotels}/${id}`);
     dispatch(loadCurrentOffer(adaptSingleToClient(data)));
+    // } catch {
+    // eslint-disable-next-line no-console
+    // console.log('Hi!');
+    // }
   };
 
 export const fetchNearbyOffersAction = (id: string): ThunkActionResult =>

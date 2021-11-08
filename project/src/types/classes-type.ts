@@ -11,6 +11,7 @@ export type CardClassType = {
   NoPlaces: NoPlacesClassType,
   PlacesSort: PlacesSortType,
   HeaderAuth: HeaderAuthType,
+  CurrentOffer: CurrentOfferType,
 }
 
 export type NoPlacesClassType = {
@@ -26,4 +27,9 @@ export type PlacesSortType = {
 export type HeaderAuthType = {
   spanAuthClassName: string,
   spanNoAuthClassName: string,
+}
+
+export type CurrentOfferType = {
+  buttonFavoriteClassName: string,
+  divProClassName: string,
 }
