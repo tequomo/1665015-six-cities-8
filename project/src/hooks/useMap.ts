@@ -2,6 +2,9 @@ import { useState, useEffect, MutableRefObject } from 'react';
 import { Map, TileLayer } from 'leaflet';
 import { CityType } from '../types/offer-type';
 
+const TILE_LAYER_URL = 'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png';
+const TILE_LAYER_ATTRIBUTION = '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>';
+
 function useMap(mapRef: MutableRefObject<HTMLElement | null>, city: CityType): Map | null {
   const {location} = city;
   const [map, setMap] = useState<Map | null>(null);
@@ -17,18 +20,23 @@ function useMap(mapRef: MutableRefObject<HTMLElement | null>, city: CityType): M
       });
 
       const layer = new TileLayer (
-        'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png',
+        TILE_LAYER_URL,
         {
-          attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
+          attribution: TILE_LAYER_ATTRIBUTION,
         },
       );
 
       instance.addLayer(layer);
 
       setMap(instance);
+    } else {
+      map?.setView({
+        lat: location.latitude,
+        lng: location.longitude,
+      }, location.zoom);
     }
 
-  }, [mapRef, map, location]);
+  }, [mapRef, map, city, location]);
 
   return map;
 }

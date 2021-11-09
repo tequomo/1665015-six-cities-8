@@ -24,7 +24,7 @@ type OfferContainerPropsType = {
   currentOffer: OfferType,
 }
 
-const mapStateToProps = ({authStatus, currentOffer, isCurrentOfferLoaded, nearbyOffers, isNearbyLoaded}: State) => ({
+const mapStateToProps = ({authStatus, isCurrentOfferLoaded, nearbyOffers, isNearbyLoaded}: State) => ({
   authStatus,
   nearbyOffers,
   isCurrentOfferLoaded,
@@ -160,7 +160,7 @@ function OfferContainer({authStatus, currentOffer, nearbyOffers, isNearbyLoaded,
         </div>
         <section className="property__map map">
           <LoaderWrapper isLoad={isNearbyLoaded} >
-            <Map city={getCityData(nearbyOffers)} offers={nearbyOffers} selectedOfferId={selectedOfferId}/>
+            <Map city={getCityData(nearbyOffers)} offers={nearbyOffers} selectedOfferId={selectedOfferId} currentOffer={currentOffer}/>
           </LoaderWrapper>
         </section>
       </section>
