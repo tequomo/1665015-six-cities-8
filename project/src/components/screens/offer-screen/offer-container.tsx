@@ -1,7 +1,7 @@
 import { useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { reviews } from '../../../mock/reviews';
-import { getCityData, getRatingWidth } from '../../../utils';
+import { getCityData, getRatingWidth, getRandomItems } from '../../../utils';
 import Map from '../../layout/map/map';
 import OffersList from '../../layout/offers-list/offers-list';
 import ReviewsForm from '../../layout/reviews-form/reviews-form';
@@ -14,7 +14,9 @@ import { connect, ConnectedProps } from 'react-redux';
 import { ThunkAppDispatch } from '../../../types/action';
 import { fetchNearbyOffersAction } from '../../../services/api-actions';
 import LoaderWrapper from '../../layout/loader-wrapper/loader-wrapper';
+import InteriorGallery from './interior-gallery';
 
+const MAX_IMAGES_COUNT = 6;
 
 type ParamsPropsType = {
   id: string,
@@ -60,32 +62,15 @@ function OfferContainer({authStatus, currentOffer, nearbyOffers, isNearbyLoaded,
   };
 
   const isAuth = authStatus === AuthStatus.Auth;
-  const {isPremium, isFavorite, title, rating, type, bedrooms, maxAdults, price, goods, host:{avatarUrl, isPro, name}} = currentOffer;
+  const {images, isPremium, isFavorite, title, rating, type, bedrooms, maxAdults, price, goods, host:{avatarUrl, isPro, name}} = currentOffer;
+
+  const galleryItems = getRandomItems(images, MAX_IMAGES_COUNT);
 
   return (
     <main className="page__main page__main--property">
       <section className="property">
         <div className="property__gallery-container container">
-          <div className="property__gallery">
-            <div className="property__image-wrapper">
-              <img className="property__image" src="img/room.jpg" alt="Great Housing!" />
-            </div>
-            <div className="property__image-wrapper">
-              <img className="property__image" src="img/apartment-01.jpg" alt="Great Housing!" />
-            </div>
-            <div className="property__image-wrapper">
-              <img className="property__image" src="img/apartment-02.jpg" alt="Great Housing!" />
-            </div>
-            <div className="property__image-wrapper">
-              <img className="property__image" src="img/apartment-03.jpg" alt="Great Housing!" />
-            </div>
-            <div className="property__image-wrapper">
-              <img className="property__image" src="img/studio-01.jpg" alt="Great Housing!" />
-            </div>
-            <div className="property__image-wrapper">
-              <img className="property__image" src="img/apartment-01.jpg" alt="Great Housing!" />
-            </div>
-          </div>
+          <InteriorGallery galleryItems={galleryItems}/>
         </div>
         <div className="property__container container">
           <div className="property__wrapper">
