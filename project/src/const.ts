@@ -91,3 +91,10 @@ export enum APIRoutes {
     Favorite = '/favorite',
     Reviews = '/comments',
 }
+
+export enum LoadingStatus {
+  Idle = 'idle',
+  Loading = 'loading',
+  Succeeded = 'succeeded',
+  Failed = 'failed',
+}

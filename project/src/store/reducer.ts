@@ -1,4 +1,4 @@
-import { AuthStatus, DEFAULT_CITY, SortingTypes } from '../const';
+import { AuthStatus, DEFAULT_CITY, LoadingStatus, SortingTypes } from '../const';
 // import { offers } from '../mock/offers';
 import { Actions, ActionType } from '../types/action';
 import { State } from '../types/state';
@@ -15,6 +15,7 @@ const initialState: State = {
   isCurrentOfferLoaded: false,
   isNearbyLoaded: false,
   authUserData: null,
+  currentOfferloadingStatus: LoadingStatus.Idle,
 };
 
 const reducer = (state: State = initialState, action: Actions): State => {
@@ -56,6 +57,10 @@ const reducer = (state: State = initialState, action: Actions): State => {
     case ActionType.ReceiveAuthData:
       return {...state,
         authUserData: action.payload,
+      };
+    case ActionType.SetCurrentOfferLoadingStatus:
+      return {...state,
+        currentOfferloadingStatus: action.payload,
       };
     default:
       return state;

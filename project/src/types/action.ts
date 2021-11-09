@@ -1,6 +1,6 @@
 import { AxiosInstance } from 'axios';
 import { ThunkAction, ThunkDispatch } from 'redux-thunk';
-import { AppRoutes, AuthStatus } from '../const';
+import { AppRoutes, AuthStatus, LoadingStatus } from '../const';
 import { AuthUserData } from './auth-data';
 import { OfferType } from './offer-type';
 import { State } from './state';
@@ -17,6 +17,7 @@ export enum ActionType {
   RequireLogout = 'user/requireLogout',
   RedirectToRoute = 'main/redirectToRoute',
   ReceiveAuthData = 'user/receiveAuthData',
+  SetCurrentOfferLoadingStatus = 'data/setCurrentOfferLoadingStatus',
 }
 
 export type SelectCityAction = {
@@ -72,6 +73,11 @@ export type ReceiveAuthDataAction = {
   payload: AuthUserData,
 }
 
+export type SetLoadingStatusAction = {
+  type: ActionType.SetCurrentOfferLoadingStatus,
+  payload: LoadingStatus,
+}
+
 export type Actions =
   | SelectCityAction
   | FilterOffersAction
@@ -83,7 +89,8 @@ export type Actions =
   | RequireAuthorizationAction
   | RequireLogoutAction
   | RedirectToRouteAction
-  | ReceiveAuthDataAction;
+  | ReceiveAuthDataAction
+  | SetLoadingStatusAction;
 
 export type ThunkActionResult<R = Promise<void>> = ThunkAction<R, State, AxiosInstance, Actions>;
 

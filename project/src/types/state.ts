@@ -1,4 +1,4 @@
-import { AuthStatus } from '../const';
+import { AuthStatus, LoadingStatus } from '../const';
 import { AuthUserData } from './auth-data';
 import { OfferType } from './offer-type';
 
@@ -13,4 +13,5 @@ export type State = {
   isCurrentOfferLoaded: boolean,
   isNearbyLoaded: boolean,
   authUserData: AuthUserData | null,
+  currentOfferloadingStatus: LoadingStatus,
 }

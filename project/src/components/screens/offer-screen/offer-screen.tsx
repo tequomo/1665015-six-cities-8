@@ -8,14 +8,17 @@ import { fetchCurrentOfferAction } from '../../../services/api-actions';
 import LoaderWrapper from '../../layout/loader-wrapper/loader-wrapper';
 import OfferContainer from './offer-container';
 import { OfferType } from '../../../types/offer-type';
+import NotFoundScreen from '../not-found/not-found';
+import { LoadingStatus } from '../../../const';
 
 type ParamsPropsType = {
   id: string,
 }
 
-const mapStateToProps = ({currentOffer, isCurrentOfferLoaded}: State) => ({
+const mapStateToProps = ({currentOffer, isCurrentOfferLoaded, currentOfferloadingStatus}: State) => ({
   currentOffer,
   isCurrentOfferLoaded,
+  currentOfferloadingStatus,
 });
 
 const mapDispatchToProps = (dispatch: ThunkAppDispatch) => ({
@@ -28,13 +31,16 @@ const connector = connect(mapStateToProps, mapDispatchToProps);
 
 type PropsFromRedux = ConnectedProps<typeof connector>;
 
-function OfferScreen({currentOffer, isCurrentOfferLoaded, fetchCurrentOffer}: PropsFromRedux): JSX.Element {
+function OfferScreen({currentOffer, isCurrentOfferLoaded, currentOfferloadingStatus, fetchCurrentOffer}: PropsFromRedux): JSX.Element {
   const paramsProps = useParams<ParamsPropsType>();
 
   useEffect(() => {
     fetchCurrentOffer(paramsProps.id);
   }, [fetchCurrentOffer, paramsProps.id]);
 
+  if(currentOfferloadingStatus === LoadingStatus.Failed) {
+    return <NotFoundScreen />;
+  }
 
   return (
     <div className="page">

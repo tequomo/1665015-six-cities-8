@@ -1,5 +1,5 @@
-import { AppRoutes, AuthStatus } from '../const';
-import { ActionType, FilterOffersAction, LoadCurrentOfferAction, LoadNearbyOffersAction, LoadOffersAction, ReceiveAuthDataAction, RedirectToRouteAction, RequireAuthorizationAction, RequireLogoutAction, ResetStateAction, SelectCityAction, SelectSortingAction } from '../types/action';
+import { AppRoutes, AuthStatus, LoadingStatus } from '../const';
+import { ActionType, FilterOffersAction, LoadCurrentOfferAction, LoadNearbyOffersAction, LoadOffersAction, ReceiveAuthDataAction, RedirectToRouteAction, RequireAuthorizationAction, RequireLogoutAction, ResetStateAction, SelectCityAction, SelectSortingAction, SetLoadingStatusAction } from '../types/action';
 import { AuthUserData } from '../types/auth-data';
 import { OfferType } from '../types/offer-type';
 
@@ -30,6 +30,11 @@ export const loadOffers = (offers: OfferType[]): LoadOffersAction => ({
 export const loadCurrentOffer = (currentOffer: OfferType): LoadCurrentOfferAction => ({
   type: ActionType.LoadCurrentOffer,
   payload: currentOffer,
+} as const);
+
+export const setCurrentOfferLoadingStatus = (currentOfferloadingStatus: LoadingStatus): SetLoadingStatusAction => ({
+  type: ActionType.SetCurrentOfferLoadingStatus,
+  payload: currentOfferloadingStatus,
 } as const);
 
 export const loadNearbyOffers = (nearbyOffers: OfferType[]): LoadNearbyOffersAction => ({

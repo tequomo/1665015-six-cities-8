@@ -1,5 +1,5 @@
-import { APIRoutes, AuthStatus } from '../const';
-import { loadCurrentOffer, loadNearbyOffers, loadOffers, receiveAuthData, requireAuthorization, requireLogout } from '../store/action';
+import { APIRoutes, AuthStatus, LoadingStatus } from '../const';
+import { loadCurrentOffer, loadNearbyOffers, loadOffers, receiveAuthData, requireAuthorization, requireLogout, setCurrentOfferLoadingStatus } from '../store/action';
 import { ThunkActionResult } from '../types/action';
 import { AuthDataRequest, AuthDataResponse } from '../types/auth-data';
 import { BackendOfferType } from '../types/offer-type';
@@ -14,13 +14,12 @@ export const fetchOffersAction = (): ThunkActionResult =>
 
 export const fetchCurrentOfferAction = (id: string): ThunkActionResult =>
   async (dispatch, _getState, api): Promise<void> => {
-    // try {
-    const { data } = await api.get<BackendOfferType>(`${APIRoutes.Hotels}/${id}`);
-    dispatch(loadCurrentOffer(adaptSingleToClient(data)));
-    // } catch {
-    // eslint-disable-next-line no-console
-    // console.log('Hi!');
-    // }
+    try {
+      const { data } = await api.get<BackendOfferType>(`${APIRoutes.Hotels}/${id}`);
+      dispatch(loadCurrentOffer(adaptSingleToClient(data)));
+    } catch {
+      dispatch(setCurrentOfferLoadingStatus(LoadingStatus.Failed));
+    }
   };
 
 export const fetchNearbyOffersAction = (id: string): ThunkActionResult =>
