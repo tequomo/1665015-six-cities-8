@@ -66,7 +66,7 @@ function MainContainer({offers, reviews, onMenuItemClick, selectedCity, onSelect
           <div className="cities__right-section">
             {isDataLoaded &&
               <section className="cities__map map">
-                <MainMap city={getCityData(offers, selectedCity)} offers={offers} selectedOfferId={selectedOfferId} />
+                <MainMap city={getCityData(offers)} offers={offers} selectedOfferId={selectedOfferId} />
               </section>}
           </div>
         </div>

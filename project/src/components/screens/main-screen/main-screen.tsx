@@ -1,11 +1,9 @@
 import { useEffect, useState } from 'react';
 import { connect, ConnectedProps } from 'react-redux';
-// import { Dispatch } from 'redux';
 import { CardCustomClasses } from '../../../const';
 import { fetchOffersAction } from '../../../services/api-actions';
 import { selectCity, selectSorting } from '../../../store/action';
-import { /*Actions, */ThunkAppDispatch } from '../../../types/action';
-// import { OfferType } from '../../../types/offer-type';
+import { ThunkAppDispatch } from '../../../types/action';
 import { ReviewType } from '../../../types/review-type';
 import { State } from '../../../types/state';
 import { getCityData, getSelectedCityOffers, sortingOffers } from '../../../utils';
@@ -29,7 +27,6 @@ const mapStateToProps = ({selectedCity, offers, currentSortingType, isDataLoaded
   isDataLoaded,
 });
 
-// const mapDispatchToProps = (dispatch: Dispatch<Actions>) => ({
 const mapDispatchToProps = (dispatch: ThunkAppDispatch) => ({
   onMenuItemClick(selectedCity: string) {
     dispatch(selectCity(selectedCity));
@@ -82,7 +79,7 @@ function MainScreen({offers, reviews, onMenuItemClick, selectedCity, onSelectSor
               <div className="cities__right-section">
                 {offers.length &&
               <section className="cities__map map">
-                <MainMap city={getCityData(offers, selectedCity)} offers={offers} selectedOfferId={selectedOfferId} />
+                <MainMap city={getCityData(offers)} offers={offers} selectedOfferId={selectedOfferId} />
               </section>}
               </div>
             </div>

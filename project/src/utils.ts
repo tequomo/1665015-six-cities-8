@@ -34,6 +34,5 @@ export const sortingOffers = (currentSortingType: string, offers: OfferType[]): 
 export const isCheckedAuth = (authStatus: AuthStatus): boolean =>
   authStatus === AuthStatus.Unknown;
 
-export const getCityData = (offers: OfferType[], cityName: string): CityType => offers
-  .filter((offer) => offer.city.name === cityName)[0].city;
-  // .reduce((_city, offer) => offer.city, {});
+export const getCityData = (offers: OfferType[]): CityType => offers
+  .reduce((_city, offer) => offer.city, {} as CityType);
