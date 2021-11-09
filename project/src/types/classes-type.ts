@@ -5,13 +5,14 @@ export type PlacesClassType = {
   wrapperClassName: string,
 }
 
-export type CardClassType = {
+export type ClassType = {
   CitiesPlaces: PlacesClassType,
   NearPlaces: PlacesClassType,
   NoPlaces: NoPlacesClassType,
   PlacesSort: PlacesSortType,
   HeaderAuth: HeaderAuthType,
   CurrentOffer: CurrentOfferType,
+  MainScreen: MainScreenType,
 }
 
 export type NoPlacesClassType = {
@@ -32,4 +33,9 @@ export type HeaderAuthType = {
 export type CurrentOfferType = {
   buttonFavoriteClassName: string,
   divProClassName: string,
+}
+
+export type MainScreenType = {
+  mainClassName: string,
+  divCitiesClassName: string,
 }

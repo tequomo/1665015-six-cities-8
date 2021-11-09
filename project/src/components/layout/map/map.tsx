@@ -23,7 +23,7 @@ const activePinIcon = new Icon({
   iconAnchor: [15, 40],
 });
 
-function MainMap({city, offers, selectedOfferId}: MapPropsType): JSX.Element {
+function Map({city, offers, selectedOfferId}: MapPropsType): JSX.Element {
 
   const mapRef = useRef(null);
 
@@ -52,4 +52,4 @@ function MainMap({city, offers, selectedOfferId}: MapPropsType): JSX.Element {
   );
 }
 
-export default MainMap;
+export default Map;

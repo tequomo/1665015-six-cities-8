@@ -4,7 +4,7 @@ import './not-found.css';
 
 function NotFoundScreen(): JSX.Element {
   return (
-    <div className="page page--favorites-empty">
+    <div className="page page--gray page--main">
       <Header renderAuth />
 
       <main className="page__main">

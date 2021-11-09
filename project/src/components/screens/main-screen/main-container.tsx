@@ -5,13 +5,13 @@ import { ReviewType } from '../../../types/review-type';
 import { State } from '../../../types/state';
 import { getCityData, getSelectedCityOffers, sortingOffers } from '../../../utils';
 import Locations from '../../layout/locations/locations';
-import MainMap from '../../layout/main-map/main-map';
+import Map from '../../layout/map/map';
 import { OffersList } from '../../layout/offers-list/offers-list';
 import PlacesSort from '../../layout/places-sort/places-sort';
 import NoPlaces from './no-places';
 import { selectCity, selectSorting } from '../../../store/action';
 import { connect, ConnectedProps } from 'react-redux';
-import { CardCustomClasses } from '../../../const';
+import { CustomClasses } from '../../../const';
 
 
 type MainProps = {
@@ -61,12 +61,12 @@ function MainContainer({offers, reviews, onMenuItemClick, selectedCity, onSelect
               <h2 className="visually-hidden">Places</h2>
               <b className="places__found">{offers.length} place{offers.length > 1 ? 's' : ''} to stay in {selectedCity}</b>
               <PlacesSort onSelectSorting={onSelectSorting} currentSortingType={currentSortingType}/>
-              <OffersList offers={offers} reviews={reviews} transferActiveOfferId={getActiveOfferId} customClasses={CardCustomClasses.CitiesPlaces} isLoad={isDataLoaded}/>
+              <OffersList offers={offers} reviews={reviews} transferActiveOfferId={getActiveOfferId} customClasses={CustomClasses.CitiesPlaces} isLoad={isDataLoaded}/>
             </section> :  <NoPlaces selectedCity={selectedCity} />}
           <div className="cities__right-section">
             {isDataLoaded &&
               <section className="cities__map map">
-                <MainMap city={getCityData(offers)} offers={offers} selectedOfferId={selectedOfferId} />
+                <Map city={getCityData(offers)} offers={offers} selectedOfferId={selectedOfferId} />
               </section>}
           </div>
         </div>

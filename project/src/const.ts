@@ -1,4 +1,4 @@
-import { CardClassType } from './types/classes-type';
+import { ClassType } from './types/classes-type';
 import { SortTypes } from './types/sort';
 
 export enum AppRoutes {
@@ -42,7 +42,7 @@ export enum PinIconUrl {
 
 export const MAX_RATING_VALUE = 5;
 
-export const CardCustomClasses: CardClassType = {
+export const CustomClasses: ClassType = {
   CitiesPlaces: {
     listClassName: 'cities__places-list',
     tabsClassName: 'tabs__content',
@@ -69,6 +69,10 @@ export const CardCustomClasses: CardClassType = {
   CurrentOffer: {
     buttonFavoriteClassName: 'property__bookmark-button--active',
     divProClassName: 'property__avatar-wrapper--pro',
+  },
+  MainScreen: {
+    mainClassName: 'page__main--index-empty',
+    divCitiesClassName: 'cities__places-container--empty',
   },
 };
 

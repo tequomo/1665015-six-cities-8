@@ -2,12 +2,12 @@ import { useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { reviews } from '../../../mock/reviews';
 import { getCityData, getRatingWidth } from '../../../utils';
-import MainMap from '../../layout/main-map/main-map';
+import Map from '../../layout/map/map';
 import OffersList from '../../layout/offers-list/offers-list';
 import ReviewsForm from '../../layout/reviews-form/reviews-form';
 import ReviewsList from '../../layout/reviews-list/review-list';
 import { OfferType } from '../../../types/offer-type';
-import { CardCustomClasses, AuthStatus } from '../../../const';
+import { CustomClasses, AuthStatus } from '../../../const';
 import GoodsList from './goods-list';
 import { State } from '../../../types/state';
 import { connect, ConnectedProps } from 'react-redux';
@@ -97,7 +97,7 @@ function OfferContainer({authStatus, currentOffer, nearbyOffers, isNearbyLoaded,
               <h1 className="property__name">
                 {title}
               </h1>
-              <button className={`property__bookmark-button ${currentOffer?.isFavorite ? CardCustomClasses.CurrentOffer.buttonFavoriteClassName : ''} button`} type="button">
+              <button className={`property__bookmark-button ${currentOffer?.isFavorite ? CustomClasses.CurrentOffer.buttonFavoriteClassName : ''} button`} type="button">
                 <svg className="property__bookmark-icon" width="31" height="33">
                   <use xlinkHref="#icon-bookmark"></use>
                 </svg>
@@ -130,7 +130,7 @@ function OfferContainer({authStatus, currentOffer, nearbyOffers, isNearbyLoaded,
             <div className="property__host">
               <h2 className="property__host-title">Meet the host</h2>
               <div className="property__host-user user">
-                <div className={`property__avatar-wrapper ${isPro ? CardCustomClasses.CurrentOffer.divProClassName : ''} user__avatar-wrapper`}>
+                <div className={`property__avatar-wrapper ${isPro ? CustomClasses.CurrentOffer.divProClassName : ''} user__avatar-wrapper`}>
                   <img className="property__avatar user__avatar" src={avatarUrl} width="74" height="74" alt="Host avatar" />
                 </div>
                 <span className="property__user-name">
@@ -160,7 +160,7 @@ function OfferContainer({authStatus, currentOffer, nearbyOffers, isNearbyLoaded,
         </div>
         <section className="property__map map">
           <LoaderWrapper isLoad={isNearbyLoaded} >
-            <MainMap city={getCityData(nearbyOffers)} offers={nearbyOffers} selectedOfferId={selectedOfferId}/>
+            <Map city={getCityData(nearbyOffers)} offers={nearbyOffers} selectedOfferId={selectedOfferId}/>
           </LoaderWrapper>
         </section>
       </section>
@@ -168,7 +168,7 @@ function OfferContainer({authStatus, currentOffer, nearbyOffers, isNearbyLoaded,
         <section className="near-places places">
           <h2 className="near-places__title">Other places in the neighbourhood</h2>
           <LoaderWrapper isLoad={isNearbyLoaded} >
-            <OffersList offers={nearbyOffers} reviews={reviews} transferActiveOfferId={getActiveOfferId} customClasses={CardCustomClasses.NearPlaces} isLoad={isNearbyLoaded}/>
+            <OffersList offers={nearbyOffers} reviews={reviews} transferActiveOfferId={getActiveOfferId} customClasses={CustomClasses.NearPlaces} isLoad={isNearbyLoaded}/>
           </LoaderWrapper>
         </section>
       </div>
