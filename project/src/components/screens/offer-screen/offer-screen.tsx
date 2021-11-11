@@ -15,10 +15,10 @@ type ParamsPropsType = {
   id: string,
 }
 
-const mapStateToProps = ({currentOffer, isCurrentOfferLoaded, currentOfferloadingStatus}: State) => ({
+const mapStateToProps = ({currentOffer, isCurrentOfferLoaded, currentOfferLoadingStatus}: State) => ({
   currentOffer,
   isCurrentOfferLoaded,
-  currentOfferloadingStatus,
+  currentOfferLoadingStatus,
 });
 
 const mapDispatchToProps = (dispatch: ThunkAppDispatch) => ({
@@ -31,14 +31,14 @@ const connector = connect(mapStateToProps, mapDispatchToProps);
 
 type PropsFromRedux = ConnectedProps<typeof connector>;
 
-function OfferScreen({currentOffer, isCurrentOfferLoaded, currentOfferloadingStatus, fetchCurrentOffer}: PropsFromRedux): JSX.Element {
+function OfferScreen({currentOffer, isCurrentOfferLoaded, currentOfferLoadingStatus, fetchCurrentOffer}: PropsFromRedux): JSX.Element {
   const paramsProps = useParams<ParamsPropsType>();
 
   useEffect(() => {
     fetchCurrentOffer(paramsProps.id);
   }, [fetchCurrentOffer, paramsProps.id]);
 
-  if(currentOfferloadingStatus === LoadingStatus.Failed) {
+  if(currentOfferLoadingStatus === LoadingStatus.Failed) {
     return <NotFoundScreen />;
   }
 

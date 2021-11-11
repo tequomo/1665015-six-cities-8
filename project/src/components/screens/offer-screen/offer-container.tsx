@@ -1,5 +1,5 @@
-import { useParams } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { useParams, useHistory } from 'react-router-dom';
+import { MouseEvent, useEffect, useState } from 'react';
 import { reviews } from '../../../mock/reviews';
 import { getCityData, getRatingWidth, getRandomItems } from '../../../utils';
 import Map from '../../layout/map/map';
@@ -7,12 +7,12 @@ import OffersList from '../../layout/offers-list/offers-list';
 import ReviewsForm from '../../layout/reviews-form/reviews-form';
 import ReviewsList from '../../layout/reviews-list/review-list';
 import { OfferType } from '../../../types/offer-type';
-import { CustomClasses, AuthStatus } from '../../../const';
+import { CustomClasses, AuthStatus, LoadingStatus, AppRoutes } from '../../../const';
 import GoodsList from './goods-list';
 import { State } from '../../../types/state';
 import { connect, ConnectedProps } from 'react-redux';
 import { ThunkAppDispatch } from '../../../types/action';
-import { fetchNearbyOffersAction } from '../../../services/api-actions';
+import { fetchNearbyOffersAction, fetchOfferReviewsAction, toggleIsFavoriteAction } from '../../../services/api-actions';
 import LoaderWrapper from '../../layout/loader-wrapper/loader-wrapper';
 import InteriorGallery from './interior-gallery';
 
@@ -26,16 +26,24 @@ type OfferContainerPropsType = {
   currentOffer: OfferType,
 }
 
-const mapStateToProps = ({authStatus, isCurrentOfferLoaded, nearbyOffers, isNearbyLoaded}: State) => ({
+const mapStateToProps = ({authStatus, isCurrentOfferLoaded, nearbyOffers, isNearbyLoaded, offerReviews, offerReviewsLoadingStatus}: State) => ({
   authStatus,
   nearbyOffers,
   isCurrentOfferLoaded,
   isNearbyLoaded,
+  offerReviews,
+  offerReviewsLoadingStatus,
 });
 
 const mapDispatchToProps = (dispatch: ThunkAppDispatch) => ({
   fetchNearbyOffers(id: string) {
     dispatch(fetchNearbyOffersAction(id));
+  },
+  fetchOfferReviews(id: string) {
+    dispatch(fetchOfferReviewsAction(id));
+  },
+  toggleIsFavorite(id: number, favoriteStatus: number) {
+    dispatch(toggleIsFavoriteAction(id, favoriteStatus));
   },
 });
 
@@ -44,16 +52,15 @@ const connector = connect(mapStateToProps, mapDispatchToProps);
 type PropsFromRedux = ConnectedProps<typeof connector>;
 type ConnectedComponentProps = PropsFromRedux & OfferContainerPropsType;
 
-function OfferContainer({authStatus, currentOffer, nearbyOffers, isNearbyLoaded, fetchNearbyOffers}: ConnectedComponentProps): JSX.Element {
+function OfferContainer({authStatus, currentOffer, nearbyOffers, offerReviews, isNearbyLoaded, offerReviewsLoadingStatus, fetchOfferReviews, fetchNearbyOffers, toggleIsFavorite}: ConnectedComponentProps): JSX.Element {
 
+  const history = useHistory();
   const paramsProps = useParams<ParamsPropsType>();
 
   useEffect(() => {
     fetchNearbyOffers(paramsProps.id);
-    // fetchCurrentOfferComments(offerId);
-  }, [fetchNearbyOffers, paramsProps.id]);
-
-  const offerReviews = reviews.filter((review) => review.id === +paramsProps.id);
+    fetchOfferReviews(paramsProps.id);
+  }, [fetchNearbyOffers, fetchOfferReviews, paramsProps.id]);
 
   const [selectedOfferId, setSelectedOfferId] = useState<number | null>(null);
 
@@ -65,6 +72,19 @@ function OfferContainer({authStatus, currentOffer, nearbyOffers, isNearbyLoaded,
   const {images, description, isPremium, isFavorite, title, rating, type, bedrooms, maxAdults, price, goods, host:{avatarUrl, isPro, name}} = currentOffer;
 
   const galleryItems = getRandomItems(images, MAX_IMAGES_COUNT);
+
+  const handleFavoriteButtonClick = (evt: MouseEvent<HTMLButtonElement>) => {
+    evt.preventDefault();
+    if (!isAuth) {
+      history.push(AppRoutes.SignIn);
+      return;
+    }
+    const favoriteStatus = +(!isFavorite);
+    // eslint-disable-next-line no-console
+    console.log(favoriteStatus);
+    toggleIsFavorite(+paramsProps.id, favoriteStatus);
+    // dispatch(switchIsFavoriteAction(id, favoriteStatus));
+  };
 
   return (
     <main className="page__main page__main--property">
@@ -82,7 +102,7 @@ function OfferContainer({authStatus, currentOffer, nearbyOffers, isNearbyLoaded,
               <h1 className="property__name">
                 {title}
               </h1>
-              <button className={`property__bookmark-button ${currentOffer?.isFavorite ? CustomClasses.CurrentOffer.buttonFavoriteClassName : ''} button`} type="button">
+              <button className={`property__bookmark-button ${currentOffer?.isFavorite ? CustomClasses.CurrentOffer.buttonFavoriteClassName : ''} button`} type="button" onClick={handleFavoriteButtonClick}>
                 <svg className="property__bookmark-icon" width="31" height="33">
                   <use xlinkHref="#icon-bookmark"></use>
                 </svg>
@@ -133,7 +153,9 @@ function OfferContainer({authStatus, currentOffer, nearbyOffers, isNearbyLoaded,
               </div>
             </div>
             <section className="property__reviews reviews">
-              <ReviewsList reviews={offerReviews}/>
+              <LoaderWrapper isLoad={offerReviewsLoadingStatus === LoadingStatus.Succeeded}>
+                <ReviewsList reviews={offerReviews}/>
+              </LoaderWrapper>
               {
                 isAuth && <ReviewsForm />
               }

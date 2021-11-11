@@ -1,7 +1,8 @@
 import { AppRoutes, AuthStatus, LoadingStatus } from '../const';
-import { ActionType, FilterOffersAction, LoadCurrentOfferAction, LoadNearbyOffersAction, LoadOffersAction, ReceiveAuthDataAction, RedirectToRouteAction, RequireAuthorizationAction, RequireLogoutAction, ResetStateAction, SelectCityAction, SelectSortingAction, SetLoadingStatusAction } from '../types/action';
+import { ActionType, FilterOffersAction, LoadCurrentOfferAction, LoadFavoriteOffersAction, LoadNearbyOffersAction, LoadOfferReviewsAction, LoadOffersAction, ReceiveAuthDataAction, RedirectToRouteAction, RequireAuthorizationAction, RequireLogoutAction, ResetStateAction, SelectCityAction, SelectSortingAction, SetCurrentOfferLoadingStatusAction, SetFavoriteOffersLoadingStatusAction, SetOfferReviewsLoadingStatusAction } from '../types/action';
 import { AuthUserData } from '../types/auth-data';
 import { OfferType } from '../types/offer-type';
+import { ReviewType } from '../types/review-type';
 
 export const selectCity = (selectedCity:string ): SelectCityAction => ({
   type: ActionType.SelectCity,
@@ -32,14 +33,39 @@ export const loadCurrentOffer = (currentOffer: OfferType): LoadCurrentOfferActio
   payload: currentOffer,
 } as const);
 
-export const setCurrentOfferLoadingStatus = (currentOfferloadingStatus: LoadingStatus): SetLoadingStatusAction => ({
+export const loadOfferReviews = (offerReviews: ReviewType[]): LoadOfferReviewsAction => ({
+  type: ActionType.LoadOfferReviews,
+  payload: offerReviews,
+} as const);
+
+export const setCurrentOfferLoadingStatus = (currentOfferLoadingStatus: LoadingStatus): SetCurrentOfferLoadingStatusAction => ({
   type: ActionType.SetCurrentOfferLoadingStatus,
-  payload: currentOfferloadingStatus,
+  payload: currentOfferLoadingStatus,
+} as const);
+
+export const setOfferReviewsLoadingStatus = (offerReviewsLoadingStatus: LoadingStatus): SetOfferReviewsLoadingStatusAction => ({
+  type: ActionType.SetOfferReviewsLoadingStatus,
+  payload: offerReviewsLoadingStatus,
+} as const);
+
+export const setFavoriteOffersLoadingStatus = (favoriteOffersLoadingStatus: LoadingStatus): SetFavoriteOffersLoadingStatusAction => ({
+  type: ActionType.SetFavoriteOffersLoadingStatus,
+  payload: favoriteOffersLoadingStatus,
 } as const);
 
 export const loadNearbyOffers = (nearbyOffers: OfferType[]): LoadNearbyOffersAction => ({
   type: ActionType.LoadNearbyOffers,
   payload: nearbyOffers,
+} as const);
+
+export const loadFavoriteOffers = (favoriteOffers: OfferType[]): LoadFavoriteOffersAction => ({
+  type: ActionType.LoadFavoriteOffers,
+  payload: favoriteOffers,
+} as const);
+
+export const toggleIsFavorite = (favoriteOffers: OfferType[]): LoadFavoriteOffersAction => ({
+  type: ActionType.LoadFavoriteOffers,
+  payload: favoriteOffers,
 } as const);
 
 export const requireAuthorization = (authStatus: AuthStatus): RequireAuthorizationAction => ({
