@@ -16,3 +16,8 @@ export type ReviewType = {
 };
 
 export type BackendReviewType = Omit<ReviewType, 'user'> & {user: BackendHostType};
+
+export type PostReviewType = {
+  comment: string,
+  rating: number,
+};

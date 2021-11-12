@@ -1,9 +1,9 @@
 import { APIRoutes, AuthStatus, LoadingStatus } from '../const';
-import { loadCurrentOffer, loadFavoriteOffers, loadNearbyOffers, loadOfferReviews, loadOffers, receiveAuthData, requireAuthorization, requireLogout, setCurrentOfferLoadingStatus, setFavoriteOffersLoadingStatus, setOfferReviewsLoadingStatus } from '../store/action';
+import { loadCurrentOffer, loadFavoriteOffers, loadNearbyOffers, loadOfferReviews, loadOffers, receiveAuthData, requireAuthorization, requireLogout, setCurrentOfferLoadingStatus, setFavoriteOffersLoadingStatus, setOfferReviewsLoadingStatus, setReviewLoadingStatus } from '../store/action';
 import { ThunkActionResult } from '../types/action';
 import { AuthDataRequest, AuthDataResponse } from '../types/auth-data';
 import { BackendOfferType } from '../types/offer-type';
-import { BackendReviewType } from '../types/review-type';
+import { BackendReviewType, PostReviewType } from '../types/review-type';
 import { adaptSingleToClient, adaptMultipleToClient, adaptAuthDataToClient, adaptSomeReviewsToClient } from './adapter';
 import { dropToken, saveToken } from './token';
 
@@ -51,6 +51,13 @@ export const fetchOfferReviewsAction = (id: string): ThunkActionResult =>
     } catch {
       dispatch(setOfferReviewsLoadingStatus(LoadingStatus.Failed));
     }
+  };
+
+export const postOfferReviewAction = (id: string, { comment, rating }: PostReviewType): ThunkActionResult =>
+  async (dispatch, _getState, api) => {
+    const { data } =  await api.post((`${APIRoutes.Reviews}/${id}`), { comment, rating });
+    dispatch(loadOfferReviews(adaptSomeReviewsToClient(data)));
+    dispatch(setReviewLoadingStatus(LoadingStatus.Succeeded));
   };
 
 export const fetchNearbyOffersAction = (id: string): ThunkActionResult =>

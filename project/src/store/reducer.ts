@@ -20,6 +20,7 @@ const initialState: State = {
   currentOfferLoadingStatus: LoadingStatus.Idle,
   offerReviewsLoadingStatus: LoadingStatus.Idle,
   favoriteOffersLoadingStatus: LoadingStatus.Idle,
+  reviewLoadingStatus: LoadingStatus.Idle,
 };
 
 const reducer = (state: State = initialState, action: Actions): State => {
@@ -101,6 +102,11 @@ const reducer = (state: State = initialState, action: Actions): State => {
       return {
         ...state,
         offerReviewsLoadingStatus: action.payload,
+      };
+    case ActionType.SetReviewLoadingStatus:
+      return {
+        ...state,
+        reviewLoadingStatus: action.payload,
       };
     default:
       return state;

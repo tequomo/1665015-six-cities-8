@@ -32,7 +32,6 @@ type PropsFromRedux = ConnectedProps<typeof connector>;
 
 
 function FavoritesScreen({ favoriteOffers, fetchFavoriteOffers, favoriteOffersLoadingStatus }: PropsFromRedux): JSX.Element {
-  // function FavoritesScreen({offers}: FavoritesPropsType): JSX.Element {
 
   useEffect(() => {
     fetchFavoriteOffers();

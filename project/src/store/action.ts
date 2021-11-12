@@ -1,5 +1,5 @@
 import { AppRoutes, AuthStatus, LoadingStatus } from '../const';
-import { ActionType, FilterOffersAction, LoadCurrentOfferAction, LoadFavoriteOffersAction, LoadNearbyOffersAction, LoadOfferReviewsAction, LoadOffersAction, ReceiveAuthDataAction, RedirectToRouteAction, RequireAuthorizationAction, RequireLogoutAction, ResetStateAction, SelectCityAction, SelectSortingAction, SetCurrentOfferLoadingStatusAction, SetFavoriteOffersLoadingStatusAction, SetOfferReviewsLoadingStatusAction } from '../types/action';
+import { ActionType, FilterOffersAction, LoadCurrentOfferAction, LoadFavoriteOffersAction, LoadNearbyOffersAction, LoadOfferReviewsAction, LoadOffersAction, ReceiveAuthDataAction, RedirectToRouteAction, RequireAuthorizationAction, RequireLogoutAction, ResetStateAction, SelectCityAction, SelectSortingAction, SetCurrentOfferLoadingStatusAction, SetFavoriteOffersLoadingStatusAction, SetOfferReviewsLoadingStatusAction, SetReviewLoadingStatusAction } from '../types/action';
 import { AuthUserData } from '../types/auth-data';
 import { OfferType } from '../types/offer-type';
 import { ReviewType } from '../types/review-type';
@@ -46,6 +46,11 @@ export const setCurrentOfferLoadingStatus = (currentOfferLoadingStatus: LoadingS
 export const setOfferReviewsLoadingStatus = (offerReviewsLoadingStatus: LoadingStatus): SetOfferReviewsLoadingStatusAction => ({
   type: ActionType.SetOfferReviewsLoadingStatus,
   payload: offerReviewsLoadingStatus,
+} as const);
+
+export const setReviewLoadingStatus = (reviewLoadingStatus: LoadingStatus): SetReviewLoadingStatusAction => ({
+  type: ActionType.SetReviewLoadingStatus,
+  payload: reviewLoadingStatus,
 } as const);
 
 export const setFavoriteOffersLoadingStatus = (favoriteOffersLoadingStatus: LoadingStatus): SetFavoriteOffersLoadingStatusAction => ({

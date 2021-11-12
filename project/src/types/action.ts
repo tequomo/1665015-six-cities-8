@@ -3,7 +3,7 @@ import { ThunkAction, ThunkDispatch } from 'redux-thunk';
 import { AppRoutes, AuthStatus, LoadingStatus } from '../const';
 import { AuthUserData } from './auth-data';
 import { OfferType } from './offer-type';
-import { ReviewType } from './review-type';
+import { PostReviewType, ReviewType } from './review-type';
 import { State } from './state';
 
 export enum ActionType {
@@ -25,6 +25,7 @@ export enum ActionType {
   SetFavoriteOffersLoadingStatus = 'data/setFavoriteOffersLoadingStatus',
   SendOfferReview = 'data/sendOfferReview',
   ToggleIsFavorite = 'data/toggleFavorite',
+  SetReviewLoadingStatus = 'data/setReviewLoadingStatus',
 }
 
 export type SelectCityAction = {
@@ -108,7 +109,16 @@ export type SetFavoriteOffersLoadingStatusAction = {
 export type ToggleIsFavoriteAction = {
   type: ActionType.ToggleIsFavorite,
   payload: OfferType;
+}
 
+export type SendOfferReviewAction = {
+  type: ActionType.SendOfferReview,
+  payload: PostReviewType,
+}
+
+export type SetReviewLoadingStatusAction = {
+  type: ActionType.SetReviewLoadingStatus;
+  payload: LoadingStatus,
 }
 
 export type Actions =
@@ -128,7 +138,9 @@ export type Actions =
   | SetCurrentOfferLoadingStatusAction
   | SetOfferReviewsLoadingStatusAction
   | SetFavoriteOffersLoadingStatusAction
-  | ToggleIsFavoriteAction;
+  | ToggleIsFavoriteAction
+  | SendOfferReviewAction
+  | SetReviewLoadingStatusAction;
 
 export type ThunkActionResult<R = Promise<void>> = ThunkAction<R, State, AxiosInstance, Actions>;
 

@@ -19,4 +19,5 @@ export type State = {
   currentOfferLoadingStatus: LoadingStatus,
   offerReviewsLoadingStatus: LoadingStatus,
   favoriteOffersLoadingStatus: LoadingStatus,
+  reviewLoadingStatus: LoadingStatus,
 }
