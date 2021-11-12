@@ -4,7 +4,6 @@ import { CustomClasses } from '../../../const';
 import { fetchOffersAction } from '../../../services/api-actions';
 import { selectCity, selectSorting } from '../../../store/action';
 import { ThunkAppDispatch } from '../../../types/action';
-import { ReviewType } from '../../../types/review-type';
 import { State } from '../../../types/state';
 import { getCityData, getSelectedCityOffers, sortingOffers } from '../../../utils';
 import Header from '../../layout/header/header';
@@ -16,7 +15,6 @@ import PlacesSort from '../../layout/places-sort/places-sort';
 import NoPlaces from './no-places';
 
 type MainProps = {
-  reviews: ReviewType[],
   selectedCity: string,
 }
 
@@ -45,7 +43,7 @@ type PropsFromRedux = ConnectedProps<typeof connector>;
 type ConnectedComponentProps = PropsFromRedux & MainProps;
 
 
-function MainScreen({offers, reviews, onMenuItemClick, selectedCity, onSelectSorting, currentSortingType, isDataLoaded, fetchOffers}: ConnectedComponentProps): JSX.Element {
+function MainScreen({offers, onMenuItemClick, selectedCity, onSelectSorting, currentSortingType, isDataLoaded, fetchOffers}: ConnectedComponentProps): JSX.Element {
 
   useEffect(() => {
     fetchOffers();
@@ -76,7 +74,7 @@ function MainScreen({offers, reviews, onMenuItemClick, selectedCity, onSelectSor
                   <h2 className="visually-hidden">Places</h2>
                   <b className="places__found">{offers.length} place{offers.length > 1 ? 's' : ''} to stay in {selectedCity}</b>
                   <PlacesSort onSelectSorting={onSelectSorting} currentSortingType={currentSortingType}/>
-                  <OffersList offers={offers} reviews={reviews} transferActiveOfferId={getActiveOfferId} customClasses={CustomClasses.CitiesPlaces} isLoad={isDataLoaded}/>
+                  <OffersList offers={offers} transferActiveOfferId={getActiveOfferId} customClasses={CustomClasses.CitiesPlaces} isLoad={isDataLoaded}/>
                 </section> :  <NoPlaces selectedCity={selectedCity} />}
               <div className="cities__right-section">
                 {offers.length &&

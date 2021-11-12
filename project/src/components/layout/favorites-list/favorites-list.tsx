@@ -2,12 +2,12 @@ import { OfferType } from '../../../types/offer-type';
 import FavoritesLocations from '../favorites-locations/favorites-locations';
 
 type FavoriteListPropsType = {
-  offers: OfferType[]
+  favoriteOffers: OfferType[]
 }
 
-function FavoritesList({offers}: FavoriteListPropsType): JSX.Element {
-  const favorites: OfferType[] = offers.filter((offer) => offer.isFavorite);
-  const favoriteCities: string[] = [...new Set(favorites.map((favorite) => favorite.city.name))];
+function FavoritesList({favoriteOffers}: FavoriteListPropsType): JSX.Element {
+  // const favorites: OfferType[] = offers.filter((offer) => offer.isFavorite);
+  const favoriteCities: string[] = [...new Set(favoriteOffers.map((favorite) => favorite.city.name))];
 
   return (
     <section className="favorites">
@@ -15,7 +15,7 @@ function FavoritesList({offers}: FavoriteListPropsType): JSX.Element {
       <ul className="favorites__list">
         {
           favoriteCities
-            .map((city) => <FavoritesLocations key={city} locationsOffers={favorites.filter((favorite) => (favorite.city.name === city))} />,
+            .map((city) => <FavoritesLocations key={city} locationsOffers={favoriteOffers.filter((favorite) => (favorite.city.name === city))} />,
             )
         }
       </ul>

@@ -6,47 +6,25 @@ import OfferScreen from '../screens/offer-screen/offer-screen';
 import NotFoundScreen from '../screens/not-found/not-found';
 import { AppRoutes } from '../../const';
 import PrivateRoute from '../routes/private-route';
-import { OfferType } from '../../types/offer-type';
-import { ReviewType } from '../../types/review-type';
-// import { State } from '../../types/state';
-// import { connect, ConnectedProps } from 'react-redux';
-// import { isCheckedAuth } from '../../utils';
-// import Loader from '../screens/loader/loader';
+// import { OfferType } from '../../types/offer-type';
+// import { ReviewType } from '../../types/review-type';
 
-type MainProps = {
-  offers: OfferType[],
-  reviews: ReviewType[],
-}
+// type MainProps = {
+//   offers: OfferType[],
+//   reviews: ReviewType[],
+// }
 
-// const mapStateToProps = ({authStatus, isDataLoaded}: State) => ({
-//   authStatus,
-//   isDataLoaded,
-// });
-
-// const connector = connect(mapStateToProps);
-
-// type PropsFromRedux = ConnectedProps<typeof connector>;
-// type ConnectedComponentProps = PropsFromRedux & MainProps;
-
-function App({offers, reviews}: MainProps): JSX.Element {
-// function App({authStatus, isDataLoaded, offers, reviews}: ConnectedComponentProps): JSX.Element {
-
-  // if (isCheckedAuth(authStatus) || !isDataLoaded) {
-  //   return (
-  //     <Loader />
-  //   );
-  // }
-
+function App(): JSX.Element {
   return (
     <BrowserRouter>
       <Switch>
         <Route exact path={AppRoutes.Main}>
-          <MainScreen reviews={reviews}/>
+          <MainScreen />
         </Route>
         <Route exact path={AppRoutes.SignIn}>
           <SignInScreen />
         </Route>
-        <PrivateRoute exact path={AppRoutes.Favorites} render={() => <FavoritesScreen offers={offers}/>}>
+        <PrivateRoute exact path={AppRoutes.Favorites} render={() => <FavoritesScreen />}>
         </PrivateRoute>
         <Route exact path={AppRoutes.Room}>
           <OfferScreen />

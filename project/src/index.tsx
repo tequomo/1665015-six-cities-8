@@ -1,8 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './components/app/app';
-import { offers } from './mock/offers';
-import { reviews } from './mock/reviews';
 import { reducer } from './store/reducer';
 import { applyMiddleware, createStore } from 'redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
@@ -32,7 +30,7 @@ const store = createStore(
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
-      <App offers={offers} reviews={reviews}/>
+      <App />
     </Provider>
   </React.StrictMode>,
   document.getElementById('root'));

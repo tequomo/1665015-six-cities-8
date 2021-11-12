@@ -74,6 +74,9 @@ export const CustomClasses: ClassType = {
     mainClassName: 'page__main--index-empty',
     divCitiesClassName: 'cities__places-container--empty',
   },
+  FavoritesScreen: {
+    mainClassName: 'page__main--favorites-empty',
+  },
 };
 
 export const SortingTypes: SortTypes =  {

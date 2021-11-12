@@ -1,7 +1,6 @@
 import { Actions } from '../../../types/action';
 import { useState } from 'react';
 import { Dispatch } from 'redux';
-import { ReviewType } from '../../../types/review-type';
 import { State } from '../../../types/state';
 import { getCityData, getSelectedCityOffers, sortingOffers } from '../../../utils';
 import Locations from '../../layout/locations/locations';
@@ -15,7 +14,6 @@ import { CustomClasses } from '../../../const';
 
 
 type MainProps = {
-  reviews: ReviewType[],
   selectedCity: string,
 }
 
@@ -40,7 +38,7 @@ const connector = connect(mapStateToProps, mapDispatchToProps);
 type PropsFromRedux = ConnectedProps<typeof connector>;
 type ConnectedComponentProps = PropsFromRedux & MainProps;
 
-function MainContainer({offers, reviews, onMenuItemClick, selectedCity, onSelectSorting, currentSortingType, isDataLoaded}: ConnectedComponentProps): JSX.Element {
+function MainContainer({offers, onMenuItemClick, selectedCity, onSelectSorting, currentSortingType, isDataLoaded}: ConnectedComponentProps): JSX.Element {
 
   const [selectedOfferId, setSelectedOfferId] = useState<number | null>(null);
 
@@ -61,7 +59,7 @@ function MainContainer({offers, reviews, onMenuItemClick, selectedCity, onSelect
               <h2 className="visually-hidden">Places</h2>
               <b className="places__found">{offers.length} place{offers.length > 1 ? 's' : ''} to stay in {selectedCity}</b>
               <PlacesSort onSelectSorting={onSelectSorting} currentSortingType={currentSortingType}/>
-              <OffersList offers={offers} reviews={reviews} transferActiveOfferId={getActiveOfferId} customClasses={CustomClasses.CitiesPlaces} isLoad={isDataLoaded}/>
+              <OffersList offers={offers} transferActiveOfferId={getActiveOfferId} customClasses={CustomClasses.CitiesPlaces} isLoad={isDataLoaded}/>
             </section> :  <NoPlaces selectedCity={selectedCity} />}
           <div className="cities__right-section">
             {isDataLoaded &&

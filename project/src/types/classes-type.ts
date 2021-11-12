@@ -13,6 +13,7 @@ export type ClassType = {
   HeaderAuth: HeaderAuthType,
   CurrentOffer: CurrentOfferType,
   MainScreen: MainScreenType,
+  FavoritesScreen: FavotitesScreenType,
 }
 
 export type NoPlacesClassType = {
@@ -38,4 +39,8 @@ export type CurrentOfferType = {
 export type MainScreenType = {
   mainClassName: string,
   divCitiesClassName: string,
+}
+
+export type FavotitesScreenType = {
+  mainClassName: string,
 }

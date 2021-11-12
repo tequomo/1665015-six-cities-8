@@ -1,6 +1,5 @@
 import { useParams, useHistory } from 'react-router-dom';
 import { MouseEvent, useEffect, useState } from 'react';
-import { reviews } from '../../../mock/reviews';
 import { getCityData, getRatingWidth, getRandomItems } from '../../../utils';
 import Map from '../../layout/map/map';
 import OffersList from '../../layout/offers-list/offers-list';
@@ -83,7 +82,6 @@ function OfferContainer({authStatus, currentOffer, nearbyOffers, offerReviews, i
     // eslint-disable-next-line no-console
     console.log(favoriteStatus);
     toggleIsFavorite(+paramsProps.id, favoriteStatus);
-    // dispatch(switchIsFavoriteAction(id, favoriteStatus));
   };
 
   return (
@@ -172,7 +170,7 @@ function OfferContainer({authStatus, currentOffer, nearbyOffers, offerReviews, i
         <section className="near-places places">
           <h2 className="near-places__title">Other places in the neighbourhood</h2>
           <LoaderWrapper isLoad={isNearbyLoaded} >
-            <OffersList offers={nearbyOffers} reviews={reviews} transferActiveOfferId={getActiveOfferId} customClasses={CustomClasses.NearPlaces} isLoad={isNearbyLoaded}/>
+            <OffersList offers={nearbyOffers} transferActiveOfferId={getActiveOfferId} customClasses={CustomClasses.NearPlaces} isLoad={isNearbyLoaded}/>
           </LoaderWrapper>
         </section>
       </div>

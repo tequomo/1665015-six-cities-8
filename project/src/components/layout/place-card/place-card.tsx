@@ -3,12 +3,10 @@ import { Link } from 'react-router-dom';
 import { AppRoutes } from '../../../const';
 import { PlacesClassType } from '../../../types/classes-type';
 import { OfferType } from '../../../types/offer-type';
-import { ReviewType } from '../../../types/review-type';
 import { capitalizeWord, getRatingWidth } from '../../../utils';
 
 type CardPropsType = {
   offer: OfferType,
-  reviews: ReviewType[],
   onCardOver: (id: number) => void,
   onCardOut: () => void,
   customClasses: PlacesClassType,
@@ -22,7 +20,7 @@ function PlaceCardMark(): JSX.Element {
   );
 }
 
-function PlaceCard({offer, reviews, onCardOver, onCardOut, customClasses}: CardPropsType): JSX.Element {
+function PlaceCard({offer, onCardOver, onCardOut, customClasses}: CardPropsType): JSX.Element {
   const { isPremium, isFavorite, price, type, title, rating, previewImage, id } = offer;
   const {cardClassName, wrapperClassName} = customClasses;
   return (

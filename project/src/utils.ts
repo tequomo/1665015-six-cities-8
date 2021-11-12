@@ -38,3 +38,18 @@ export const getCityData = (offers: OfferType[]): CityType => offers
   .reduce((_city, offer) => offer.city, {} as CityType);
 
 export const getRandomItems = (items: string[], length: number): string[] => items.sort(() => 0.5 - Math.random()).slice(0,length);
+
+
+// export const updateOffersWithFavorites = (offers: OfferType[], updateData: OfferType): OfferType[] => {
+//   const updateDataIndex = offers.findIndex((offer) => offer.id === updateData.id);
+//   if (updateDataIndex === -1) {
+//     return [
+//       ...offers,
+//       updateData,
+//     ];
+//   }
+//   return [
+//     ...offers.slice(0, updateDataIndex),
+//     ...offers.slice(updateDataIndex + 1),
+//   ];
+// };
