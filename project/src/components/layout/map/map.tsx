@@ -9,6 +9,7 @@ type MapPropsType = {
   city: CityType,
   offers: OfferType[],
   selectedOfferId: number | null,
+  currentOffer?: OfferType,
 }
 
 const defaultPinIcon = new Icon({
@@ -23,7 +24,7 @@ const activePinIcon = new Icon({
   iconAnchor: [15, 40],
 });
 
-function MainMap({city, offers, selectedOfferId}: MapPropsType): JSX.Element {
+function Map({city, offers, selectedOfferId, currentOffer}: MapPropsType): JSX.Element {
 
   const mapRef = useRef(null);
 
@@ -31,6 +32,16 @@ function MainMap({city, offers, selectedOfferId}: MapPropsType): JSX.Element {
 
   useEffect(() => {
     if(map) {
+
+      if (currentOffer) {
+        const currentMarker = new Marker({
+          lat: currentOffer.location.latitude,
+          lng: currentOffer.location.longitude,
+        });
+        currentMarker.setIcon(activePinIcon)
+          .addTo(map);
+      }
+
       offers.forEach((offer) => {
         const offerMarker = new Marker({
           lat: offer.location.latitude,
@@ -44,7 +55,7 @@ function MainMap({city, offers, selectedOfferId}: MapPropsType): JSX.Element {
           .addTo(map);
       });
     }
-  }, [map, offers, selectedOfferId]);
+  }, [map, offers, city, selectedOfferId, currentOffer]);
 
   return (
     <div style={{height: '100%'}} ref={mapRef}>
@@ -52,4 +63,4 @@ function MainMap({city, offers, selectedOfferId}: MapPropsType): JSX.Element {
   );
 }
 
-export default MainMap;
+export default Map;

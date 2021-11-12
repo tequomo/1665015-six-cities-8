@@ -2,18 +2,17 @@ import { useState } from 'react';
 import withLoader from '../../../hoc/withloader';
 import { PlacesClassType } from '../../../types/classes-type';
 import { OfferType } from '../../../types/offer-type';
-import { ReviewType } from '../../../types/review-type';
+// import { ReviewType } from '../../../types/review-type';
 import PlaceCard from '../place-card/place-card';
 
 export type OffersListPropsType = {
   offers: OfferType[],
-  reviews: ReviewType[],
   transferActiveOfferId: (id: number | null) => void,
   customClasses: PlacesClassType,
   isLoad: boolean,
 }
 
-function OffersList({offers, reviews, transferActiveOfferId, customClasses}: OffersListPropsType): JSX.Element {
+function OffersList({offers, transferActiveOfferId, customClasses}: OffersListPropsType): JSX.Element {
   const {listClassName, tabsClassName} = customClasses;
   const [activeCardId, setActiveCardId] = useState<number | null>(null);
 
@@ -36,8 +35,8 @@ function OffersList({offers, reviews, transferActiveOfferId, customClasses}: Off
       {
         offers.map((offer: OfferType) => {
           const keyValue = `${offer.id}-${offer.city.name}`;
-          const offerReviews = reviews.filter((review) => review.id === offer.id);
-          return <PlaceCard key={keyValue} offer={offer} reviews={offerReviews} onCardOver={handleMouseEnter} onCardOut={handleMouseLeave} customClasses={customClasses}/>;
+          // const offerReviews = reviews.filter((review) => review.id === offer.id);
+          return <PlaceCard key={keyValue} offer={offer} onCardOver={handleMouseEnter} onCardOut={handleMouseLeave} customClasses={customClasses}/>;
         },
         )
       }

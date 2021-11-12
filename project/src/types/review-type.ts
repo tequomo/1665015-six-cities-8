@@ -1,14 +1,23 @@
-type UserType = {
-  avatarUrl: string,
-  id: number,
-  isPro: boolean,
-  name: string,
-}
+import { BackendHostType, HostType } from './offer-type';
+
+// type UserType = {
+//   avatarUrl: string,
+//   id: number,
+//   isPro: boolean,
+//   name: string,
+// }
 
 export type ReviewType = {
   comment: string,
   date: string,
   id: number,
   rating: number,
-  user: UserType,
+  user: HostType,
+};
+
+export type BackendReviewType = Omit<ReviewType, 'user'> & {user: BackendHostType};
+
+export type PostReviewType = {
+  comment: string,
+  rating: number,
 };

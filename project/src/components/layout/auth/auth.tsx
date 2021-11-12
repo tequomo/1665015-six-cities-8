@@ -1,7 +1,7 @@
 import { MouseEvent } from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { AppRoutes, AuthStatus, CardCustomClasses } from '../../../const';
+import { AppRoutes, AuthStatus, CustomClasses } from '../../../const';
 import { logoutAction } from '../../../services/api-actions';
 import { ThunkAppDispatch } from '../../../types/action';
 import { State } from '../../../types/state';
@@ -37,7 +37,7 @@ function Auth({authStatus, authUserData, onSignOutClick}: PropsFromRedux): JSX.E
           <Link className="header__nav-link header__nav-link--profile" to={isAuth ? AppRoutes.Favorites : AppRoutes.SignIn}>
             <div className="header__avatar-wrapper user__avatar-wrapper" style={isAuth ? {backgroundImage: `url(${authUserData?.avatarUrl})`, borderRadius: '50%'} : {}}>
             </div>
-            <span className={isAuth ? CardCustomClasses.HeaderAuth.spanAuthClassName : CardCustomClasses.HeaderAuth.spanNoAuthClassName}>{isAuth ? authUserData?.email : 'Sign in'}</span>
+            <span className={isAuth ? CustomClasses.HeaderAuth.spanAuthClassName : CustomClasses.HeaderAuth.spanNoAuthClassName}>{isAuth ? authUserData?.email : 'Sign in'}</span>
           </Link>
         </li>
         {

@@ -11,7 +11,10 @@ function ReviewsList({reviews}: ReviewsListPropsType): JSX.Element {
       <h2 className="reviews__title">Reviews &middot; <span className="reviews__amount">{reviews.length}</span></h2>
       <ul className="reviews__list">
         {
-          reviews.map((review) => <ReviewsItem key={`${review.id}-${review.user.name}`} review={review}/>)
+          reviews
+            // .sort((a, b) => b.date - a.date)
+            .slice(0, 10)
+            .map((review) => <ReviewsItem key={`${review.id}-${review.user.name}`} review={review}/>)
         }
       </ul>
     </>

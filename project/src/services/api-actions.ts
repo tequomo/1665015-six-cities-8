@@ -1,9 +1,10 @@
-import { APIRoutes, AuthStatus } from '../const';
-import { loadCurrentOffer, loadNearbyOffers, loadOffers, receiveAuthData, requireAuthorization, requireLogout } from '../store/action';
+import { APIRoutes, AuthStatus, LoadingStatus } from '../const';
+import { loadCurrentOffer, loadFavoriteOffers, loadNearbyOffers, loadOfferReviews, loadOffers, receiveAuthData, requireAuthorization, requireLogout, setCurrentOfferLoadingStatus, setFavoriteOffersLoadingStatus, setOfferReviewsLoadingStatus, setReviewLoadingStatus } from '../store/action';
 import { ThunkActionResult } from '../types/action';
 import { AuthDataRequest, AuthDataResponse } from '../types/auth-data';
 import { BackendOfferType } from '../types/offer-type';
-import { adaptSingleToClient, adaptMultipleToClient, adaptAuthDataToClient } from './adapter';
+import { BackendReviewType, PostReviewType } from '../types/review-type';
+import { adaptSingleToClient, adaptMultipleToClient, adaptAuthDataToClient, adaptSomeReviewsToClient } from './adapter';
 import { dropToken, saveToken } from './token';
 
 export const fetchOffersAction = (): ThunkActionResult =>
@@ -14,8 +15,49 @@ export const fetchOffersAction = (): ThunkActionResult =>
 
 export const fetchCurrentOfferAction = (id: string): ThunkActionResult =>
   async (dispatch, _getState, api): Promise<void> => {
-    const { data } = await api.get<BackendOfferType>(`${APIRoutes.Hotels}/${id}`);
-    dispatch(loadCurrentOffer(adaptSingleToClient(data)));
+    try {
+      const { data } = await api.get<BackendOfferType>(`${APIRoutes.Hotels}/${id}`);
+      dispatch(loadCurrentOffer(adaptSingleToClient(data)));
+    } catch {
+      dispatch(setCurrentOfferLoadingStatus(LoadingStatus.Failed));
+    }
+  };
+
+export const fetchFavoriteOffersAction = (): ThunkActionResult =>
+  async (dispatch, _getState, api): Promise<void> => {
+    try {
+      const { data } = await api.get<BackendOfferType[]>(APIRoutes.Favorite);
+      dispatch(loadFavoriteOffers(adaptMultipleToClient(data)));
+    } catch {
+      dispatch(setFavoriteOffersLoadingStatus(LoadingStatus.Failed));
+    }
+  };
+
+export const toggleIsFavoriteAction = (id: number, favoriteStatus: number): ThunkActionResult =>
+  async (dispatch, _getState, api): Promise<void> => {
+    try {
+      const { data } = await api.post<BackendOfferType>(`${APIRoutes.Favorite}/${id}/${favoriteStatus}`);
+      dispatch(loadCurrentOffer(adaptSingleToClient(data)));
+    } catch {
+      // dispatch(setCurrentOfferLoadingStatus(LoadingStatus.Failed));
+    }
+  };
+
+export const fetchOfferReviewsAction = (id: string): ThunkActionResult =>
+  async (dispatch, _getState, api): Promise<void> => {
+    try {
+      const { data } = await api.get<BackendReviewType[]>(`${APIRoutes.Reviews}/${id}`);
+      dispatch(loadOfferReviews(adaptSomeReviewsToClient(data)));
+    } catch {
+      dispatch(setOfferReviewsLoadingStatus(LoadingStatus.Failed));
+    }
+  };
+
+export const postOfferReviewAction = (id: string, { comment, rating }: PostReviewType): ThunkActionResult =>
+  async (dispatch, _getState, api) => {
+    const { data } =  await api.post((`${APIRoutes.Reviews}/${id}`), { comment, rating });
+    dispatch(loadOfferReviews(adaptSomeReviewsToClient(data)));
+    dispatch(setReviewLoadingStatus(LoadingStatus.Succeeded));
   };
 
 export const fetchNearbyOffersAction = (id: string): ThunkActionResult =>

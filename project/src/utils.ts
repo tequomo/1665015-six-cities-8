@@ -34,6 +34,22 @@ export const sortingOffers = (currentSortingType: string, offers: OfferType[]): 
 export const isCheckedAuth = (authStatus: AuthStatus): boolean =>
   authStatus === AuthStatus.Unknown;
 
-export const getCityData = (offers: OfferType[], cityName: string): CityType => offers
-  .filter((offer) => offer.city.name === cityName)[0].city;
-  // .reduce((_city, offer) => offer.city, {});
+export const getCityData = (offers: OfferType[]): CityType => offers
+  .reduce((_city, offer) => offer.city, {} as CityType);
+
+export const getRandomItems = (items: string[], length: number): string[] => items.sort(() => 0.5 - Math.random()).slice(0,length);
+
+
+// export const updateOffersWithFavorites = (offers: OfferType[], updateData: OfferType): OfferType[] => {
+//   const updateDataIndex = offers.findIndex((offer) => offer.id === updateData.id);
+//   if (updateDataIndex === -1) {
+//     return [
+//       ...offers,
+//       updateData,
+//     ];
+//   }
+//   return [
+//     ...offers.slice(0, updateDataIndex),
+//     ...offers.slice(updateDataIndex + 1),
+//   ];
+// };
