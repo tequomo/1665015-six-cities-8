@@ -9,8 +9,8 @@ import { State } from '../../../types/state';
 import { LoadingStatus } from '../../../const';
 
 type ReviewElementsType = {
-  offerReview: string,
-  offerRank: number,
+  comment: string,
+  rating: number,
 }
 
 const MIN_REVIEW_LENGTH = 50;
@@ -20,9 +20,8 @@ const mapStateToProps = ({reviewLoadingStatus}: State) => ({
 });
 
 const mapDispatchToProps = (dispatch: ThunkAppDispatch) => ({
-  handleFormSubmit(id: string, offerReview: string, offerRank: number): void {
-    const review = {comment: offerReview, rating: offerRank};
-    dispatch(postOfferReviewAction(id, review));
+  postOfferReview(id: string, userReview: ReviewElementsType): void {
+    dispatch(postOfferReviewAction(id, userReview));
     dispatch(fetchOfferReviewsAction(id));
   },
 });
@@ -32,11 +31,11 @@ const connector = connect(mapStateToProps, mapDispatchToProps);
 type PropsFromRedux = ConnectedProps<typeof connector>;
 
 
-function ReviewsForm({handleFormSubmit, reviewLoadingStatus}: PropsFromRedux): JSX.Element {
+function ReviewsForm({postOfferReview, reviewLoadingStatus}: PropsFromRedux): JSX.Element {
 
   const [userReview, setUserReview] = useState<ReviewElementsType>({
-    offerReview: '',
-    offerRank: 0,
+    comment: '',
+    rating: 0,
   });
 
   const { id } = useParams<{ id: string }>();
@@ -45,49 +44,55 @@ function ReviewsForm({handleFormSubmit, reviewLoadingStatus}: PropsFromRedux): J
     if (reviewLoadingStatus === LoadingStatus.Succeeded) {
       setUserReview({
         ...userReview,
-        offerReview: '',
-        offerRank: 0,
+        comment: '',
+        rating: 0,
       });
     }
   }, [reviewLoadingStatus, userReview]);
 
 
-  const {offerRank, offerReview} = userReview;
+  const {comment, rating} = userReview;
 
-  const ratingChangeHandler = (e: ChangeEvent<HTMLInputElement>): void => {
+  const handleRatingChange = (e: ChangeEvent<HTMLInputElement>): void => {
     e.preventDefault();
-    setUserReview({
+    setUserReview(() => ({
       ...userReview,
-      offerReview,
-      offerRank: +(e.target.value),
-    });
+      rating: +(e.target.value),
+    }));
+    // eslint-disable-next-line no-console
+    console.log(userReview);
+    // eslint-disable-next-line no-console
+    console.log(e.target.value);
   };
 
-  const reviewChangeHandler = (e: ChangeEvent<HTMLTextAreaElement>): void => {
-    setUserReview({
+  const handleReviewChange = (e: ChangeEvent<HTMLTextAreaElement>): void => {
+    setUserReview(() => ({
       ...userReview,
-      offerReview: e.target.value,
-      offerRank,
-    });
+      comment: e.target.value,
+    }));
+    // eslint-disable-next-line no-console
+    console.log(userReview);
+    // eslint-disable-next-line no-console
+    console.log(e.target.value);
   };
 
-  const formSubmitHandler = (evt: FormEvent<HTMLFormElement>) => {
+  const handleFormSubmit = (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
-    handleFormSubmit(id, offerReview, offerRank);
+    postOfferReview(id, userReview);
   };
 
   return (
-    <form className="reviews__form form" action="#" method="post" onSubmit={formSubmitHandler}>
+    <form className="reviews__form form" action="#" method="post" onSubmit={handleFormSubmit}>
       <label className="reviews__label form__label" htmlFor="review">Your review</label>
       <div className="reviews__rating-form form__rating">
-        <RatingStars onRatingChange={ratingChangeHandler} offerRank={offerRank} />
+        <RatingStars onRatingChange={handleRatingChange} rating={rating} />
       </div>
-      <textarea className="reviews__textarea form__textarea" id="review" name="review" placeholder="Tell how was your stay, what you like and what can be improved" value={offerReview} onChange={reviewChangeHandler}></textarea>
+      <textarea className="reviews__textarea form__textarea" id="review" name="review" placeholder="Tell how was your stay, what you like and what can be improved" value={comment} onChange={handleReviewChange}></textarea>
       <div className="reviews__button-wrapper">
         <p className="reviews__help">
         To submit review please make sure to set <span className="reviews__star">rating</span> and describe your stay with at least <b className="reviews__text-amount">50 characters</b>.
         </p>
-        <button className="reviews__submit form__submit button" type="submit" disabled={!((offerRank > 0) && (offerReview.length >= MIN_REVIEW_LENGTH))}>Submit</button>
+        <button className="reviews__submit form__submit button" type="submit" disabled={!((rating > 0) && (comment.length >= MIN_REVIEW_LENGTH))}>Submit</button>
       </div>
     </form>
   );

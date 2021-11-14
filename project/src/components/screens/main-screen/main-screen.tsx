@@ -54,8 +54,6 @@ function MainScreen({offers, onMenuItemClick, selectedCity, onSelectSorting, cur
   const getActiveOfferId = (id: number | null) => {
     setSelectedOfferId(id);
   };
-  // eslint-disable-next-line no-console
-  console.log(document.querySelector('page__main'));
 
   return (
     <div className="page page--gray page--main">

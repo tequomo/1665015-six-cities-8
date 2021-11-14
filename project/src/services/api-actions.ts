@@ -1,3 +1,4 @@
+import { toast } from 'react-toastify';
 import { APIRoutes, AuthStatus, LoadingStatus } from '../const';
 import { loadCurrentOffer, loadFavoriteOffers, loadNearbyOffers, loadOfferReviews, loadOffers, receiveAuthData, requireAuthorization, requireLogout, setCurrentOfferLoadingStatus, setFavoriteOffersLoadingStatus, setOfferReviewsLoadingStatus, setReviewLoadingStatus } from '../store/action';
 import { ThunkActionResult } from '../types/action';
@@ -6,6 +7,8 @@ import { BackendOfferType } from '../types/offer-type';
 import { BackendReviewType, PostReviewType } from '../types/review-type';
 import { adaptSingleToClient, adaptMultipleToClient, adaptAuthDataToClient, adaptSomeReviewsToClient } from './adapter';
 import { dropToken, saveToken } from './token';
+
+const AUTH_FAIL_MESSAGE = 'Не забудьте авторизоваться';
 
 export const fetchOffersAction = (): ThunkActionResult =>
   async (dispatch, _getState, api): Promise<void> => {
@@ -68,15 +71,23 @@ export const fetchNearbyOffersAction = (id: string): ThunkActionResult =>
 
 export const checkAuthAction = (): ThunkActionResult =>
   async (dispatch, _getState, api) => {
-    await api.get<AuthDataResponse>(APIRoutes.Login)
-      .then(({ data }) => {
-        if(!data) {
-          dispatch(requireAuthorization(AuthStatus.NoAuth));
-          return;
-        }
-        dispatch(requireAuthorization(AuthStatus.Auth));
-        dispatch(receiveAuthData(adaptAuthDataToClient(data)));
-      });
+    // await api.get<AuthDataResponse>(APIRoutes.Login)
+    //   .then(({ data }) => {
+    //     if(!data) {
+    //       dispatch(requireAuthorization(AuthStatus.NoAuth));
+    //       return;
+    //     }
+    //     dispatch(requireAuthorization(AuthStatus.Auth));
+    //     dispatch(receiveAuthData(adaptAuthDataToClient(data)));
+    //   });
+    try {
+      const {data} = await api.get<AuthDataResponse>(APIRoutes.Login);
+      dispatch(requireAuthorization(AuthStatus.Auth));
+      dispatch(receiveAuthData(adaptAuthDataToClient(data)));
+    } catch {
+      dispatch(requireAuthorization(AuthStatus.NoAuth));
+      toast.info(AUTH_FAIL_MESSAGE);
+    }
   };
 
 export const loginAction = ({login: email, password}: AuthDataRequest): ThunkActionResult =>
