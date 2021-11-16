@@ -38,6 +38,13 @@ function ReviewsForm({postOfferReview, reviewLoadingStatus}: PropsFromRedux): JS
     rating: 0,
   });
 
+  // const resetReviewForm = () =>
+  //   setUserReview(() => ({
+  //     ...userReview,
+  //     comment: '',
+  //     rating: 0,
+  //   }));
+
   const { id } = useParams<{ id: string }>();
 
   useEffect(() => {
@@ -48,7 +55,7 @@ function ReviewsForm({postOfferReview, reviewLoadingStatus}: PropsFromRedux): JS
         rating: 0,
       });
     }
-  }, [reviewLoadingStatus, userReview]);
+  }, [reviewLoadingStatus]);
 
 
   const {comment, rating} = userReview;

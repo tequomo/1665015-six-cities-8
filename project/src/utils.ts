@@ -37,7 +37,7 @@ export const isCheckedAuth = (authStatus: AuthStatus): boolean =>
 export const getCityData = (offers: OfferType[]): CityType => offers
   .reduce((_city, offer) => offer.city, {} as CityType);
 
-export const getRandomItems = (items: string[], length: number): string[] => items.sort(() => 0.5 - Math.random()).slice(0,length);
+export const getRandomItems = (items: string[], length: number): string[] => items.slice().sort(() => 0.5 - Math.random()).slice(0,length);
 
 
 // export const updateOffersWithFavorites = (offers: OfferType[], updateData: OfferType): OfferType[] => {

@@ -3,38 +3,59 @@ import Header from '../../layout/header/header';
 import { AuthDataRequest } from '../../../types/auth-data';
 import { loginAction } from '../../../services/api-actions';
 import { connect, ConnectedProps } from 'react-redux';
-import { useRef, FormEvent } from 'react';
+import { useRef, FormEvent, MouseEvent } from 'react';
 import { useHistory } from 'react-router';
-import { AppRoutes } from '../../../const';
+import { AppRoutes, AuthStatus, CITIES } from '../../../const';
+import { State } from '../../../types/state';
+import { getRandomItems } from '../../../utils';
+import { selectCity } from '../../../store/action';
+import { Link } from 'react-router-dom';
+
+const CITIES_COUNT = 1;
+
+const mapStateToProps = ({authStatus}: State) => ({
+  authStatus,
+});
 
 const mapDispatchToProps = (dispatch: ThunkAppDispatch) => ({
-  onSubmit(authData: AuthDataRequest) {
+  onLoginFormSubmit(authData: AuthDataRequest) {
     dispatch(loginAction(authData));
+  },
+  onCityClick(cityName: string) {
+    dispatch(selectCity(cityName));
   },
 });
 
-const connector = connect(null, mapDispatchToProps);
+const connector = connect(mapStateToProps, mapDispatchToProps);
 
 type PropsFromRedux = ConnectedProps<typeof connector>;
 
-function SignInScreen(props: PropsFromRedux): JSX.Element {
-  const {onSubmit} = props;
+function SignInScreen({onLoginFormSubmit, authStatus, onCityClick}: PropsFromRedux): JSX.Element {
+  // const {onSubmit} = props;
 
   const loginRef = useRef<HTMLInputElement | null>(null);
   const passwordRef = useRef<HTMLInputElement | null>(null);
 
   const history = useHistory();
 
+  if(authStatus === AuthStatus.Auth) {
+    history.push(AppRoutes.Main);
+  }
+
   const handleFormSubmit = (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
 
     if (loginRef.current !== null && passwordRef.current !== null) {
-      onSubmit({
+      onLoginFormSubmit({
         login: loginRef.current.value,
         password: passwordRef.current.value,
       });
       history.push(AppRoutes.Main);
     }
+  };
+
+  const handleCityClick = (e: MouseEvent<HTMLAnchorElement>): void => {
+    onCityClick(e.currentTarget.innerText);
   };
 
   return (
@@ -59,9 +80,9 @@ function SignInScreen(props: PropsFromRedux): JSX.Element {
           </section>
           <section className="locations locations--login locations--current">
             <div className="locations__item">
-              <a className="locations__item-link" href="/">
-                <span>Amsterdam</span>
-              </a>
+              <Link to={AppRoutes.Main} className="locations__item-link" onClick={handleCityClick}>
+                <span>{getRandomItems(CITIES, CITIES_COUNT)}</span>
+              </Link>
             </div>
           </section>
         </div>

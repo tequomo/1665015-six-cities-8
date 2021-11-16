@@ -71,15 +71,6 @@ export const fetchNearbyOffersAction = (id: string): ThunkActionResult =>
 
 export const checkAuthAction = (): ThunkActionResult =>
   async (dispatch, _getState, api) => {
-    // await api.get<AuthDataResponse>(APIRoutes.Login)
-    //   .then(({ data }) => {
-    //     if(!data) {
-    //       dispatch(requireAuthorization(AuthStatus.NoAuth));
-    //       return;
-    //     }
-    //     dispatch(requireAuthorization(AuthStatus.Auth));
-    //     dispatch(receiveAuthData(adaptAuthDataToClient(data)));
-    //   });
     try {
       const {data} = await api.get<AuthDataResponse>(APIRoutes.Login);
       dispatch(requireAuthorization(AuthStatus.Auth));
