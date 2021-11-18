@@ -1,3 +1,9 @@
+import { MouseEvent } from 'react';
+import { connect, ConnectedProps } from 'react-redux';
+import { Link } from 'react-router-dom';
+import { AppRoutes } from '../../../const';
+import { selectCity } from '../../../store/action';
+import { ThunkAppDispatch } from '../../../types/action';
 import { OfferType } from '../../../types/offer-type';
 import FavoritesCard from '../favorites-card/favorites-card';
 
@@ -5,14 +11,30 @@ type FavoritePropsType = {
   locationsOffers: OfferType[],
 }
 
-function FavoritesLocations({locationsOffers}: FavoritePropsType): JSX.Element {
+const mapDispatchToProps = (dispatch: ThunkAppDispatch) => ({
+  onCityClick(cityName: string) {
+    dispatch(selectCity(cityName));
+  },
+});
+
+const connector = connect(null, mapDispatchToProps);
+
+type PropsFromRedux = ConnectedProps<typeof connector>;
+type ConnectedComponentProps = PropsFromRedux & FavoritePropsType;
+
+function FavoritesLocations({locationsOffers, onCityClick}: ConnectedComponentProps): JSX.Element {
+
+  const handleCityClick = (e: MouseEvent<HTMLAnchorElement>): void => {
+    onCityClick(e.currentTarget.innerText);
+  };
+
   return (
     <li className="favorites__locations-items">
       <div className="favorites__locations locations locations--current">
         <div className="locations__item">
-          <a className="locations__item-link" href="/">
+          <Link className="locations__item-link" to={AppRoutes.Main} onClick={handleCityClick}>
             <span>{locationsOffers[0].city.name}</span>
-          </a>
+          </Link>
         </div>
       </div>
       <div className="favorites__places">
@@ -28,4 +50,5 @@ function FavoritesLocations({locationsOffers}: FavoritePropsType): JSX.Element {
   );
 }
 
-export default FavoritesLocations;
+export { FavoritesLocations };
+export default connector(FavoritesLocations);

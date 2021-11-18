@@ -3,7 +3,7 @@ import { MouseEvent } from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 import { Link, useHistory } from 'react-router-dom';
 import { AppRoutes, AuthStatus } from '../../../const';
-import { toggleIsFavoriteAction } from '../../../services/api-actions';
+import { fetchOffersAction, toggleIsFavoriteAction } from '../../../services/api-actions';
 import { ThunkAppDispatch } from '../../../types/action';
 import { PlacesClassType } from '../../../types/classes-type';
 import { OfferType } from '../../../types/offer-type';
@@ -27,7 +27,7 @@ const mapStateToProps = ({authStatus, toggleIsFavoriteLoadingStatus}: State) => 
 const mapDispatchToProps = (dispatch: ThunkAppDispatch) => ({
   toggleIsFavorite(id: number, favoriteStatus: number) {
     dispatch(toggleIsFavoriteAction(id, favoriteStatus));
-    // dispatch(fetchOffersAction());
+    dispatch(fetchOffersAction());
   },
 });
 

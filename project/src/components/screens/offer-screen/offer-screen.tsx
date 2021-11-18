@@ -1,4 +1,5 @@
 import { useParams } from 'react-router-dom';
+import { Redirect } from 'react-router';
 import { useEffect} from 'react';
 import Header from '../../layout/header/header';
 import { State } from '../../../types/state';
@@ -9,13 +10,14 @@ import LoaderWrapper from '../../layout/loader-wrapper/loader-wrapper';
 import OfferContainer from './offer-container';
 import { OfferType } from '../../../types/offer-type';
 import NotFoundScreen from '../not-found/not-found';
-import { LoadingStatus } from '../../../const';
+import { AppRoutes, AuthStatus, LoadingStatus } from '../../../const';
 
 type ParamsPropsType = {
   id: string,
 }
 
-const mapStateToProps = ({currentOffer, isCurrentOfferLoaded, currentOfferLoadingStatus}: State) => ({
+const mapStateToProps = ({authStatus, currentOffer, isCurrentOfferLoaded, currentOfferLoadingStatus}: State) => ({
+  authStatus,
   currentOffer,
   isCurrentOfferLoaded,
   currentOfferLoadingStatus,
@@ -31,12 +33,15 @@ const connector = connect(mapStateToProps, mapDispatchToProps);
 
 type PropsFromRedux = ConnectedProps<typeof connector>;
 
-function OfferScreen({currentOffer, isCurrentOfferLoaded, currentOfferLoadingStatus, fetchCurrentOffer}: PropsFromRedux): JSX.Element {
+function OfferScreen({authStatus, currentOffer, isCurrentOfferLoaded, currentOfferLoadingStatus, fetchCurrentOffer}: PropsFromRedux): JSX.Element {
   const paramsProps = useParams<ParamsPropsType>();
 
   useEffect(() => {
+    if(authStatus === AuthStatus.NoAuth) {
+      <Redirect to={AppRoutes.SignIn} />;
+    }
     fetchCurrentOffer(paramsProps.id);
-  }, [fetchCurrentOffer, paramsProps.id]);
+  }, [authStatus, fetchCurrentOffer, paramsProps.id]);
 
   if(currentOfferLoadingStatus === LoadingStatus.Failed) {
     return <NotFoundScreen />;

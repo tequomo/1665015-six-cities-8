@@ -11,7 +11,6 @@ type FavoriteCardPropsType = {
   favoriteOffer: OfferType,
 }
 
-
 const mapDispatchToProps = (dispatch: ThunkAppDispatch) => ({
   toggleIsFavorite(id: number, favoriteStatus: number) {
     dispatch(toggleIsFavoriteAction(id, favoriteStatus));
