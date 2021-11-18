@@ -1,4 +1,4 @@
-import { MouseEvent } from 'react';
+import { MouseEvent, useEffect } from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { AppRoutes } from '../../../const';
@@ -32,6 +32,10 @@ function FavoritesCard({favoriteOffer, toggleIsFavorite}: ConnectedComponentProp
     const favoriteStatus = +(!isFavorite);
     toggleIsFavorite(id, favoriteStatus);
   };
+
+  useEffect(() => {
+    toggleIsFavoriteAction(id, +(!isFavorite));
+  }, [id, isFavorite]);
 
   return (
     <article className="favorites__card place-card">

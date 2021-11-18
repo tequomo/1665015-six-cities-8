@@ -22,6 +22,8 @@ const mapStateToProps = ({ favoriteOffers, favoriteOffersLoadingStatus }: State)
 
 const mapDispatchToProps = (dispatch: ThunkAppDispatch) => ({
   fetchFavoriteOffers() {
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    // useCallback(() => dispatch(fetchFavoriteOffersAction()), []);
     dispatch(fetchFavoriteOffersAction());
   },
 });
