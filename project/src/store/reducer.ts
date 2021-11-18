@@ -21,6 +21,7 @@ const initialState: State = {
   offerReviewsLoadingStatus: LoadingStatus.Idle,
   favoriteOffersLoadingStatus: LoadingStatus.Idle,
   reviewLoadingStatus: LoadingStatus.Idle,
+  toggleIsFavoriteLoadingStatus: LoadingStatus.Idle,
 };
 
 const reducer = (state: State = initialState, action: Actions): State => {
@@ -107,6 +108,11 @@ const reducer = (state: State = initialState, action: Actions): State => {
       return {
         ...state,
         reviewLoadingStatus: action.payload,
+      };
+    case ActionType.SetToggleIsFavoriteLoadingStatus:
+      return {
+        ...state,
+        toggleIsFavoriteLoadingStatus: action.payload,
       };
     default:
       return state;

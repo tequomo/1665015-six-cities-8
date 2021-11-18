@@ -1,6 +1,6 @@
 import { toast } from 'react-toastify';
 import { APIRoutes, AuthStatus, LoadingStatus } from '../const';
-import { loadCurrentOffer, loadFavoriteOffers, loadNearbyOffers, loadOfferReviews, loadOffers, receiveAuthData, requireAuthorization, requireLogout, setCurrentOfferLoadingStatus, setFavoriteOffersLoadingStatus, setOfferReviewsLoadingStatus, setReviewLoadingStatus } from '../store/action';
+import { loadCurrentOffer, loadFavoriteOffers, loadNearbyOffers, loadOfferReviews, loadOffers, receiveAuthData, requireAuthorization, requireLogout, setCurrentOfferLoadingStatus, setFavoriteOffersLoadingStatus, setOfferReviewsLoadingStatus, setReviewLoadingStatus, setToggleIsFavoriteLoadingStatus } from '../store/action';
 import { ThunkActionResult } from '../types/action';
 import { AuthDataRequest, AuthDataResponse } from '../types/auth-data';
 import { BackendOfferType } from '../types/offer-type';
@@ -41,8 +41,9 @@ export const toggleIsFavoriteAction = (id: number, favoriteStatus: number): Thun
     try {
       const { data } = await api.post<BackendOfferType>(`${APIRoutes.Favorite}/${id}/${favoriteStatus}`);
       dispatch(loadCurrentOffer(adaptSingleToClient(data)));
+      dispatch(setToggleIsFavoriteLoadingStatus(LoadingStatus.Succeeded));
     } catch {
-      // dispatch(setCurrentOfferLoadingStatus(LoadingStatus.Failed));
+      dispatch(setToggleIsFavoriteLoadingStatus(LoadingStatus.Failed));
     }
   };
 

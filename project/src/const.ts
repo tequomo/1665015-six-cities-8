@@ -48,6 +48,7 @@ export const CustomClasses: ClassType = {
     tabsClassName: 'tabs__content',
     cardClassName: 'cities__place-card',
     wrapperClassName: 'cities__image-wrapper',
+    buttonClassName: 'place-card__bookmark-button--active',
   },
   NearPlaces: {
     listClassName: 'near-places__list',

@@ -25,6 +25,7 @@ export enum ActionType {
   SetFavoriteOffersLoadingStatus = 'data/setFavoriteOffersLoadingStatus',
   SendOfferReview = 'data/sendOfferReview',
   ToggleIsFavorite = 'data/toggleFavorite',
+  SetToggleIsFavoriteLoadingStatus = 'data/setToggleIsFavoriteLoadingStatus',
   SetReviewLoadingStatus = 'data/setReviewLoadingStatus',
 }
 
@@ -106,6 +107,11 @@ export type SetFavoriteOffersLoadingStatusAction = {
   payload: LoadingStatus,
 }
 
+export type SetToggleIsFavoriteLoadingStatusAction = {
+  type: ActionType.SetToggleIsFavoriteLoadingStatus,
+  payload: LoadingStatus,
+}
+
 export type ToggleIsFavoriteAction = {
   type: ActionType.ToggleIsFavorite,
   payload: OfferType;
@@ -140,7 +146,8 @@ export type Actions =
   | SetFavoriteOffersLoadingStatusAction
   | ToggleIsFavoriteAction
   | SendOfferReviewAction
-  | SetReviewLoadingStatusAction;
+  | SetReviewLoadingStatusAction
+  | SetToggleIsFavoriteLoadingStatusAction;
 
 export type ThunkActionResult<R = Promise<void>> = ThunkAction<R, State, AxiosInstance, Actions>;
 
