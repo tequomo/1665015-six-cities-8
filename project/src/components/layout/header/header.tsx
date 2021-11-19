@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import Auth from '../auth/auth';
 import Logo from '../logo/logo';
 
@@ -18,4 +19,4 @@ function Header({renderAuth}: HeaderPropsType): JSX.Element {
   );
 }
 
-export default Header;
+export default memo(Header);

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import withLoader from '../../../hoc/withloader';
 import { PlacesClassType } from '../../../types/classes-type';
 import { OfferType } from '../../../types/offer-type';
@@ -16,19 +16,19 @@ function OffersList({offers, transferActiveOfferId, customClasses}: OffersListPr
   const {listClassName, tabsClassName} = customClasses;
   const [activeCardId, setActiveCardId] = useState<number | null>(null);
 
-  const handleMouseEnter = (id: number) => {
+  const handleMouseEnter = useCallback((id: number) => {
     setActiveCardId(id);
     transferActiveOfferId(id);
     // eslint-disable-next-line no-console
     // console.log(activeCardId);
-  };
+  },[]);
 
-  const handleMouseLeave = (): void => {
+  const handleMouseLeave = useCallback((): void => {
     setActiveCardId(null);
     transferActiveOfferId(null);
     // eslint-disable-next-line no-console
     console.log(activeCardId);
-  };
+  },[]);
 
   return (
     <div className={`${listClassName} places__list ${tabsClassName}`}>

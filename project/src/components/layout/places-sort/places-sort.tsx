@@ -1,4 +1,4 @@
-import { MouseEvent, useState } from 'react';
+import { memo, MouseEvent, useState } from 'react';
 import { SortingTypes } from '../../../const';
 
 type SortProps = {
@@ -43,4 +43,4 @@ function PlacesSort({currentSortingType, onSelectSorting}: SortProps): JSX.Eleme
   );
 }
 
-export default PlacesSort;
+export default memo(PlacesSort);

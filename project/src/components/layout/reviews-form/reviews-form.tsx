@@ -14,6 +14,12 @@ type ReviewElementsType = {
 }
 
 const MIN_REVIEW_LENGTH = 50;
+const MAX_REVIEW_LENGTH = 300;
+
+const initReviewState = {
+  comment: '',
+  rating: 0,
+};
 
 const mapStateToProps = ({reviewLoadingStatus}: State) => ({
   reviewLoadingStatus,
@@ -33,27 +39,13 @@ type PropsFromRedux = ConnectedProps<typeof connector>;
 
 function ReviewsForm({postOfferReview, reviewLoadingStatus}: PropsFromRedux): JSX.Element {
 
-  const [userReview, setUserReview] = useState<ReviewElementsType>({
-    comment: '',
-    rating: 0,
-  });
-
-  // const resetReviewForm = () =>
-  //   setUserReview(() => ({
-  //     ...userReview,
-  //     comment: '',
-  //     rating: 0,
-  //   }));
+  const [userReview, setUserReview] = useState<ReviewElementsType>(initReviewState);
 
   const { id } = useParams<{ id: string }>();
 
   useEffect(() => {
     if (reviewLoadingStatus === LoadingStatus.Succeeded) {
-      setUserReview({
-        ...userReview,
-        comment: '',
-        rating: 0,
-      });
+      setUserReview(initReviewState);
     }
   }, [reviewLoadingStatus]);
 
@@ -99,7 +91,7 @@ function ReviewsForm({postOfferReview, reviewLoadingStatus}: PropsFromRedux): JS
         <p className="reviews__help">
         To submit review please make sure to set <span className="reviews__star">rating</span> and describe your stay with at least <b className="reviews__text-amount">50 characters</b>.
         </p>
-        <button className="reviews__submit form__submit button" type="submit" disabled={!((rating > 0) && (comment.length >= MIN_REVIEW_LENGTH))}>Submit</button>
+        <button className="reviews__submit form__submit button" type="submit" disabled={!((rating > 0) && ((comment.length >= MIN_REVIEW_LENGTH) && (comment.length < MAX_REVIEW_LENGTH)))}>Submit</button>
       </div>
     </form>
   );
