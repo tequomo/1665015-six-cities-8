@@ -7,13 +7,7 @@ import NotFoundScreen from '../screens/not-found/not-found';
 import { AppRoutes } from '../../const';
 import PrivateRoute from '../routes/private-route';
 import browserHistory from '../../browser-history';
-// import { OfferType } from '../../types/offer-type';
-// import { ReviewType } from '../../types/review-type';
 
-// type MainProps = {
-//   offers: OfferType[],
-//   reviews: ReviewType[],
-// }
 
 function App(): JSX.Element {
   return (
@@ -38,7 +32,4 @@ function App(): JSX.Element {
   );
 }
 
-// export { App };
-// export default connector(App);
 export default App;
-

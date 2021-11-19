@@ -1,5 +1,5 @@
 import { toast } from 'react-toastify';
-import { APIRoutes, AuthStatus, LoadingStatus } from '../const';
+import { APIRoutes, AuthStatus, LoadingStatus, Messages } from '../const';
 import { loadCurrentOffer, loadFavoriteOffers, loadNearbyOffers, loadOfferReviews, loadOffers, receiveAuthData, requireAuthorization, requireLogout, setCurrentOfferLoadingStatus, setFavoriteOffersLoadingStatus, setOfferReviewsLoadingStatus, setReviewLoadingStatus, setToggleIsFavoriteLoadingStatus } from '../store/action';
 import { ThunkActionResult } from '../types/action';
 import { AuthDataRequest, AuthDataResponse } from '../types/auth-data';
@@ -8,7 +8,6 @@ import { BackendReviewType, PostReviewType } from '../types/review-type';
 import { adaptSingleToClient, adaptMultipleToClient, adaptAuthDataToClient, adaptSomeReviewsToClient } from './adapter';
 import { dropToken, saveToken } from './token';
 
-const AUTH_FAIL_MESSAGE = 'Не забудьте авторизоваться';
 
 export const fetchOffersAction = (): ThunkActionResult =>
   async (dispatch, _getState, api): Promise<void> => {
@@ -78,16 +77,20 @@ export const checkAuthAction = (): ThunkActionResult =>
       dispatch(receiveAuthData(adaptAuthDataToClient(data)));
     } catch {
       dispatch(requireAuthorization(AuthStatus.NoAuth));
-      toast.info(AUTH_FAIL_MESSAGE);
+      toast.info(Messages.AUTH_INFO);
     }
   };
 
 export const loginAction = ({login: email, password}: AuthDataRequest): ThunkActionResult =>
   async (dispatch, _getState, api) => {
-    const { data } = await api.post<AuthDataResponse>(APIRoutes.Login, {email, password});
-    saveToken(data.token);
-    dispatch(requireAuthorization(AuthStatus.Auth));
-    dispatch(receiveAuthData(adaptAuthDataToClient(data)));
+    try {
+      const { data } = await api.post<AuthDataResponse>(APIRoutes.Login, {email, password});
+      saveToken(data.token);
+      dispatch(requireAuthorization(AuthStatus.Auth));
+      dispatch(receiveAuthData(adaptAuthDataToClient(data)));
+    } catch {
+      toast.error(Messages.AUTH_FAIL);
+    }
   };
 
 

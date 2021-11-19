@@ -7,7 +7,7 @@ import { useRef, FormEvent, MouseEvent } from 'react';
 import { useHistory } from 'react-router';
 import { AppRoutes, AuthStatus, CITIES } from '../../../const';
 import { State } from '../../../types/state';
-import { getRandomItems } from '../../../utils';
+import { getRandomItems, validateLogin, validatePassword } from '../../../utils';
 import { selectCity } from '../../../store/action';
 import { Link } from 'react-router-dom';
 
@@ -35,12 +35,31 @@ function SignInScreen({onLoginFormSubmit, authStatus, onCityClick}: PropsFromRed
 
   const loginRef = useRef<HTMLInputElement | null>(null);
   const passwordRef = useRef<HTMLInputElement | null>(null);
+  const isAuth = authStatus === AuthStatus.Auth;
 
   const history = useHistory();
 
-  if(authStatus === AuthStatus.Auth) {
+  if(isAuth) {
     history.push(AppRoutes.Main);
   }
+
+  const handleLoginChange = (evt: FormEvent<HTMLInputElement>) => {
+    if (loginRef.current) {
+      loginRef.current.setCustomValidity(
+        validateLogin(loginRef.current.value),
+      );
+      loginRef.current.reportValidity();
+    }
+  };
+
+  const handlePasswordChange = (evt: FormEvent<HTMLInputElement>) => {
+    if (passwordRef.current) {
+      passwordRef.current.setCustomValidity(
+        validatePassword(passwordRef.current.value),
+      );
+      passwordRef.current.reportValidity();
+    }
+  };
 
   const handleFormSubmit = (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
@@ -50,7 +69,6 @@ function SignInScreen({onLoginFormSubmit, authStatus, onCityClick}: PropsFromRed
         login: loginRef.current.value,
         password: passwordRef.current.value,
       });
-      history.push(AppRoutes.Main);
     }
   };
 
@@ -69,11 +87,11 @@ function SignInScreen({onLoginFormSubmit, authStatus, onCityClick}: PropsFromRed
             <form className="login__form form" action="#" method="post" onSubmit={handleFormSubmit}>
               <div className="login__input-wrapper form__input-wrapper">
                 <label className="visually-hidden">E-mail</label>
-                <input className="login__input form__input" ref={loginRef} type="email" name="email" placeholder="Email" required pattern="\S+@\S+\.\S+"/>
+                <input className="login__input form__input" ref={loginRef} type="email" name="email" placeholder="Email" required onChange={handleLoginChange}/>
               </div>
               <div className="login__input-wrapper form__input-wrapper">
                 <label className="visually-hidden">Password</label>
-                <input className="login__input form__input" ref={passwordRef} type="password" name="password" placeholder="Password" required pattern=".+"/>
+                <input className="login__input form__input" ref={passwordRef} type="password" name="password" placeholder="Password" required onChange={handlePasswordChange}/>
               </div>
               <button className="login__submit form__submit button" type="submit">Sign in</button>
             </form>

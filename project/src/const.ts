@@ -102,3 +102,8 @@ export enum LoadingStatus {
   Succeeded = 'succeeded',
   Failed = 'failed',
 }
+
+export const Messages = {
+  AUTH_FAIL: 'Please enter valid email and password',
+  AUTH_INFO: 'Don\'t forget to sign in',
+};

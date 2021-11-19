@@ -29,7 +29,6 @@ const store = createStore(
 );
 
 (store.dispatch as ThunkAppDispatch)(checkAuthAction());
-// (store.dispatch as ThunkAppDispatch)(fetchOffersAction());
 
 ReactDOM.render(
   <React.StrictMode>

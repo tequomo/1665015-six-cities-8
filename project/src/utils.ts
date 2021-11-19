@@ -54,3 +54,20 @@ export const updateOffers = (offers: OfferType[], updateData: OfferType): OfferT
   ];
 };
 
+export const validateLogin = (login: string): string => {
+  // const loginReg = /\S+@\S+\.\S+/;
+  const loginReg = /^([A-Za-z0-9_\-.])+@([A-Za-z0-9_\-.])+\.([A-Za-z]{2,4})$/;
+  if (loginReg.test(login)) {
+    return '';
+  }
+  return 'Login must contain at least 1 letter and 1 number.\n No spaces allowed';
+};
+
+export const validatePassword = (password: string): string => {
+  const passwordReg = /(?=.*\d)(?=.*[a-zA-Z])./;
+  if (passwordReg.test(password)) {
+    return '';
+  }
+  return 'Password must contain at least 1 letter and 1 number.\n No spaces allowed';
+};
+
