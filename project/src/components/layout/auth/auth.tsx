@@ -3,13 +3,14 @@ import { connect, ConnectedProps } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { AppRoutes, AuthStatus, CustomClasses } from '../../../const';
 import { logoutAction } from '../../../services/api-actions';
+import { getAuthStatus, getAuthUserData } from '../../../store/reducers/user-auth/selectors';
 import { ThunkAppDispatch } from '../../../types/action';
 import { State } from '../../../types/state';
 import SignOutBlock from './signout-block';
 
-const mapStateToProps = ({USER_AUTH}: State) => ({
-  authStatus: USER_AUTH.authStatus,
-  authUserData: USER_AUTH.authUserData,
+const mapStateToProps = (state: State) => ({
+  authStatus: getAuthStatus(state),
+  authUserData: getAuthUserData(state),
 });
 
 const mapDispatchToProps = (dispatch: ThunkAppDispatch) => ({

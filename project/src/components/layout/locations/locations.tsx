@@ -10,11 +10,8 @@ type LocationsProps = {
 
 function Locations({onMenuItemClick, selectedCity}: LocationsProps): JSX.Element {
 
-  // const [selectedCity, setSelectedCity] = useState<string>(CITIES[3]);
-
   const handleMouseClick = (e: MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();
-    // setSelectedCity(e.currentTarget.innerText);
     onMenuItemClick(e.currentTarget.innerText);
   };
 

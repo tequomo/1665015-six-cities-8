@@ -35,7 +35,6 @@ function OffersList({offers, transferActiveOfferId, customClasses}: OffersListPr
       {
         offers.map((offer: OfferType) => {
           const keyValue = `${offer.id}-${offer.city.name}`;
-          // const offerReviews = reviews.filter((review) => review.id === offer.id);
           return <PlaceCard key={keyValue} offer={offer} onCardOver={handleMouseEnter} onCardOut={handleMouseLeave} customClasses={customClasses}/>;
         },
         )

@@ -3,6 +3,7 @@ import { useEffect } from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 import { CustomClasses, LoadingStatus } from '../../../const';
 import { fetchFavoriteOffersAction } from '../../../services/api-actions';
+import { getFavoriteOffers, getFavoriteOffersLoadingStatus } from '../../../store/reducers/favorites-data/selectors';
 import { ThunkAppDispatch } from '../../../types/action';
 import { State } from '../../../types/state';
 import FavoritesEmpty from '../../layout/favorites-empty/favorites-empty';
@@ -15,9 +16,9 @@ import LoaderWrapper from '../../layout/loader-wrapper/loader-wrapper';
 //   offers: OfferType[],
 // }
 
-const mapStateToProps = ({ FAVORITES_DATA }: State) => ({
-  favoriteOffers: FAVORITES_DATA.favoriteOffers,
-  favoriteOffersLoadingStatus: FAVORITES_DATA.favoriteOffersLoadingStatus,
+const mapStateToProps = (state: State) => ({
+  favoriteOffers: getFavoriteOffers(state),
+  favoriteOffersLoadingStatus: getFavoriteOffersLoadingStatus(state),
 });
 
 const mapDispatchToProps = (dispatch: ThunkAppDispatch) => ({

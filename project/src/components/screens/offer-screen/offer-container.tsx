@@ -14,6 +14,10 @@ import { ThunkAppDispatch } from '../../../types/action';
 import { fetchCurrentOfferAction, fetchNearbyOffersAction, fetchOfferReviewsAction, toggleIsFavoriteAction } from '../../../services/api-actions';
 import LoaderWrapper from '../../layout/loader-wrapper/loader-wrapper';
 import InteriorGallery from './interior-gallery';
+import { getAuthStatus } from '../../../store/reducers/user-auth/selectors';
+import { getIsNearbyLoaded, getNearbyOffers } from '../../../store/reducers/nearby-data/selectors';
+import { getIsCurrentOfferLoaded } from '../../../store/reducers/current-offer-data/selectors';
+import { getOfferReviews, getOfferReviewsLoadingStatus } from '../../../store/reducers/reviews-data/selectors';
 
 const MAX_IMAGES_COUNT = 6;
 
@@ -25,13 +29,13 @@ type OfferContainerPropsType = {
   currentOffer: OfferType,
 }
 
-const mapStateToProps = ({USER_AUTH, CURRENT_OFFER_DATA, NEARBY_DATA, REVIEWS_DATA}: State) => ({
-  authStatus: USER_AUTH.authStatus,
-  nearbyOffers: NEARBY_DATA.nearbyOffers,
-  isCurrentOfferLoaded: CURRENT_OFFER_DATA.isCurrentOfferLoaded,
-  isNearbyLoaded: NEARBY_DATA.isNearbyLoaded,
-  offerReviews: REVIEWS_DATA.offerReviews,
-  offerReviewsLoadingStatus: REVIEWS_DATA.offerReviewsLoadingStatus,
+const mapStateToProps = (state: State) => ({
+  authStatus: getAuthStatus(state),
+  nearbyOffers: getNearbyOffers(state),
+  isCurrentOfferLoaded: getIsCurrentOfferLoaded(state),
+  isNearbyLoaded: getIsNearbyLoaded(state),
+  offerReviews: getOfferReviews(state),
+  offerReviewsLoadingStatus: getOfferReviewsLoadingStatus(state),
 });
 
 const mapDispatchToProps = (dispatch: ThunkAppDispatch) => ({

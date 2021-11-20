@@ -6,7 +6,6 @@ type FavoriteListPropsType = {
 }
 
 function FavoritesList({favoriteOffers}: FavoriteListPropsType): JSX.Element {
-  // const favorites: OfferType[] = offers.filter((offer) => offer.isFavorite);
   const favoriteCities: string[] = [...new Set(favoriteOffers.map((favorite) => favorite.city.name))];
 
   return (

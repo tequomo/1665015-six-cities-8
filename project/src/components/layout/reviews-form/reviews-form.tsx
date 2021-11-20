@@ -7,6 +7,7 @@ import { ThunkAppDispatch } from '../../../types/action';
 import RatingStars from '../rating-stars/rating-stars';
 import { State } from '../../../types/state';
 import { LoadingStatus } from '../../../const';
+import { getReviewLoadingStatus } from '../../../store/reducers/reviews-data/selectors';
 
 type ReviewElementsType = {
   comment: string,
@@ -21,8 +22,8 @@ const initReviewState = {
   rating: 0,
 };
 
-const mapStateToProps = ({REVIEWS_DATA}: State) => ({
-  reviewLoadingStatus: REVIEWS_DATA.reviewLoadingStatus,
+const mapStateToProps = (state: State) => ({
+  reviewLoadingStatus: getReviewLoadingStatus(state),
 });
 
 const mapDispatchToProps = (dispatch: ThunkAppDispatch) => ({

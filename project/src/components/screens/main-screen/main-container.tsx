@@ -11,17 +11,19 @@ import NoPlaces from './no-places';
 import { selectCity, selectSorting } from '../../../store/action';
 import { connect, ConnectedProps } from 'react-redux';
 import { CustomClasses } from '../../../const';
+import { getCurrentSortingType, getSelectedCity } from '../../../store/reducers/app-state/selectors';
+import { getIsDataLoaded, getOffers } from '../../../store/reducers/offers-data/selectors';
 
 
 type MainProps = {
   selectedCity: string,
 }
 
-const mapStateToProps = ({STATE, OFFERS_DATA}: State) => ({
-  selectedCity: STATE.selectedCity,
-  offers: sortingOffers(STATE.currentSortingType, getSelectedCityOffers(OFFERS_DATA.offers, STATE.selectedCity)),
-  currentSortingType: STATE.currentSortingType,
-  isDataLoaded: OFFERS_DATA.isDataLoaded,
+const mapStateToProps = (state: State) => ({
+  selectedCity: getSelectedCity(state),
+  offers:  sortingOffers(getCurrentSortingType(state), getSelectedCityOffers(getOffers(state), getSelectedCity(state))),
+  currentSortingType: getCurrentSortingType(state),
+  isDataLoaded: getIsDataLoaded(state),
 });
 
 const mapDispatchToProps = (dispatch: Dispatch<Actions>) => ({

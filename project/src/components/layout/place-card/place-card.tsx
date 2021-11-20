@@ -1,9 +1,12 @@
 // import { useState } from 'react';
 import { MouseEvent } from 'react';
-import { connect, ConnectedProps } from 'react-redux';
-import { Link, useHistory } from 'react-router-dom';
+import { connect, ConnectedProps, useDispatch } from 'react-redux';
+import { Link } from 'react-router-dom';
 import { AppRoutes, AuthStatus } from '../../../const';
 import { fetchOffersAction, toggleIsFavoriteAction } from '../../../services/api-actions';
+import { redirectToRoute } from '../../../store/action';
+import { getToggleIsFavoriteLoadingStatus } from '../../../store/reducers/favorites-data/selectors';
+import { getAuthStatus } from '../../../store/reducers/user-auth/selectors';
 import { ThunkAppDispatch } from '../../../types/action';
 import { PlacesClassType } from '../../../types/classes-type';
 import { OfferType } from '../../../types/offer-type';
@@ -19,9 +22,9 @@ type CardPropsType = {
   customClasses: PlacesClassType,
 }
 
-const mapStateToProps = ({USER_AUTH, FAVORITES_DATA}: State) => ({
-  authStatus: USER_AUTH.authStatus,
-  toggleIsFavoriteLoadingStatus: FAVORITES_DATA.toggleIsFavoriteLoadingStatus,
+const mapStateToProps = (state: State) => ({
+  authStatus: getAuthStatus(state),
+  toggleIsFavoriteLoadingStatus: getToggleIsFavoriteLoadingStatus(state),
 });
 
 const mapDispatchToProps = (dispatch: ThunkAppDispatch) => ({
@@ -41,12 +44,13 @@ function PlaceCard({offer, onCardOver, onCardOut, customClasses, authStatus, tog
   const { isPremium, isFavorite, price, type, title, rating, previewImage, id } = offer;
   const {cardClassName, wrapperClassName} = customClasses;
   const isAuth = authStatus === AuthStatus.Auth;
-  const history = useHistory();
+
+  const dispatch = useDispatch();
 
   const handleFavoriteButtonClick = (evt: MouseEvent<HTMLButtonElement>) => {
     evt.preventDefault();
     if (!isAuth) {
-      history.push(AppRoutes.SignIn);
+      dispatch(redirectToRoute(AppRoutes.SignIn));
       return;
     }
     const favoriteStatus = +(!isFavorite);

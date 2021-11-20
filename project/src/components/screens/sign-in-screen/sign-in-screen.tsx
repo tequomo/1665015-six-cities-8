@@ -4,17 +4,18 @@ import { AuthDataRequest } from '../../../types/auth-data';
 import { loginAction } from '../../../services/api-actions';
 import { connect, ConnectedProps } from 'react-redux';
 import { useRef, FormEvent, MouseEvent } from 'react';
-import { useHistory } from 'react-router';
-import { AppRoutes, AuthStatus, CITIES } from '../../../const';
+// import { useHistory } from 'react-router';
+import { AppRoutes, /*AuthStatus,*/ CITIES } from '../../../const';
 import { State } from '../../../types/state';
 import { getRandomItems, validateLogin, validatePassword } from '../../../utils';
 import { selectCity } from '../../../store/action';
 import { Link } from 'react-router-dom';
+import { getAuthStatus } from '../../../store/reducers/user-auth/selectors';
 
 const CITIES_COUNT = 1;
 
-const mapStateToProps = ({USER_AUTH}: State) => ({
-  authStatus: USER_AUTH.authStatus,
+const mapStateToProps = (state: State) => ({
+  authStatus: getAuthStatus(state),
 });
 
 const mapDispatchToProps = (dispatch: ThunkAppDispatch) => ({
@@ -35,13 +36,13 @@ function SignInScreen({onLoginFormSubmit, authStatus, onCityClick}: PropsFromRed
 
   const loginRef = useRef<HTMLInputElement | null>(null);
   const passwordRef = useRef<HTMLInputElement | null>(null);
-  const isAuth = authStatus === AuthStatus.Auth;
+  // const isAuth = authStatus === AuthStatus.Auth;
 
-  const history = useHistory();
+  // const history = useHistory();
 
-  if(isAuth) {
-    history.push(AppRoutes.Main);
-  }
+  // if(isAuth) {
+  //   history.push(AppRoutes.Main);
+  // }
 
   const handleLoginChange = (evt: FormEvent<HTMLInputElement>) => {
     if (loginRef.current) {

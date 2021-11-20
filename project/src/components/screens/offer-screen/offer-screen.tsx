@@ -11,16 +11,18 @@ import OfferContainer from './offer-container';
 import { OfferType } from '../../../types/offer-type';
 import NotFoundScreen from '../not-found/not-found';
 import { AppRoutes, AuthStatus, LoadingStatus } from '../../../const';
+import { getAuthStatus } from '../../../store/reducers/user-auth/selectors';
+import { getCurrentOffer, getCurrentOfferLoadingStatus, getIsCurrentOfferLoaded } from '../../../store/reducers/current-offer-data/selectors';
 
 type ParamsPropsType = {
   id: string,
 }
 
-const mapStateToProps = ({USER_AUTH, CURRENT_OFFER_DATA}: State) => ({
-  authStatus: USER_AUTH.authStatus,
-  currentOffer: CURRENT_OFFER_DATA.currentOffer,
-  isCurrentOfferLoaded: CURRENT_OFFER_DATA.isCurrentOfferLoaded,
-  currentOfferLoadingStatus: CURRENT_OFFER_DATA.currentOfferLoadingStatus,
+const mapStateToProps = (state: State) => ({
+  authStatus: getAuthStatus(state),
+  currentOffer: getCurrentOffer(state),
+  isCurrentOfferLoaded: getIsCurrentOfferLoaded(state),
+  currentOfferLoadingStatus: getCurrentOfferLoadingStatus(state),
 });
 
 const mapDispatchToProps = (dispatch: ThunkAppDispatch) => ({
