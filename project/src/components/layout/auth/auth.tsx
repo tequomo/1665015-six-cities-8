@@ -7,9 +7,9 @@ import { ThunkAppDispatch } from '../../../types/action';
 import { State } from '../../../types/state';
 import SignOutBlock from './signout-block';
 
-const mapStateToProps = ({authStatus, authUserData}: State) => ({
-  authStatus,
-  authUserData,
+const mapStateToProps = ({USER_AUTH}: State) => ({
+  authStatus: USER_AUTH.authStatus,
+  authUserData: USER_AUTH.authUserData,
 });
 
 const mapDispatchToProps = (dispatch: ThunkAppDispatch) => ({

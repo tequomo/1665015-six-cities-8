@@ -8,8 +8,8 @@ type PrivateRouteProps = RouteProps & {
   authStatus: AuthStatus;
 }
 
-const mapStateToProps = ({authStatus}: State) => ({
-  authStatus,
+const mapStateToProps = ({USER_AUTH}: State) => ({
+  authStatus: USER_AUTH.authStatus,
 });
 
 const connector = connect(mapStateToProps);

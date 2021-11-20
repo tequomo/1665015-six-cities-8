@@ -17,11 +17,11 @@ type MainProps = {
   selectedCity: string,
 }
 
-const mapStateToProps = ({selectedCity, offers, currentSortingType, isDataLoaded}: State) => ({
-  selectedCity,
-  offers: sortingOffers(currentSortingType, getSelectedCityOffers(offers, selectedCity)),
-  currentSortingType,
-  isDataLoaded,
+const mapStateToProps = ({STATE, OFFERS_DATA}: State) => ({
+  selectedCity: STATE.selectedCity,
+  offers: sortingOffers(STATE.currentSortingType, getSelectedCityOffers(OFFERS_DATA.offers, STATE.selectedCity)),
+  currentSortingType: STATE.currentSortingType,
+  isDataLoaded: OFFERS_DATA.isDataLoaded,
 });
 
 const mapDispatchToProps = (dispatch: Dispatch<Actions>) => ({

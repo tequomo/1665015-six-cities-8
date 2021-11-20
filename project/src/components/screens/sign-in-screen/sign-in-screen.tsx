@@ -13,8 +13,8 @@ import { Link } from 'react-router-dom';
 
 const CITIES_COUNT = 1;
 
-const mapStateToProps = ({authStatus}: State) => ({
-  authStatus,
+const mapStateToProps = ({USER_AUTH}: State) => ({
+  authStatus: USER_AUTH.authStatus,
 });
 
 const mapDispatchToProps = (dispatch: ThunkAppDispatch) => ({

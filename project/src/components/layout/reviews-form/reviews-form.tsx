@@ -21,8 +21,8 @@ const initReviewState = {
   rating: 0,
 };
 
-const mapStateToProps = ({reviewLoadingStatus}: State) => ({
-  reviewLoadingStatus,
+const mapStateToProps = ({REVIEWS_DATA}: State) => ({
+  reviewLoadingStatus: REVIEWS_DATA.reviewLoadingStatus,
 });
 
 const mapDispatchToProps = (dispatch: ThunkAppDispatch) => ({

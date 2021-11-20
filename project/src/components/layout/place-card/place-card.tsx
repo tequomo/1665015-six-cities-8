@@ -19,9 +19,9 @@ type CardPropsType = {
   customClasses: PlacesClassType,
 }
 
-const mapStateToProps = ({authStatus, toggleIsFavoriteLoadingStatus}: State) => ({
-  authStatus,
-  toggleIsFavoriteLoadingStatus,
+const mapStateToProps = ({USER_AUTH, FAVORITES_DATA}: State) => ({
+  authStatus: USER_AUTH.authStatus,
+  toggleIsFavoriteLoadingStatus: FAVORITES_DATA.toggleIsFavoriteLoadingStatus,
 });
 
 const mapDispatchToProps = (dispatch: ThunkAppDispatch) => ({

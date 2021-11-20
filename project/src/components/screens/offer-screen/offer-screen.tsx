@@ -16,11 +16,11 @@ type ParamsPropsType = {
   id: string,
 }
 
-const mapStateToProps = ({authStatus, currentOffer, isCurrentOfferLoaded, currentOfferLoadingStatus}: State) => ({
-  authStatus,
-  currentOffer,
-  isCurrentOfferLoaded,
-  currentOfferLoadingStatus,
+const mapStateToProps = ({USER_AUTH, CURRENT_OFFER_DATA}: State) => ({
+  authStatus: USER_AUTH.authStatus,
+  currentOffer: CURRENT_OFFER_DATA.currentOffer,
+  isCurrentOfferLoaded: CURRENT_OFFER_DATA.isCurrentOfferLoaded,
+  currentOfferLoadingStatus: CURRENT_OFFER_DATA.currentOfferLoadingStatus,
 });
 
 const mapDispatchToProps = (dispatch: ThunkAppDispatch) => ({

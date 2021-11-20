@@ -15,9 +15,9 @@ import LoaderWrapper from '../../layout/loader-wrapper/loader-wrapper';
 //   offers: OfferType[],
 // }
 
-const mapStateToProps = ({ favoriteOffers, favoriteOffersLoadingStatus }: State) => ({
-  favoriteOffers,
-  favoriteOffersLoadingStatus,
+const mapStateToProps = ({ FAVORITES_DATA }: State) => ({
+  favoriteOffers: FAVORITES_DATA.favoriteOffers,
+  favoriteOffersLoadingStatus: FAVORITES_DATA.favoriteOffersLoadingStatus,
 });
 
 const mapDispatchToProps = (dispatch: ThunkAppDispatch) => ({

@@ -11,7 +11,7 @@ import GoodsList from './goods-list';
 import { State } from '../../../types/state';
 import { connect, ConnectedProps } from 'react-redux';
 import { ThunkAppDispatch } from '../../../types/action';
-import { fetchNearbyOffersAction, fetchOfferReviewsAction, toggleIsFavoriteAction } from '../../../services/api-actions';
+import { fetchCurrentOfferAction, fetchNearbyOffersAction, fetchOfferReviewsAction, toggleIsFavoriteAction } from '../../../services/api-actions';
 import LoaderWrapper from '../../layout/loader-wrapper/loader-wrapper';
 import InteriorGallery from './interior-gallery';
 
@@ -25,13 +25,13 @@ type OfferContainerPropsType = {
   currentOffer: OfferType,
 }
 
-const mapStateToProps = ({authStatus, isCurrentOfferLoaded, nearbyOffers, isNearbyLoaded, offerReviews, offerReviewsLoadingStatus}: State) => ({
-  authStatus,
-  nearbyOffers,
-  isCurrentOfferLoaded,
-  isNearbyLoaded,
-  offerReviews,
-  offerReviewsLoadingStatus,
+const mapStateToProps = ({USER_AUTH, CURRENT_OFFER_DATA, NEARBY_DATA, REVIEWS_DATA}: State) => ({
+  authStatus: USER_AUTH.authStatus,
+  nearbyOffers: NEARBY_DATA.nearbyOffers,
+  isCurrentOfferLoaded: CURRENT_OFFER_DATA.isCurrentOfferLoaded,
+  isNearbyLoaded: NEARBY_DATA.isNearbyLoaded,
+  offerReviews: REVIEWS_DATA.offerReviews,
+  offerReviewsLoadingStatus: REVIEWS_DATA.offerReviewsLoadingStatus,
 });
 
 const mapDispatchToProps = (dispatch: ThunkAppDispatch) => ({
@@ -43,6 +43,7 @@ const mapDispatchToProps = (dispatch: ThunkAppDispatch) => ({
   },
   toggleIsFavorite(id: number, favoriteStatus: number) {
     dispatch(toggleIsFavoriteAction(id, favoriteStatus));
+    dispatch(fetchCurrentOfferAction(id.toString()));
   },
 });
 
