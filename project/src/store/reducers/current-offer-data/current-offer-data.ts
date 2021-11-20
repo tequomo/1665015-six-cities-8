@@ -5,7 +5,6 @@ import { Actions, ActionType } from '../../../types/action';
 
 const initialState: CurrentOfferData = {
   currentOffer: null,
-  isCurrentOfferLoaded: false,
   currentOfferLoadingStatus: LoadingStatus.Idle,
 };
 
@@ -15,7 +14,7 @@ const currentOfferData = (state: CurrentOfferData = initialState, action: Action
       return {
         ...state,
         currentOffer: action.payload,
-        isCurrentOfferLoaded: true,
+        currentOfferLoadingStatus: LoadingStatus.Succeeded,
       };
     case ActionType.SetCurrentOfferLoadingStatus:
       return {

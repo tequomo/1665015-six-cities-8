@@ -31,18 +31,18 @@ export type UserAuth = {
 
 export type OffersData = {
   offers: OfferType[],
-  isDataLoaded: boolean,
+  offersLoadingStatus: LoadingStatus,
 }
 
 export type CurrentOfferData = {
   currentOffer: OfferType | null,
-  isCurrentOfferLoaded: boolean,
   currentOfferLoadingStatus: LoadingStatus,
 }
 
 export type NearbyData = {
   nearbyOffers: OfferType[],
-  isNearbyLoaded: boolean,
+  // isNearbyLoaded: boolean,
+  nearbyOffersLoadingStatus: LoadingStatus,
 }
 
 export type ReviewsData = {

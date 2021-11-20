@@ -1,10 +1,11 @@
+import { LoadingStatus } from '../../../const';
 import { Actions, ActionType } from '../../../types/action';
 import { NearbyData } from '../../../types/state';
 
 
 const initialState: NearbyData = {
   nearbyOffers: [],
-  isNearbyLoaded: false,
+  nearbyOffersLoadingStatus: LoadingStatus.Idle,
 };
 
 const nearbyData = (state: NearbyData = initialState, action: Actions): NearbyData => {
@@ -13,7 +14,7 @@ const nearbyData = (state: NearbyData = initialState, action: Actions): NearbyDa
       return {
         ...state,
         nearbyOffers: action.payload,
-        isNearbyLoaded: true,
+        nearbyOffersLoadingStatus: LoadingStatus.Succeeded,
       };
     default:
       return state;

@@ -5,5 +5,4 @@ import { NameSpace } from '../root-reducer';
 
 
 export const getCurrentOffer = (state: State): OfferType | null => state[NameSpace.currentOffer].currentOffer;
-export const getIsCurrentOfferLoaded = (state: State): boolean => state[NameSpace.currentOffer].isCurrentOfferLoaded;
 export const getCurrentOfferLoadingStatus = (state: State): LoadingStatus => state[NameSpace.currentOffer].currentOfferLoadingStatus;

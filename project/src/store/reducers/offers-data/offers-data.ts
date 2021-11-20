@@ -1,10 +1,11 @@
 import { OffersData } from '../../../types/state';
 import { Actions, ActionType } from '../../../types/action';
+import { LoadingStatus } from '../../../const';
 
 
 const initialState: OffersData = {
   offers: [],
-  isDataLoaded: false,
+  offersLoadingStatus: LoadingStatus.Idle,
 };
 
 const offersData = (state: OffersData = initialState, action: Actions): OffersData => {
@@ -13,7 +14,7 @@ const offersData = (state: OffersData = initialState, action: Actions): OffersDa
       return {
         ...state,
         offers: action.payload,
-        isDataLoaded: true,
+        offersLoadingStatus: LoadingStatus.Succeeded,
       };
     default:
       return state;

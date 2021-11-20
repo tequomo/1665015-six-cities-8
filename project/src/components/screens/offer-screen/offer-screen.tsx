@@ -12,7 +12,7 @@ import { OfferType } from '../../../types/offer-type';
 import NotFoundScreen from '../not-found/not-found';
 import { AppRoutes, AuthStatus, LoadingStatus } from '../../../const';
 import { getAuthStatus } from '../../../store/reducers/user-auth/selectors';
-import { getCurrentOffer, getCurrentOfferLoadingStatus, getIsCurrentOfferLoaded } from '../../../store/reducers/current-offer-data/selectors';
+import { getCurrentOffer, getCurrentOfferLoadingStatus } from '../../../store/reducers/current-offer-data/selectors';
 
 type ParamsPropsType = {
   id: string,
@@ -21,7 +21,7 @@ type ParamsPropsType = {
 const mapStateToProps = (state: State) => ({
   authStatus: getAuthStatus(state),
   currentOffer: getCurrentOffer(state),
-  isCurrentOfferLoaded: getIsCurrentOfferLoaded(state),
+  // isCurrentOfferLoaded: getIsCurrentOfferLoaded(state),
   currentOfferLoadingStatus: getCurrentOfferLoadingStatus(state),
 });
 
@@ -35,7 +35,7 @@ const connector = connect(mapStateToProps, mapDispatchToProps);
 
 type PropsFromRedux = ConnectedProps<typeof connector>;
 
-function OfferScreen({authStatus, currentOffer, isCurrentOfferLoaded, currentOfferLoadingStatus, fetchCurrentOffer}: PropsFromRedux): JSX.Element {
+function OfferScreen({authStatus, currentOffer, currentOfferLoadingStatus, fetchCurrentOffer}: PropsFromRedux): JSX.Element {
   const paramsProps = useParams<ParamsPropsType>();
 
   useEffect(() => {
@@ -53,7 +53,7 @@ function OfferScreen({authStatus, currentOffer, isCurrentOfferLoaded, currentOff
     <div className="page">
       <Header renderAuth />
 
-      <LoaderWrapper isLoad={isCurrentOfferLoaded} >
+      <LoaderWrapper isLoad={currentOfferLoadingStatus === LoadingStatus.Succeeded} >
         <OfferContainer currentOffer={currentOffer as OfferType}/>
       </LoaderWrapper>
     </div>

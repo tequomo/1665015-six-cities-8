@@ -15,8 +15,8 @@ import { fetchCurrentOfferAction, fetchNearbyOffersAction, fetchOfferReviewsActi
 import LoaderWrapper from '../../layout/loader-wrapper/loader-wrapper';
 import InteriorGallery from './interior-gallery';
 import { getAuthStatus } from '../../../store/reducers/user-auth/selectors';
-import { getIsNearbyLoaded, getNearbyOffers } from '../../../store/reducers/nearby-data/selectors';
-import { getIsCurrentOfferLoaded } from '../../../store/reducers/current-offer-data/selectors';
+import { getNearbyOffers, getNearbyOffersLoadingStatus } from '../../../store/reducers/nearby-data/selectors';
+import { getCurrentOfferLoadingStatus } from '../../../store/reducers/current-offer-data/selectors';
 import { getOfferReviews, getOfferReviewsLoadingStatus } from '../../../store/reducers/reviews-data/selectors';
 
 const MAX_IMAGES_COUNT = 6;
@@ -32,8 +32,8 @@ type OfferContainerPropsType = {
 const mapStateToProps = (state: State) => ({
   authStatus: getAuthStatus(state),
   nearbyOffers: getNearbyOffers(state),
-  isCurrentOfferLoaded: getIsCurrentOfferLoaded(state),
-  isNearbyLoaded: getIsNearbyLoaded(state),
+  currentOfferLoadingStatus: getCurrentOfferLoadingStatus(state),
+  nearbyOffersLoadingStatus: getNearbyOffersLoadingStatus(state),
   offerReviews: getOfferReviews(state),
   offerReviewsLoadingStatus: getOfferReviewsLoadingStatus(state),
 });
@@ -56,7 +56,7 @@ const connector = connect(mapStateToProps, mapDispatchToProps);
 type PropsFromRedux = ConnectedProps<typeof connector>;
 type ConnectedComponentProps = PropsFromRedux & OfferContainerPropsType;
 
-function OfferContainer({authStatus, currentOffer, nearbyOffers, offerReviews, isNearbyLoaded, offerReviewsLoadingStatus, fetchOfferReviews, fetchNearbyOffers, toggleIsFavorite}: ConnectedComponentProps): JSX.Element {
+function OfferContainer({authStatus, currentOffer, nearbyOffers, offerReviews, nearbyOffersLoadingStatus, offerReviewsLoadingStatus, fetchOfferReviews, fetchNearbyOffers, toggleIsFavorite}: ConnectedComponentProps): JSX.Element {
 
   const history = useHistory();
   const paramsProps = useParams<ParamsPropsType>();
@@ -166,7 +166,7 @@ function OfferContainer({authStatus, currentOffer, nearbyOffers, offerReviews, i
           </div>
         </div>
         <section className="property__map map">
-          <LoaderWrapper isLoad={isNearbyLoaded} >
+          <LoaderWrapper isLoad={nearbyOffersLoadingStatus === LoadingStatus.Succeeded} >
             <Map city={getCityData(nearbyOffers)} offers={nearbyOffers} selectedOfferId={selectedOfferId} currentOffer={currentOffer}/>
           </LoaderWrapper>
         </section>
@@ -174,8 +174,8 @@ function OfferContainer({authStatus, currentOffer, nearbyOffers, offerReviews, i
       <div className="container">
         <section className="near-places places">
           <h2 className="near-places__title">Other places in the neighbourhood</h2>
-          <LoaderWrapper isLoad={isNearbyLoaded} >
-            <OffersList offers={nearbyOffers} transferActiveOfferId={getActiveOfferId} customClasses={CustomClasses.NearPlaces} isLoad={isNearbyLoaded}/>
+          <LoaderWrapper isLoad={nearbyOffersLoadingStatus === LoadingStatus.Succeeded} >
+            <OffersList offers={nearbyOffers} transferActiveOfferId={getActiveOfferId} customClasses={CustomClasses.NearPlaces} isLoad={nearbyOffersLoadingStatus === LoadingStatus.Succeeded}/>
           </LoaderWrapper>
         </section>
       </div>

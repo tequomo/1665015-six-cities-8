@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react';
 import { connect, ConnectedProps } from 'react-redux';
-import { CustomClasses } from '../../../const';
+import { CustomClasses, LoadingStatus } from '../../../const';
 import { fetchOffersAction } from '../../../services/api-actions';
 import { selectCity, selectSorting } from '../../../store/action';
 import { getSelectedCity, getCurrentSortingType } from '../../../store/reducers/app-state/selectors';
-import { getIsDataLoaded, getOffers } from '../../../store/reducers/offers-data/selectors';
+import { getOffers, getOffersLoadingStatus } from '../../../store/reducers/offers-data/selectors';
 import { ThunkAppDispatch } from '../../../types/action';
 import { State } from '../../../types/state';
 import { getCityData, getSelectedCityOffers, sortingOffers } from '../../../utils';
@@ -25,7 +25,7 @@ const mapStateToProps = (state: State) => ({
   selectedCity: getSelectedCity(state),
   offers:  sortingOffers(getCurrentSortingType(state), getSelectedCityOffers(getOffers(state), getSelectedCity(state))),
   currentSortingType: getCurrentSortingType(state),
-  isDataLoaded: getIsDataLoaded(state),
+  offersLoadingStatus: getOffersLoadingStatus(state),
 });
 
 const mapDispatchToProps = (dispatch: ThunkAppDispatch) => ({
@@ -46,7 +46,7 @@ type PropsFromRedux = ConnectedProps<typeof connector>;
 type ConnectedComponentProps = PropsFromRedux & MainProps;
 
 
-function MainScreen({offers, onMenuItemClick, selectedCity, onSelectSorting, currentSortingType, isDataLoaded, fetchOffers}: ConnectedComponentProps): JSX.Element {
+function MainScreen({offers, onMenuItemClick, selectedCity, onSelectSorting, currentSortingType, offersLoadingStatus, fetchOffers}: ConnectedComponentProps): JSX.Element {
 
   useEffect(() => {
     fetchOffers();
@@ -62,7 +62,7 @@ function MainScreen({offers, onMenuItemClick, selectedCity, onSelectSorting, cur
     <div className="page page--gray page--main">
       <Header renderAuth />
 
-      <LoaderWrapper isLoad={isDataLoaded}>
+      <LoaderWrapper isLoad={offersLoadingStatus === LoadingStatus.Succeeded}>
         <main className={`page__main page__main--index ${!offers.length ? CustomClasses.MainScreen.mainClassName : ''}`}>
           <h1 className="visually-hidden">Cities</h1>
           <div className="tabs">
@@ -75,7 +75,7 @@ function MainScreen({offers, onMenuItemClick, selectedCity, onSelectSorting, cur
                   <h2 className="visually-hidden">Places</h2>
                   <b className="places__found">{offers.length} place{offers.length > 1 ? 's' : ''} to stay in {selectedCity}</b>
                   <PlacesSort onSelectSorting={onSelectSorting} currentSortingType={currentSortingType}/>
-                  <OffersList offers={offers} transferActiveOfferId={getActiveOfferId} customClasses={CustomClasses.CitiesPlaces} isLoad={isDataLoaded}/>
+                  <OffersList offers={offers} transferActiveOfferId={getActiveOfferId} customClasses={CustomClasses.CitiesPlaces} isLoad={offersLoadingStatus === LoadingStatus.Succeeded}/>
                 </section> :  <NoPlaces selectedCity={selectedCity} />}
               <div className="cities__right-section">
                 {offers.length &&

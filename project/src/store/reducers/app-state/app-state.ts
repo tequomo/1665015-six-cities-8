@@ -15,11 +15,11 @@ const appState = (state: AppState = initialState, action: Actions): AppState => 
         ...state,
         selectedCity: action.payload,
       };
-    case ActionType.FilterOffers:
-      return {
-        ...state,
-        // offers: action.payload,
-      };
+    // case ActionType.FilterOffers:
+    //   return {
+    //     ...state,
+    //     // offers: action.payload,
+    //   };
     case ActionType.SelectSorting:
       return {
         ...state,
