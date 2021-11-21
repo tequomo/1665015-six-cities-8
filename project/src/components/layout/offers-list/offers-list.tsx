@@ -2,7 +2,6 @@ import { useCallback, useState } from 'react';
 import withLoader from '../../../hoc/withloader';
 import { PlacesClassType } from '../../../types/classes-type';
 import { OfferType } from '../../../types/offer-type';
-// import { ReviewType } from '../../../types/review-type';
 import PlaceCard from '../place-card/place-card';
 
 export type OffersListPropsType = {
@@ -34,7 +33,7 @@ function OffersList({offers, transferActiveOfferId, customClasses}: OffersListPr
     <div className={`${listClassName} places__list ${tabsClassName}`}>
       {
         offers.map((offer: OfferType) => {
-          const keyValue = `${offer.id}-${offer.city.name}`;
+          const keyValue = `${offer.city.name}-${offer.id}`;
           return <PlaceCard key={keyValue} offer={offer} onCardOver={handleMouseEnter} onCardOut={handleMouseLeave} customClasses={customClasses}/>;
         },
         )
@@ -45,4 +44,3 @@ function OffersList({offers, transferActiveOfferId, customClasses}: OffersListPr
 
 export { OffersList };
 export default withLoader(OffersList);
-// export default OffersList;

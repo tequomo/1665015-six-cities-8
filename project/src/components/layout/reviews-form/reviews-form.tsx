@@ -1,44 +1,33 @@
 import { useParams } from 'react-router-dom';
 import { useEffect} from 'react';
 import { ChangeEvent, FormEvent, useState } from 'react';
-import { connect, ConnectedProps } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { fetchOfferReviewsAction, postOfferReviewAction } from '../../../services/api-actions';
-import { ThunkAppDispatch } from '../../../types/action';
 import RatingStars from '../rating-stars/rating-stars';
-import { State } from '../../../types/state';
 import { LoadingStatus } from '../../../const';
 import { getReviewLoadingStatus } from '../../../store/reducers/reviews-data/selectors';
+import { checkIsValidUserReview } from '../../../utils';
 
 type ReviewElementsType = {
   comment: string,
   rating: number,
 }
 
-const MIN_REVIEW_LENGTH = 50;
-const MAX_REVIEW_LENGTH = 300;
-
 const initReviewState = {
   comment: '',
   rating: 0,
 };
 
-const mapStateToProps = (state: State) => ({
-  reviewLoadingStatus: getReviewLoadingStatus(state),
-});
+function ReviewsForm(): JSX.Element {
 
-const mapDispatchToProps = (dispatch: ThunkAppDispatch) => ({
-  postOfferReview(id: string, userReview: ReviewElementsType): void {
+  const reviewLoadingStatus = useSelector(getReviewLoadingStatus);
+
+  const dispatch = useDispatch();
+
+  const postOfferReview = (id: string, userReview: ReviewElementsType): void => {
     dispatch(postOfferReviewAction(id, userReview));
     dispatch(fetchOfferReviewsAction(id));
-  },
-});
-
-const connector = connect(mapStateToProps, mapDispatchToProps);
-
-type PropsFromRedux = ConnectedProps<typeof connector>;
-
-
-function ReviewsForm({postOfferReview, reviewLoadingStatus}: PropsFromRedux): JSX.Element {
+  };
 
   const [userReview, setUserReview] = useState<ReviewElementsType>(initReviewState);
 
@@ -92,11 +81,10 @@ function ReviewsForm({postOfferReview, reviewLoadingStatus}: PropsFromRedux): JS
         <p className="reviews__help">
         To submit review please make sure to set <span className="reviews__star">rating</span> and describe your stay with at least <b className="reviews__text-amount">50 characters</b>.
         </p>
-        <button className="reviews__submit form__submit button" type="submit" disabled={!((rating > 0) && ((comment.length >= MIN_REVIEW_LENGTH) && (comment.length < MAX_REVIEW_LENGTH)))}>Submit</button>
+        <button className="reviews__submit form__submit button" type="submit" disabled={checkIsValidUserReview(rating, comment)}>Submit</button>
       </div>
     </form>
   );
 }
 
-export { ReviewsForm };
-export default connector(ReviewsForm);
+export default ReviewsForm;

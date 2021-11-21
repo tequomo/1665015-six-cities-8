@@ -1,16 +1,14 @@
 // import { useState } from 'react';
 import { MouseEvent } from 'react';
-import { connect, ConnectedProps, useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { AppRoutes, AuthStatus } from '../../../const';
 import { fetchOffersAction, toggleIsFavoriteAction } from '../../../services/api-actions';
 import { redirectToRoute } from '../../../store/action';
-import { getToggleIsFavoriteLoadingStatus } from '../../../store/reducers/favorites-data/selectors';
+// import { getToggleIsFavoriteLoadingStatus } from '../../../store/reducers/favorites-data/selectors';
 import { getAuthStatus } from '../../../store/reducers/user-auth/selectors';
-import { ThunkAppDispatch } from '../../../types/action';
 import { PlacesClassType } from '../../../types/classes-type';
 import { OfferType } from '../../../types/offer-type';
-import { State } from '../../../types/state';
 import { capitalizeWord, getRatingWidth } from '../../../utils';
 import FavoriteButton from './favorite-button';
 import PlaceCardMark from './place-card-mark';
@@ -22,30 +20,21 @@ type CardPropsType = {
   customClasses: PlacesClassType,
 }
 
-const mapStateToProps = (state: State) => ({
-  authStatus: getAuthStatus(state),
-  toggleIsFavoriteLoadingStatus: getToggleIsFavoriteLoadingStatus(state),
-});
-
-const mapDispatchToProps = (dispatch: ThunkAppDispatch) => ({
-  toggleIsFavorite(id: number, favoriteStatus: number) {
-    dispatch(toggleIsFavoriteAction(id, favoriteStatus));
-    dispatch(fetchOffersAction());
-  },
-});
-
-const connector = connect(mapStateToProps, mapDispatchToProps);
-
-type PropsFromRedux = ConnectedProps<typeof connector>;
-type ConnectedComponentProps = PropsFromRedux & CardPropsType;
-
-
-function PlaceCard({offer, onCardOver, onCardOut, customClasses, authStatus, toggleIsFavorite, toggleIsFavoriteLoadingStatus}: ConnectedComponentProps): JSX.Element {
+function PlaceCard({offer, onCardOver, onCardOut, customClasses}: CardPropsType): JSX.Element {
   const { isPremium, isFavorite, price, type, title, rating, previewImage, id } = offer;
   const {cardClassName, wrapperClassName} = customClasses;
-  const isAuth = authStatus === AuthStatus.Auth;
+
+  const authStatus = useSelector(getAuthStatus);
+  // const toggleIsFavoriteLoadingStatus = useSelector(getToggleIsFavoriteLoadingStatus);
 
   const dispatch = useDispatch();
+
+  const toggleIsFavorite = (offerId: number, favoriteStatus: number): void => {
+    dispatch(toggleIsFavoriteAction(offerId, favoriteStatus));
+    dispatch(fetchOffersAction());
+  };
+
+  const isAuth = authStatus === AuthStatus.Auth;
 
   const handleFavoriteButtonClick = (evt: MouseEvent<HTMLButtonElement>) => {
     evt.preventDefault();
@@ -92,5 +81,4 @@ function PlaceCard({offer, onCardOver, onCardOut, customClasses, authStatus, tog
   );
 }
 
-export { PlaceCard };
-export default connector(PlaceCard);
+export default PlaceCard;

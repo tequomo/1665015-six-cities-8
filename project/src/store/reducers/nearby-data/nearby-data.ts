@@ -1,6 +1,7 @@
+import { createReducer } from '@reduxjs/toolkit';
 import { LoadingStatus } from '../../../const';
-import { Actions, ActionType } from '../../../types/action';
 import { NearbyData } from '../../../types/state';
+import { loadNearbyOffers, setNearbyOffersLoadingStatus } from '../../action';
 
 
 const initialState: NearbyData = {
@@ -8,18 +9,14 @@ const initialState: NearbyData = {
   nearbyOffersLoadingStatus: LoadingStatus.Idle,
 };
 
-const nearbyData = (state: NearbyData = initialState, action: Actions): NearbyData => {
-  switch (action.type) {
-    case ActionType.LoadNearbyOffers:
-      return {
-        ...state,
-        nearbyOffers: action.payload,
-        nearbyOffersLoadingStatus: LoadingStatus.Succeeded,
-      };
-    default:
-      return state;
-  }
-
-};
+const nearbyData = createReducer(initialState, (builder) => {
+  builder
+    .addCase(loadNearbyOffers, (state, action) => {
+      state.nearbyOffers = action.payload;
+    })
+    .addCase(setNearbyOffersLoadingStatus, (state, action) => {
+      state.nearbyOffersLoadingStatus = action.payload;
+    });
+});
 
 export { nearbyData };

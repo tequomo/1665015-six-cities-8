@@ -1,46 +1,44 @@
-import { Actions } from '../../../types/action';
-import { useState } from 'react';
-import { Dispatch } from 'redux';
-import { State } from '../../../types/state';
-import { getCityData, getSelectedCityOffers, sortingOffers } from '../../../utils';
+import { useState, useCallback, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { getCityData } from '../../../utils';
 import Locations from '../../layout/locations/locations';
 import Map from '../../layout/map/map';
 import { OffersList } from '../../layout/offers-list/offers-list';
 import PlacesSort from '../../layout/places-sort/places-sort';
 import NoPlaces from './no-places';
 import { selectCity, selectSorting } from '../../../store/action';
-import { connect, ConnectedProps } from 'react-redux';
 import { CustomClasses, LoadingStatus } from '../../../const';
 import { getCurrentSortingType, getSelectedCity } from '../../../store/reducers/app-state/selectors';
-import { getOffers, getOffersLoadingStatus } from '../../../store/reducers/offers-data/selectors';
+import { getOffersLoadingStatus, getSortedOffers } from '../../../store/reducers/offers-data/selectors';
+import { fetchOffersAction } from '../../../services/api-actions';
 
 
-type MainProps = {
-  selectedCity: string,
-}
+// type MainProps = {
+//   selectedCity: string,
+// }
 
-const mapStateToProps = (state: State) => ({
-  selectedCity: getSelectedCity(state),
-  offers:  sortingOffers(getCurrentSortingType(state), getSelectedCityOffers(getOffers(state), getSelectedCity(state))),
-  currentSortingType: getCurrentSortingType(state),
-  offersLoadingStatus: getOffersLoadingStatus(state),
-});
+function MainContainer(): JSX.Element {
 
-const mapDispatchToProps = (dispatch: Dispatch<Actions>) => ({
-  onMenuItemClick(selectedCity: string) {
-    dispatch(selectCity(selectedCity));
-  },
-  onSelectSorting(currentSortingType: string) {
-    dispatch(selectSorting(currentSortingType));
-  },
-});
+  const offers = useSelector(getSortedOffers);
+  const selectedCity = useSelector(getSelectedCity);
+  const currentSortingType = useSelector(getCurrentSortingType);
+  const offersLoadingStatus = useSelector(getOffersLoadingStatus);
 
-const connector = connect(mapStateToProps, mapDispatchToProps);
+  const dispatch = useDispatch();
 
-type PropsFromRedux = ConnectedProps<typeof connector>;
-type ConnectedComponentProps = PropsFromRedux & MainProps;
+  const onMenuItemClick = (city: string) => {
+    dispatch(selectCity(city));
+  };
+  const onSelectSorting = (currentSorting: string) => {
+    dispatch(selectSorting(currentSorting));
+  };
+  const fetchOffers = useCallback(() => {
+    dispatch(fetchOffersAction());
+  }, [dispatch]);
 
-function MainContainerr({offers, onMenuItemClick, selectedCity, onSelectSorting, currentSortingType, offersLoadingStatus}: ConnectedComponentProps): JSX.Element {
+  useEffect(() => {
+    fetchOffers();
+  }, [fetchOffers]);
 
   const [selectedOfferId, setSelectedOfferId] = useState<number | null>(null);
 
@@ -75,5 +73,4 @@ function MainContainerr({offers, onMenuItemClick, selectedCity, onSelectSorting,
   );
 }
 
-export { MainContainerr };
-export default connector(MainContainerr);
+export default MainContainer;

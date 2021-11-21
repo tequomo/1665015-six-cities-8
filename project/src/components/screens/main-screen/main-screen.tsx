@@ -1,13 +1,11 @@
-import { useEffect, useState } from 'react';
-import { connect, ConnectedProps } from 'react-redux';
+import { useCallback, useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { CustomClasses, LoadingStatus } from '../../../const';
 import { fetchOffersAction } from '../../../services/api-actions';
 import { selectCity, selectSorting } from '../../../store/action';
 import { getSelectedCity, getCurrentSortingType } from '../../../store/reducers/app-state/selectors';
-import { getOffers, getOffersLoadingStatus } from '../../../store/reducers/offers-data/selectors';
-import { ThunkAppDispatch } from '../../../types/action';
-import { State } from '../../../types/state';
-import { getCityData, getSelectedCityOffers, sortingOffers } from '../../../utils';
+import { getOffersLoadingStatus, getSortedOffers } from '../../../store/reducers/offers-data/selectors';
+import { getCityData } from '../../../utils';
 import Header from '../../layout/header/header';
 import LoaderWrapper from '../../layout/loader-wrapper/loader-wrapper';
 import Locations from '../../layout/locations/locations';
@@ -17,36 +15,24 @@ import PlacesSort from '../../layout/places-sort/places-sort';
 import NoPlaces from './no-places';
 
 
-type MainProps = {
-  selectedCity: string,
-}
+function MainScreen(): JSX.Element {
 
-const mapStateToProps = (state: State) => ({
-  selectedCity: getSelectedCity(state),
-  offers:  sortingOffers(getCurrentSortingType(state), getSelectedCityOffers(getOffers(state), getSelectedCity(state))),
-  currentSortingType: getCurrentSortingType(state),
-  offersLoadingStatus: getOffersLoadingStatus(state),
-});
+  const offers = useSelector(getSortedOffers);
+  const selectedCity = useSelector(getSelectedCity);
+  const currentSortingType = useSelector(getCurrentSortingType);
+  const offersLoadingStatus = useSelector(getOffersLoadingStatus);
 
-const mapDispatchToProps = (dispatch: ThunkAppDispatch) => ({
-  onMenuItemClick(selectedCity: string) {
-    dispatch(selectCity(selectedCity));
-  },
-  onSelectSorting(currentSortingType: string) {
-    dispatch(selectSorting(currentSortingType));
-  },
-  fetchOffers() {
+  const dispatch = useDispatch();
+
+  const onMenuItemClick = (city: string) => {
+    dispatch(selectCity(city));
+  };
+  const onSelectSorting = (currentSorting: string) => {
+    dispatch(selectSorting(currentSorting));
+  };
+  const fetchOffers = useCallback(() => {
     dispatch(fetchOffersAction());
-  },
-});
-
-const connector = connect(mapStateToProps, mapDispatchToProps);
-
-type PropsFromRedux = ConnectedProps<typeof connector>;
-type ConnectedComponentProps = PropsFromRedux & MainProps;
-
-
-function MainScreen({offers, onMenuItemClick, selectedCity, onSelectSorting, currentSortingType, offersLoadingStatus, fetchOffers}: ConnectedComponentProps): JSX.Element {
+  }, [dispatch]);
 
   useEffect(() => {
     fetchOffers();
@@ -63,13 +49,13 @@ function MainScreen({offers, onMenuItemClick, selectedCity, onSelectSorting, cur
       <Header renderAuth />
 
       <LoaderWrapper isLoad={offersLoadingStatus === LoadingStatus.Succeeded}>
-        <main className={`page__main page__main--index ${!offers.length ? CustomClasses.MainScreen.mainClassName : ''}`}>
+        <main className={`page__main page__main--index ${!(offersLoadingStatus === LoadingStatus.Succeeded) ? CustomClasses.MainScreen.mainClassName : ''}`}>
           <h1 className="visually-hidden">Cities</h1>
           <div className="tabs">
             <Locations onMenuItemClick={onMenuItemClick} selectedCity={selectedCity} />
           </div>
           <div className="cities">
-            <div className={`cities__places-container ${!offers.length ? CustomClasses.MainScreen.divCitiesClassName : ''} container`}>
+            <div className={`cities__places-container ${!(offersLoadingStatus === LoadingStatus.Succeeded) ? CustomClasses.MainScreen.divCitiesClassName : ''} container`}>
               {offers.length ?
                 <section className="cities__places places">
                   <h2 className="visually-hidden">Places</h2>
@@ -78,7 +64,7 @@ function MainScreen({offers, onMenuItemClick, selectedCity, onSelectSorting, cur
                   <OffersList offers={offers} transferActiveOfferId={getActiveOfferId} customClasses={CustomClasses.CitiesPlaces} isLoad={offersLoadingStatus === LoadingStatus.Succeeded}/>
                 </section> :  <NoPlaces selectedCity={selectedCity} />}
               <div className="cities__right-section">
-                {offers.length &&
+                {(offersLoadingStatus === LoadingStatus.Succeeded) &&
               <section className="cities__map map">
                 <Map city={getCityData(offers)} offers={offers} selectedOfferId={selectedOfferId} />
               </section>}
@@ -91,5 +77,4 @@ function MainScreen({offers, onMenuItemClick, selectedCity, onSelectSorting, cur
   );
 }
 
-export {MainScreen};
-export default connector(MainScreen);
+export default MainScreen;

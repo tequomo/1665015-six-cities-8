@@ -1,38 +1,28 @@
-import { ThunkAppDispatch } from '../../../types/action';
 import Header from '../../layout/header/header';
 import { AuthDataRequest } from '../../../types/auth-data';
 import { loginAction } from '../../../services/api-actions';
-import { connect, ConnectedProps } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { useRef, FormEvent, MouseEvent } from 'react';
-// import { useHistory } from 'react-router';
-import { AppRoutes, /*AuthStatus,*/ CITIES } from '../../../const';
-import { State } from '../../../types/state';
+import { AppRoutes, CITIES } from '../../../const';
 import { getRandomItems, validateLogin, validatePassword } from '../../../utils';
 import { selectCity } from '../../../store/action';
 import { Link } from 'react-router-dom';
-import { getAuthStatus } from '../../../store/reducers/user-auth/selectors';
 
 const CITIES_COUNT = 1;
 
-const mapStateToProps = (state: State) => ({
-  authStatus: getAuthStatus(state),
-});
+function SignInScreen(): JSX.Element {
 
-const mapDispatchToProps = (dispatch: ThunkAppDispatch) => ({
-  onLoginFormSubmit(authData: AuthDataRequest) {
+  // const authStatus = useSelector(getAuthStatus);
+
+  const dispatch = useDispatch();
+
+  const onLoginFormSubmit = (authData: AuthDataRequest) => {
     dispatch(loginAction(authData));
-  },
-  onCityClick(cityName: string) {
+  };
+  const onCityClick = (cityName: string) => {
     dispatch(selectCity(cityName));
-  },
-});
+  };
 
-const connector = connect(mapStateToProps, mapDispatchToProps);
-
-type PropsFromRedux = ConnectedProps<typeof connector>;
-
-function SignInScreen({onLoginFormSubmit, authStatus, onCityClick}: PropsFromRedux): JSX.Element {
-  // const {onSubmit} = props;
 
   const loginRef = useRef<HTMLInputElement | null>(null);
   const passwordRef = useRef<HTMLInputElement | null>(null);
@@ -110,5 +100,4 @@ function SignInScreen({onLoginFormSubmit, authStatus, onCityClick}: PropsFromRed
   );
 }
 
-export { SignInScreen };
-export default connector(SignInScreen);
+export default SignInScreen;

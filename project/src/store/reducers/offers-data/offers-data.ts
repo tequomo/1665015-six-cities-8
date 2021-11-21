@@ -1,6 +1,7 @@
 import { OffersData } from '../../../types/state';
-import { Actions, ActionType } from '../../../types/action';
 import { LoadingStatus } from '../../../const';
+import { createReducer } from '@reduxjs/toolkit';
+import { loadOffers, setOffersLoadingStatus } from '../../action';
 
 
 const initialState: OffersData = {
@@ -8,17 +9,27 @@ const initialState: OffersData = {
   offersLoadingStatus: LoadingStatus.Idle,
 };
 
-const offersData = (state: OffersData = initialState, action: Actions): OffersData => {
-  switch (action.type) {
-    case ActionType.LoadOffers:
-      return {
-        ...state,
-        offers: action.payload,
-        offersLoadingStatus: LoadingStatus.Succeeded,
-      };
-    default:
-      return state;
-  }
-};
+const offersData = createReducer(initialState, (builder) => {
+  builder
+    .addCase(loadOffers, (state, action) => {
+      state.offers = action.payload;
+    })
+    .addCase(setOffersLoadingStatus, (state, action) => {
+      state.offersLoadingStatus = action.payload;
+    });
+});
+
+// ) (state: OffersData = initialState, action: Actions): OffersData => {
+//   switch (action.type) {
+//     case ActionType.LoadOffers:
+//       return {
+//         ...state,
+//         offers: action.payload,
+//         offersLoadingStatus: LoadingStatus.Succeeded,
+//       };
+//     default:
+//       return state;
+//   }
+// };
 
 export { offersData };

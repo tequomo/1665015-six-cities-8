@@ -1,10 +1,8 @@
 import { useParams } from 'react-router-dom';
 import { Redirect } from 'react-router';
-import { useEffect} from 'react';
+import { useCallback, useEffect} from 'react';
 import Header from '../../layout/header/header';
-import { State } from '../../../types/state';
-import { connect, ConnectedProps } from 'react-redux';
-import { ThunkAppDispatch } from '../../../types/action';
+import { useSelector, useDispatch } from 'react-redux';
 import { fetchCurrentOfferAction } from '../../../services/api-actions';
 import LoaderWrapper from '../../layout/loader-wrapper/loader-wrapper';
 import OfferContainer from './offer-container';
@@ -18,32 +16,28 @@ type ParamsPropsType = {
   id: string,
 }
 
-const mapStateToProps = (state: State) => ({
-  authStatus: getAuthStatus(state),
-  currentOffer: getCurrentOffer(state),
-  // isCurrentOfferLoaded: getIsCurrentOfferLoaded(state),
-  currentOfferLoadingStatus: getCurrentOfferLoadingStatus(state),
-});
-
-const mapDispatchToProps = (dispatch: ThunkAppDispatch) => ({
-  fetchCurrentOffer(id: string) {
-    dispatch(fetchCurrentOfferAction(id));
-  },
-});
-
-const connector = connect(mapStateToProps, mapDispatchToProps);
-
-type PropsFromRedux = ConnectedProps<typeof connector>;
-
-function OfferScreen({authStatus, currentOffer, currentOfferLoadingStatus, fetchCurrentOffer}: PropsFromRedux): JSX.Element {
+function OfferScreen(): JSX.Element {
   const paramsProps = useParams<ParamsPropsType>();
+
+  const authStatus = useSelector(getAuthStatus);
+  const currentOffer = useSelector(getCurrentOffer);
+  const currentOfferLoadingStatus = useSelector(getCurrentOfferLoadingStatus);
+
+  const dispatch = useDispatch();
+
+  const fetchCurrentOffer = useCallback((id: string) => {
+    dispatch(fetchCurrentOfferAction(paramsProps.id));
+  }, [dispatch, paramsProps.id]);
+
+  useEffect(() => {
+    fetchCurrentOffer(paramsProps.id);
+  }, [fetchCurrentOffer, paramsProps.id]);
 
   useEffect(() => {
     if(authStatus === AuthStatus.NoAuth) {
       <Redirect to={AppRoutes.SignIn} />;
     }
-    fetchCurrentOffer(paramsProps.id);
-  }, [authStatus, fetchCurrentOffer, paramsProps.id]);
+  }, [authStatus]);
 
   if(currentOfferLoadingStatus === LoadingStatus.Failed) {
     return <NotFoundScreen />;
@@ -60,5 +54,4 @@ function OfferScreen({authStatus, currentOffer, currentOfferLoadingStatus, fetch
   );
 }
 
-export { OfferScreen };
-export default connector(OfferScreen);
+export default OfferScreen;

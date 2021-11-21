@@ -1,24 +1,19 @@
-import { connect, ConnectedProps } from 'react-redux';
-import { Redirect, Route, RouteProps } from 'react-router';
+import { useDispatch, useSelector } from 'react-redux';
+import { Route, RouteProps } from 'react-router';
 import { AppRoutes, AuthStatus } from '../../const';
+import { redirectToRoute } from '../../store/action';
 import { getAuthStatus } from '../../store/reducers/user-auth/selectors';
-import { State } from '../../types/state';
 
 type PrivateRouteProps = RouteProps & {
   render: () => JSX.Element;
-  authStatus: AuthStatus;
 }
 
-const mapStateToProps = (state: State) => ({
-  authStatus: getAuthStatus(state),
-});
+function PrivateRoute({exact, path, render}: PrivateRouteProps): JSX.Element {
 
-const connector = connect(mapStateToProps);
+  const authStatus = useSelector(getAuthStatus);
 
-type PropsFromRedux = ConnectedProps<typeof connector>;
-type ConnectedComponentProps = PropsFromRedux & PrivateRouteProps;
+  const dispatch = useDispatch();
 
-function PrivateRoute({exact, path, render, authStatus}: ConnectedComponentProps): JSX.Element {
   return (
     <Route
       exact={exact}
@@ -26,11 +21,10 @@ function PrivateRoute({exact, path, render, authStatus}: ConnectedComponentProps
       render={() => (
         authStatus === AuthStatus.Auth
           ? render()
-          : <Redirect to={AppRoutes.SignIn} />
+          : dispatch(redirectToRoute(AppRoutes.SignIn))
       )}
     />
   );
 }
 
-export { PrivateRoute };
-export default connector(PrivateRoute);
+export default PrivateRoute;

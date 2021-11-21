@@ -1,34 +1,28 @@
 import { MouseEvent } from 'react';
-import { connect, ConnectedProps } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { AppRoutes, AuthStatus, CustomClasses } from '../../../const';
 import { logoutAction } from '../../../services/api-actions';
 import { getAuthStatus, getAuthUserData } from '../../../store/reducers/user-auth/selectors';
-import { ThunkAppDispatch } from '../../../types/action';
-import { State } from '../../../types/state';
 import SignOutBlock from './signout-block';
 
-const mapStateToProps = (state: State) => ({
-  authStatus: getAuthStatus(state),
-  authUserData: getAuthUserData(state),
-});
 
-const mapDispatchToProps = (dispatch: ThunkAppDispatch) => ({
-  onSignOutClick() {
+function Auth(): JSX.Element {
+
+  const authStatus = useSelector(getAuthStatus);
+  const authUserData = useSelector(getAuthUserData);
+
+  const dispatch = useDispatch();
+
+  const doSignOut = () => {
     dispatch(logoutAction());
-  },
-});
-
-const connector = connect(mapStateToProps, mapDispatchToProps);
-type PropsFromRedux = ConnectedProps<typeof connector>;
-
-function Auth({authStatus, authUserData, onSignOutClick}: PropsFromRedux): JSX.Element {
+  };
 
   const isAuth = authStatus === AuthStatus.Auth;
 
   const handleSignOut = (e: MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();
-    onSignOutClick();
+    doSignOut();
   };
 
   return (
@@ -49,5 +43,4 @@ function Auth({authStatus, authUserData, onSignOutClick}: PropsFromRedux): JSX.E
   );
 }
 
-export { Auth };
-export default connector(Auth);
+export default Auth;

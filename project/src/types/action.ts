@@ -1,4 +1,5 @@
 import { AxiosInstance } from 'axios';
+import { Action } from 'redux';
 import { ThunkAction, ThunkDispatch } from 'redux-thunk';
 import { AppRoutes, AuthStatus, LoadingStatus } from '../const';
 import { AuthUserData } from './auth-data';
@@ -9,24 +10,25 @@ import { State } from './state';
 export enum ActionType {
   SelectCity = 'main/selectCity',
   FilterOffers = 'main/filterOffers',
-  ResetState = 'main/resetState',
   SelectSorting = 'main/selectSorting',
   LoadOffers = 'data/loadOffers',
+  SetOffersLoadingStatus = 'data/setOffersLoadingStatus',
   LoadCurrentOffer = 'data/loadCurrentOffer',
-  LoadOfferReviews = 'data/loadOfferReviews',
-  LoadNearbyOffers = 'data/loadNearbyOffers',
-  LoadFavoriteOffers = 'data/loadFavoriteOffers',
-  RequireAuthorization = 'user/requireAuthorization',
-  RequireLogout = 'user/requireLogout',
-  RedirectToRoute = 'main/redirectToRoute',
-  ReceiveAuthData = 'user/receiveAuthData',
   SetCurrentOfferLoadingStatus = 'data/setCurrentOfferLoadingStatus',
+  LoadOfferReviews = 'data/loadOfferReviews',
   SetOfferReviewsLoadingStatus = 'data/setOfferReviewsLoadingStatus',
-  SetFavoriteOffersLoadingStatus = 'data/setFavoriteOffersLoadingStatus',
   SendOfferReview = 'data/sendOfferReview',
+  SetReviewLoadingStatus = 'data/setReviewLoadingStatus',
+  LoadNearbyOffers = 'data/loadNearbyOffers',
+  SetNearbyOffersLoadingStatus = 'data/setNearbyOffersLoadingStatus',
+  LoadFavoriteOffers = 'data/loadFavoriteOffers',
+  SetFavoriteOffersLoadingStatus = 'data/setFavoriteOffersLoadingStatus',
   ToggleIsFavorite = 'data/toggleFavorite',
   SetToggleIsFavoriteLoadingStatus = 'data/setToggleIsFavoriteLoadingStatus',
-  SetReviewLoadingStatus = 'data/setReviewLoadingStatus',
+  RequireAuthorization = 'user/requireAuthorization',
+  ReceiveAuthData = 'user/receiveAuthData',
+  RequireLogout = 'user/requireLogout',
+  RedirectToRoute = 'main/redirectToRoute',
 }
 
 export type SelectCityAction = {
@@ -37,10 +39,6 @@ export type SelectCityAction = {
 export type FilterOffersAction = {
   type: ActionType.FilterOffers,
   payload: OfferType[],
-}
-
-export type ResetStateAction = {
-  type: ActionType.ResetState,
 }
 
 export type SelectSortingAction = {
@@ -92,6 +90,11 @@ export type ReceiveAuthDataAction = {
   payload: AuthUserData,
 }
 
+export type SetOffersLoadingStatusAction = {
+  type: ActionType.SetOffersLoadingStatus,
+  payload: LoadingStatus,
+}
+
 export type SetCurrentOfferLoadingStatusAction = {
   type: ActionType.SetCurrentOfferLoadingStatus,
   payload: LoadingStatus,
@@ -112,6 +115,11 @@ export type SetToggleIsFavoriteLoadingStatusAction = {
   payload: LoadingStatus,
 }
 
+export type SetNearbyOffersLoadingStatusAction = {
+  type: ActionType.SetNearbyOffersLoadingStatus,
+  payload: LoadingStatus,
+}
+
 export type ToggleIsFavoriteAction = {
   type: ActionType.ToggleIsFavorite,
   payload: OfferType;
@@ -127,28 +135,27 @@ export type SetReviewLoadingStatusAction = {
   payload: LoadingStatus,
 }
 
-export type Actions =
-  | SelectCityAction
-  | FilterOffersAction
-  | ResetStateAction
-  | SelectSortingAction
-  | LoadOffersAction
-  | LoadCurrentOfferAction
-  | LoadOfferReviewsAction
-  | LoadNearbyOffersAction
-  | LoadFavoriteOffersAction
-  | RequireAuthorizationAction
-  | RequireLogoutAction
-  | RedirectToRouteAction
-  | ReceiveAuthDataAction
-  | SetCurrentOfferLoadingStatusAction
-  | SetOfferReviewsLoadingStatusAction
-  | SetFavoriteOffersLoadingStatusAction
-  | ToggleIsFavoriteAction
-  | SendOfferReviewAction
-  | SetReviewLoadingStatusAction
-  | SetToggleIsFavoriteLoadingStatusAction;
+// export type Actions =
+//   | SelectCityAction
+//   | FilterOffersAction
+//   | SelectSortingAction
+//   | LoadOffersAction
+//   | LoadCurrentOfferAction
+//   | LoadOfferReviewsAction
+//   | LoadNearbyOffersAction
+//   | LoadFavoriteOffersAction
+//   | RequireAuthorizationAction
+//   | RequireLogoutAction
+//   | RedirectToRouteAction
+//   | ReceiveAuthDataAction
+//   | SetCurrentOfferLoadingStatusAction
+//   | SetOfferReviewsLoadingStatusAction
+//   | SetFavoriteOffersLoadingStatusAction
+//   | ToggleIsFavoriteAction
+//   | SendOfferReviewAction
+//   | SetReviewLoadingStatusAction
+//   | SetToggleIsFavoriteLoadingStatusAction;
 
-export type ThunkActionResult<R = Promise<void>> = ThunkAction<R, State, AxiosInstance, Actions>;
+export type ThunkActionResult<R = Promise<void>> = ThunkAction<R, State, AxiosInstance, Action>;
 
-export type ThunkAppDispatch = ThunkDispatch<State, AxiosInstance, Actions>;
+export type ThunkAppDispatch = ThunkDispatch<State, AxiosInstance, Action>;

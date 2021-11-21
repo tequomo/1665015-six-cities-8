@@ -71,3 +71,7 @@ export const validatePassword = (password: string): string => {
   return 'Password must contain at least 1 letter and 1 number.\n No spaces allowed';
 };
 
+const MIN_REVIEW_LENGTH = 50;
+const MAX_REVIEW_LENGTH = 300;
+
+export const checkIsValidUserReview = (rating: number, comment: string): boolean => !((rating > 0) && ((comment.length >= MIN_REVIEW_LENGTH) && (comment.length < MAX_REVIEW_LENGTH)));
