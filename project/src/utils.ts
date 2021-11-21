@@ -43,6 +43,35 @@ export const getRandomItems = (items: string[], length: number): string[] => ite
 export const updateOffers = (offers: OfferType[], updateData: OfferType): OfferType[] => {
   const updateDataIndex = offers.findIndex((offer) => offer.id === updateData.id);
   if (updateDataIndex === -1) {
+    return offers;
+    // return [
+    //   ...offers,
+    //   updateData,
+    // ];
+  }
+  return [
+    ...offers.slice(0, updateDataIndex),
+    updateData,
+    ...offers.slice(updateDataIndex + 1),
+  ];
+};
+
+// export const updateOffersList = (offers: Offer[], updateData: Offer): Offer[] => {
+//   const updateDataIndex = offers.findIndex((offer) => offer.id === updateData.id);
+//   if (updateDataIndex === -1) {
+//     return offers;
+//   }
+
+//   return [
+//     ...offers.slice(0, updateDataIndex),
+//     updateData,
+//     ...offers.slice(updateDataIndex + 1, offers.length),
+//   ];
+// };
+
+export const updateFavoritesList = (offers: OfferType[], updateData: OfferType): OfferType[] => {
+  const updateDataIndex = offers.findIndex((offer) => offer.id === updateData.id);
+  if (updateDataIndex === -1) {
     return [
       ...offers,
       updateData,
@@ -52,6 +81,13 @@ export const updateOffers = (offers: OfferType[], updateData: OfferType): OfferT
     ...offers.slice(0, updateDataIndex),
     ...offers.slice(updateDataIndex + 1),
   ];
+};
+
+export const updateCurrentOffer = (offer: OfferType, updateData: OfferType): OfferType => {
+  if (offer.id !== updateData.id) {
+    return offer;
+  }
+  return updateData;
 };
 
 export const validateLogin = (login: string): string => {

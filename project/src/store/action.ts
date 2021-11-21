@@ -118,6 +118,13 @@ export const toggleIsFavorite = createAction(
   }),
 );
 
+export const updateOffer = createAction(
+  ActionType.UpdateOffer,
+  (updatedOffer: OfferType) => ({
+    payload: updatedOffer,
+  }),
+);
+
 export const requireAuthorization = createAction(
   ActionType.RequireAuthorization,
   (authStatus: AuthStatus) => ({

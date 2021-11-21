@@ -1,8 +1,10 @@
 import { MouseEvent, useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { AppRoutes } from '../../../const';
-import { fetchFavoriteOffersAction, toggleIsFavoriteAction } from '../../../services/api-actions';
+import { AppRoutes, AuthStatus } from '../../../const';
+import { toggleIsFavoriteAction } from '../../../services/api-actions';
+import { redirectToRoute } from '../../../store/action';
+import { getAuthStatus } from '../../../store/reducers/user-auth/selectors';
 import { OfferType } from '../../../types/offer-type';
 import { capitalizeWord, getRatingWidth } from '../../../utils';
 
@@ -13,15 +15,22 @@ type FavoriteCardPropsType = {
 function FavoritesCard({favoriteOffer}: FavoriteCardPropsType): JSX.Element {
   const { price, type, title, rating, previewImage, id, isFavorite } = favoriteOffer;
 
+  const authStatus = useSelector(getAuthStatus);
+
+  const isAuth = authStatus === AuthStatus.Auth;
+
   const dispatch = useDispatch();
 
   const toggleIsFavorite = (favoriteId: number, favoriteStatus: number) => {
     dispatch(toggleIsFavoriteAction(favoriteId, favoriteStatus));
-    dispatch(fetchFavoriteOffersAction());
   };
 
   const handleFavoriteButtonClick = (evt: MouseEvent<HTMLButtonElement>) => {
     evt.preventDefault();
+    if (!isAuth) {
+      dispatch(redirectToRoute(AppRoutes.SignIn));
+      return;
+    }
     const favoriteStatus = +(!isFavorite);
     toggleIsFavorite(id, favoriteStatus);
   };

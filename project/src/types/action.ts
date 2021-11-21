@@ -29,6 +29,7 @@ export enum ActionType {
   ReceiveAuthData = 'user/receiveAuthData',
   RequireLogout = 'user/requireLogout',
   RedirectToRoute = 'main/redirectToRoute',
+  UpdateOffer = 'data/updateOffer',
 }
 
 export type SelectCityAction = {
@@ -135,26 +136,10 @@ export type SetReviewLoadingStatusAction = {
   payload: LoadingStatus,
 }
 
-// export type Actions =
-//   | SelectCityAction
-//   | FilterOffersAction
-//   | SelectSortingAction
-//   | LoadOffersAction
-//   | LoadCurrentOfferAction
-//   | LoadOfferReviewsAction
-//   | LoadNearbyOffersAction
-//   | LoadFavoriteOffersAction
-//   | RequireAuthorizationAction
-//   | RequireLogoutAction
-//   | RedirectToRouteAction
-//   | ReceiveAuthDataAction
-//   | SetCurrentOfferLoadingStatusAction
-//   | SetOfferReviewsLoadingStatusAction
-//   | SetFavoriteOffersLoadingStatusAction
-//   | ToggleIsFavoriteAction
-//   | SendOfferReviewAction
-//   | SetReviewLoadingStatusAction
-//   | SetToggleIsFavoriteLoadingStatusAction;
+export type UpdateOfferAction = {
+  type: ActionType.UpdateOffer,
+  payload: OfferType,
+}
 
 export type ThunkActionResult<R = Promise<void>> = ThunkAction<R, State, AxiosInstance, Action>;
 

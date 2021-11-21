@@ -8,7 +8,7 @@ import ReviewsList from '../../layout/reviews-list/review-list';
 import { CustomClasses, AuthStatus, LoadingStatus, AppRoutes } from '../../../const';
 import GoodsList from './goods-list';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchCurrentOfferAction, fetchNearbyOffersAction, fetchOfferReviewsAction, toggleIsFavoriteAction } from '../../../services/api-actions';
+import { fetchNearbyOffersAction, fetchOfferReviewsAction, toggleIsFavoriteAction } from '../../../services/api-actions';
 import LoaderWrapper from '../../layout/loader-wrapper/loader-wrapper';
 import InteriorGallery from './interior-gallery';
 import { getAuthStatus } from '../../../store/reducers/user-auth/selectors';
@@ -49,7 +49,6 @@ function OfferContainer({currentOffer}: OfferPropsType): JSX.Element {
 
   const toggleIsFavorite = (id: number, favoriteStatus: number) => {
     dispatch(toggleIsFavoriteAction(id, favoriteStatus));
-    dispatch(fetchCurrentOfferAction(id.toString()));
   };
 
   useEffect(() => {
@@ -75,8 +74,6 @@ function OfferContainer({currentOffer}: OfferPropsType): JSX.Element {
       return;
     }
     const favoriteStatus = +(!isFavorite);
-    // eslint-disable-next-line no-console
-    console.log(favoriteStatus);
     toggleIsFavorite(+paramsProps.id, favoriteStatus);
   };
 

@@ -1,6 +1,6 @@
 import { toast } from 'react-toastify';
 import { APIRoutes, AppRoutes, AuthStatus, LoadingStatus, Messages } from '../const';
-import { loadCurrentOffer, loadFavoriteOffers, loadNearbyOffers, loadOfferReviews, loadOffers, receiveAuthData, redirectToRoute, requireAuthorization, requireLogout, setCurrentOfferLoadingStatus, setFavoriteOffersLoadingStatus, setNearbyOffersLoadingStatus, setOfferReviewsLoadingStatus, setOffersLoadingStatus, setReviewLoadingStatus, setToggleIsFavoriteLoadingStatus } from '../store/action';
+import { loadCurrentOffer, loadFavoriteOffers, loadNearbyOffers, loadOfferReviews, loadOffers, receiveAuthData, redirectToRoute, requireAuthorization, requireLogout, setCurrentOfferLoadingStatus, setFavoriteOffersLoadingStatus, setNearbyOffersLoadingStatus, setOfferReviewsLoadingStatus, setOffersLoadingStatus, setReviewLoadingStatus, setToggleIsFavoriteLoadingStatus, updateOffer } from '../store/action';
 import { ThunkActionResult } from '../types/action';
 import { AuthDataRequest, AuthDataResponse } from '../types/auth-data';
 import { BackendOfferType } from '../types/offer-type';
@@ -38,17 +38,29 @@ export const fetchFavoriteOffersAction = (): ThunkActionResult =>
     }
   };
 
+// export const toggleIsFavoriteAction = (id: number, favoriteStatus: number): ThunkActionResult =>
+//   async (dispatch, _getState, api): Promise<void> => {
+//     try {
+//       // const { data } = await api.post<BackendOfferType>(`${APIRoutes.Favorite}/${id}/${favoriteStatus}`);
+//       await api.post<BackendOfferType>(`${APIRoutes.Favorite}/${id}/${favoriteStatus}`);
+//       // dispatch(loadCurrentOffer(adaptSingleToClient(data)));
+//       dispatch(setToggleIsFavoriteLoadingStatus(LoadingStatus.Succeeded));
+//     } catch {
+//       dispatch(setToggleIsFavoriteLoadingStatus(LoadingStatus.Failed));
+//     }
+//   };
+
 export const toggleIsFavoriteAction = (id: number, favoriteStatus: number): ThunkActionResult =>
   async (dispatch, _getState, api): Promise<void> => {
     try {
-      // const { data } = await api.post<BackendOfferType>(`${APIRoutes.Favorite}/${id}/${favoriteStatus}`);
-      await api.post<BackendOfferType>(`${APIRoutes.Favorite}/${id}/${favoriteStatus}`);
-      // dispatch(loadCurrentOffer(adaptSingleToClient(data)));
+      const { data } = await api.post<BackendOfferType>((`${APIRoutes.Favorite}/${id}/${favoriteStatus}`));
+      dispatch(updateOffer(adaptSingleToClient(data)));
       dispatch(setToggleIsFavoriteLoadingStatus(LoadingStatus.Succeeded));
     } catch {
       dispatch(setToggleIsFavoriteLoadingStatus(LoadingStatus.Failed));
     }
   };
+
 
 export const fetchOfferReviewsAction = (id: string): ThunkActionResult =>
   async (dispatch, _getState, api): Promise<void> => {

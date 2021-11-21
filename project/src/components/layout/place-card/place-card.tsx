@@ -1,11 +1,9 @@
-// import { useState } from 'react';
 import { MouseEvent } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { AppRoutes, AuthStatus } from '../../../const';
-import { fetchOffersAction, toggleIsFavoriteAction } from '../../../services/api-actions';
+import { toggleIsFavoriteAction } from '../../../services/api-actions';
 import { redirectToRoute } from '../../../store/action';
-// import { getToggleIsFavoriteLoadingStatus } from '../../../store/reducers/favorites-data/selectors';
 import { getAuthStatus } from '../../../store/reducers/user-auth/selectors';
 import { PlacesClassType } from '../../../types/classes-type';
 import { OfferType } from '../../../types/offer-type';
@@ -25,13 +23,11 @@ function PlaceCard({offer, onCardOver, onCardOut, customClasses}: CardPropsType)
   const {cardClassName, wrapperClassName} = customClasses;
 
   const authStatus = useSelector(getAuthStatus);
-  // const toggleIsFavoriteLoadingStatus = useSelector(getToggleIsFavoriteLoadingStatus);
 
   const dispatch = useDispatch();
 
   const toggleIsFavorite = (offerId: number, favoriteStatus: number): void => {
     dispatch(toggleIsFavoriteAction(offerId, favoriteStatus));
-    dispatch(fetchOffersAction());
   };
 
   const isAuth = authStatus === AuthStatus.Auth;
@@ -43,8 +39,6 @@ function PlaceCard({offer, onCardOver, onCardOut, customClasses}: CardPropsType)
       return;
     }
     const favoriteStatus = +(!isFavorite);
-    // eslint-disable-next-line no-console
-    console.log(favoriteStatus);
     toggleIsFavorite(id, favoriteStatus);
   };
 
