@@ -1,11 +1,11 @@
 import { useParams } from 'react-router-dom';
-import { MouseEvent, useCallback, useEffect, useState } from 'react';
-import { getCityData, getRatingWidth, getRandomItems } from '../../../utils';
+import { MouseEvent, useCallback, useEffect } from 'react';
+import { getRatingWidth, getRandomItems } from '../../../utils';
 import Map from '../../layout/map/map';
 import OffersList from '../../layout/offers-list/offers-list';
 import ReviewsForm from '../../layout/reviews-form/reviews-form';
 import ReviewsList from '../../layout/reviews-list/review-list';
-import { CustomClasses, AuthStatus, LoadingStatus, AppRoutes } from '../../../const';
+import { CustomClasses, AuthStatus, LoadingStatus } from '../../../const';
 import GoodsList from './goods-list';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchNearbyOffersAction, fetchOfferReviewsAction, toggleIsFavoriteAction } from '../../../services/api-actions';
@@ -15,8 +15,6 @@ import { getAuthStatus } from '../../../store/reducers/user-auth/selectors';
 import { getNearbyOffers, getNearbyOffersLoadingStatus } from '../../../store/reducers/nearby-data/selectors';
 import { getOfferReviewsLoadingStatus } from '../../../store/reducers/reviews-data/selectors';
 import { OfferType } from '../../../types/offer-type';
-import { redirectToRoute } from '../../../store/action';
-
 
 const MAX_IMAGES_COUNT = 6;
 
@@ -56,23 +54,20 @@ function OfferContainer({currentOffer}: OfferPropsType): JSX.Element {
     fetchOfferReviews(paramsProps.id);
   }, [fetchNearbyOffers, fetchOfferReviews, paramsProps.id]);
 
-  const [selectedOfferId, setSelectedOfferId] = useState<number | null>(null);
+  // const [selectedOfferId, setSelectedOfferId] = useState<number | null>(null);
 
   const getActiveOfferId = (id: number | null) => {
-    setSelectedOfferId(id);
+    // setSelectedOfferId(id);
   };
 
+
   const isAuth = authStatus === AuthStatus.Auth;
-  const {images, description, isPremium, isFavorite, title, rating, type, bedrooms, maxAdults, price, goods, host:{avatarUrl, isPro, name}} = currentOffer;
+  const {images, description, isPremium, isFavorite, title, rating, type, bedrooms, maxAdults, price, goods, city, host:{avatarUrl, isPro, name}} = currentOffer;
 
   const galleryItems = getRandomItems(images, MAX_IMAGES_COUNT);
 
   const handleFavoriteButtonClick = (evt: MouseEvent<HTMLButtonElement>) => {
     evt.preventDefault();
-    if (!isAuth) {
-      dispatch(redirectToRoute(AppRoutes.SignIn));
-      return;
-    }
     const favoriteStatus = +(!isFavorite);
     toggleIsFavorite(+paramsProps.id, favoriteStatus);
   };
@@ -155,7 +150,7 @@ function OfferContainer({currentOffer}: OfferPropsType): JSX.Element {
         </div>
         <section className="property__map map">
           <LoaderWrapper isLoad={nearbyOffersLoadingStatus === LoadingStatus.Succeeded} >
-            <Map city={getCityData(nearbyOffers)} offers={nearbyOffers} selectedOfferId={selectedOfferId} currentOffer={currentOffer}/>
+            <Map city={city} offers={nearbyOffers} selectedOfferId={null} currentOffer={currentOffer}/>
           </LoaderWrapper>
         </section>
       </section>

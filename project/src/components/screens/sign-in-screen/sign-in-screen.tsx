@@ -12,8 +12,6 @@ const CITIES_COUNT = 1;
 
 function SignInScreen(): JSX.Element {
 
-  // const authStatus = useSelector(getAuthStatus);
-
   const dispatch = useDispatch();
 
   const onLoginFormSubmit = (authData: AuthDataRequest) => {
@@ -23,16 +21,8 @@ function SignInScreen(): JSX.Element {
     dispatch(selectCity(cityName));
   };
 
-
   const loginRef = useRef<HTMLInputElement | null>(null);
   const passwordRef = useRef<HTMLInputElement | null>(null);
-  // const isAuth = authStatus === AuthStatus.Auth;
-
-  // const history = useHistory();
-
-  // if(isAuth) {
-  //   history.push(AppRoutes.Main);
-  // }
 
   const handleLoginChange = (evt: FormEvent<HTMLInputElement>) => {
     if (loginRef.current) {

@@ -38,18 +38,6 @@ export const fetchFavoriteOffersAction = (): ThunkActionResult =>
     }
   };
 
-// export const toggleIsFavoriteAction = (id: number, favoriteStatus: number): ThunkActionResult =>
-//   async (dispatch, _getState, api): Promise<void> => {
-//     try {
-//       // const { data } = await api.post<BackendOfferType>(`${APIRoutes.Favorite}/${id}/${favoriteStatus}`);
-//       await api.post<BackendOfferType>(`${APIRoutes.Favorite}/${id}/${favoriteStatus}`);
-//       // dispatch(loadCurrentOffer(adaptSingleToClient(data)));
-//       dispatch(setToggleIsFavoriteLoadingStatus(LoadingStatus.Succeeded));
-//     } catch {
-//       dispatch(setToggleIsFavoriteLoadingStatus(LoadingStatus.Failed));
-//     }
-//   };
-
 export const toggleIsFavoriteAction = (id: number, favoriteStatus: number): ThunkActionResult =>
   async (dispatch, _getState, api): Promise<void> => {
     try {
@@ -58,6 +46,8 @@ export const toggleIsFavoriteAction = (id: number, favoriteStatus: number): Thun
       dispatch(setToggleIsFavoriteLoadingStatus(LoadingStatus.Succeeded));
     } catch {
       dispatch(setToggleIsFavoriteLoadingStatus(LoadingStatus.Failed));
+      dispatch(redirectToRoute(AppRoutes.SignIn));
+      toast.warning(Messages.FAVORITE_NO_AUTH);
     }
   };
 
@@ -75,9 +65,15 @@ export const fetchOfferReviewsAction = (id: string): ThunkActionResult =>
 
 export const postOfferReviewAction = (id: string, { comment, rating }: PostReviewType): ThunkActionResult =>
   async (dispatch, _getState, api) => {
-    const { data } =  await api.post((`${APIRoutes.Reviews}/${id}`), { comment, rating });
-    dispatch(loadOfferReviews(adaptSomeReviewsToClient(data)));
-    dispatch(setReviewLoadingStatus(LoadingStatus.Succeeded));
+    try {
+      dispatch(setReviewLoadingStatus(LoadingStatus.Loading));
+      const { data } =  await api.post((`${APIRoutes.Reviews}/${id}`), { comment, rating });
+      dispatch(loadOfferReviews(adaptSomeReviewsToClient(data)));
+      dispatch(setReviewLoadingStatus(LoadingStatus.Succeeded));
+    } catch {
+      dispatch(setReviewLoadingStatus(LoadingStatus.Failed));
+      toast.error(Messages.REVIEW_POST_ERROR);
+    }
   };
 
 export const fetchNearbyOffersAction = (id: string): ThunkActionResult =>

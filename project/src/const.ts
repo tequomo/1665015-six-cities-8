@@ -106,4 +106,6 @@ export enum LoadingStatus {
 export const Messages = {
   AUTH_FAIL: 'Please enter valid email and password',
   AUTH_INFO: 'Don\'t forget to sign in',
+  FAVORITE_NO_AUTH: 'You are not logged in',
+  REVIEW_POST_ERROR: 'Review sending failed',
 };
