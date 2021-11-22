@@ -1,42 +1,43 @@
 import { useParams } from 'react-router-dom';
-import { useEffect} from 'react';
+import { Redirect } from 'react-router';
+import { useCallback, useEffect} from 'react';
 import Header from '../../layout/header/header';
-import { State } from '../../../types/state';
-import { connect, ConnectedProps } from 'react-redux';
-import { ThunkAppDispatch } from '../../../types/action';
+import { useSelector, useDispatch } from 'react-redux';
 import { fetchCurrentOfferAction } from '../../../services/api-actions';
 import LoaderWrapper from '../../layout/loader-wrapper/loader-wrapper';
 import OfferContainer from './offer-container';
 import { OfferType } from '../../../types/offer-type';
 import NotFoundScreen from '../not-found/not-found';
-import { LoadingStatus } from '../../../const';
+import { AppRoutes, AuthStatus, LoadingStatus } from '../../../const';
+import { getAuthStatus } from '../../../store/reducers/user-auth/selectors';
+import { getCurrentOffer, getCurrentOfferLoadingStatus } from '../../../store/reducers/current-offer-data/selectors';
 
 type ParamsPropsType = {
   id: string,
 }
 
-const mapStateToProps = ({currentOffer, isCurrentOfferLoaded, currentOfferLoadingStatus}: State) => ({
-  currentOffer,
-  isCurrentOfferLoaded,
-  currentOfferLoadingStatus,
-});
-
-const mapDispatchToProps = (dispatch: ThunkAppDispatch) => ({
-  fetchCurrentOffer(id: string) {
-    dispatch(fetchCurrentOfferAction(id));
-  },
-});
-
-const connector = connect(mapStateToProps, mapDispatchToProps);
-
-type PropsFromRedux = ConnectedProps<typeof connector>;
-
-function OfferScreen({currentOffer, isCurrentOfferLoaded, currentOfferLoadingStatus, fetchCurrentOffer}: PropsFromRedux): JSX.Element {
+function OfferScreen(): JSX.Element {
   const paramsProps = useParams<ParamsPropsType>();
+
+  const authStatus = useSelector(getAuthStatus);
+  const currentOffer = useSelector(getCurrentOffer);
+  const currentOfferLoadingStatus = useSelector(getCurrentOfferLoadingStatus);
+
+  const dispatch = useDispatch();
+
+  const fetchCurrentOffer = useCallback((id: string) => {
+    dispatch(fetchCurrentOfferAction(paramsProps.id));
+  }, [dispatch, paramsProps.id]);
 
   useEffect(() => {
     fetchCurrentOffer(paramsProps.id);
   }, [fetchCurrentOffer, paramsProps.id]);
+
+  useEffect(() => {
+    if(authStatus === AuthStatus.NoAuth) {
+      <Redirect to={AppRoutes.SignIn} />;
+    }
+  }, [authStatus]);
 
   if(currentOfferLoadingStatus === LoadingStatus.Failed) {
     return <NotFoundScreen />;
@@ -46,12 +47,11 @@ function OfferScreen({currentOffer, isCurrentOfferLoaded, currentOfferLoadingSta
     <div className="page">
       <Header renderAuth />
 
-      <LoaderWrapper isLoad={isCurrentOfferLoaded} >
+      <LoaderWrapper isLoad={currentOfferLoadingStatus === LoadingStatus.Succeeded} >
         <OfferContainer currentOffer={currentOffer as OfferType}/>
       </LoaderWrapper>
     </div>
   );
 }
 
-export { OfferScreen };
-export default connector(OfferScreen);
+export default OfferScreen;

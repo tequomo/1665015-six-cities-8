@@ -1,9 +1,15 @@
-// import { useState } from 'react';
+import { MouseEvent } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { AppRoutes } from '../../../const';
+import { AppRoutes, AuthStatus } from '../../../const';
+import { toggleIsFavoriteAction } from '../../../services/api-actions';
+import { redirectToRoute } from '../../../store/action';
+import { getAuthStatus } from '../../../store/reducers/user-auth/selectors';
 import { PlacesClassType } from '../../../types/classes-type';
 import { OfferType } from '../../../types/offer-type';
 import { capitalizeWord, getRatingWidth } from '../../../utils';
+import FavoriteButton from './favorite-button';
+import PlaceCardMark from './place-card-mark';
 
 type CardPropsType = {
   offer: OfferType,
@@ -12,17 +18,30 @@ type CardPropsType = {
   customClasses: PlacesClassType,
 }
 
-function PlaceCardMark(): JSX.Element {
-  return (
-    <div className="place-card__mark">
-      <span>Premium</span>
-    </div>
-  );
-}
-
 function PlaceCard({offer, onCardOver, onCardOut, customClasses}: CardPropsType): JSX.Element {
   const { isPremium, isFavorite, price, type, title, rating, previewImage, id } = offer;
   const {cardClassName, wrapperClassName} = customClasses;
+
+  const authStatus = useSelector(getAuthStatus);
+
+  const dispatch = useDispatch();
+
+  const toggleIsFavorite = (offerId: number, favoriteStatus: number): void => {
+    dispatch(toggleIsFavoriteAction(offerId, favoriteStatus));
+  };
+
+  const isAuth = authStatus === AuthStatus.Auth;
+
+  const handleFavoriteButtonClick = (evt: MouseEvent<HTMLButtonElement>) => {
+    evt.preventDefault();
+    if (!isAuth) {
+      dispatch(redirectToRoute(AppRoutes.SignIn));
+      return;
+    }
+    const favoriteStatus = +(!isFavorite);
+    toggleIsFavorite(id, favoriteStatus);
+  };
+
   return (
     <article className={`${cardClassName} place-card`} onMouseEnter={() => onCardOver(id)} onMouseLeave={() => onCardOut()}>
       {isPremium && <PlaceCardMark />}
@@ -37,12 +56,7 @@ function PlaceCard({offer, onCardOver, onCardOut, customClasses}: CardPropsType)
             <b className="place-card__price-value">&euro;{price}</b>
             <span className="place-card__price-text">&#47;&nbsp;night</span>
           </div>
-          <button className={`place-card__bookmark-button ${isFavorite ? 'place-card__bookmark-button--active' : ''} button`} type="button">
-            <svg className="place-card__bookmark-icon" width="18" height="19">
-              <use xlinkHref="#icon-bookmark"></use>
-            </svg>
-            <span className="visually-hidden">${isFavorite ? 'In bookmarks' : 'To bookmarks'}</span>
-          </button>
+          <FavoriteButton isFavorite={isFavorite} onFavoriteButtonClick={handleFavoriteButtonClick} />
         </div>
         <div className="place-card__rating rating">
           <div className="place-card__stars rating__stars">

@@ -3,6 +3,7 @@ export type PlacesClassType = {
   tabsClassName?: string,
   cardClassName: string,
   wrapperClassName: string,
+  buttonClassName?: string,
 }
 
 export type ClassType = {

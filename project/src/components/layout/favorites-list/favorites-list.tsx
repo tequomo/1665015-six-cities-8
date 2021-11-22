@@ -1,4 +1,7 @@
+import { useSelector } from 'react-redux';
+import { getFavoriteCities } from '../../../store/reducers/favorites-data/selectors';
 import { OfferType } from '../../../types/offer-type';
+import { getSelectedCityOffers } from '../../../utils';
 import FavoritesLocations from '../favorites-locations/favorites-locations';
 
 type FavoriteListPropsType = {
@@ -6,8 +9,7 @@ type FavoriteListPropsType = {
 }
 
 function FavoritesList({favoriteOffers}: FavoriteListPropsType): JSX.Element {
-  // const favorites: OfferType[] = offers.filter((offer) => offer.isFavorite);
-  const favoriteCities: string[] = [...new Set(favoriteOffers.map((favorite) => favorite.city.name))];
+  const favoriteCities = useSelector(getFavoriteCities);
 
   return (
     <section className="favorites">
@@ -15,7 +17,7 @@ function FavoritesList({favoriteOffers}: FavoriteListPropsType): JSX.Element {
       <ul className="favorites__list">
         {
           favoriteCities
-            .map((city) => <FavoritesLocations key={city} locationsOffers={favoriteOffers.filter((favorite) => (favorite.city.name === city))} />,
+            .map((city) => <FavoritesLocations key={city} locationOffers={getSelectedCityOffers(favoriteOffers, city)} />,
             )
         }
       </ul>

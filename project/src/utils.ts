@@ -37,19 +37,77 @@ export const isCheckedAuth = (authStatus: AuthStatus): boolean =>
 export const getCityData = (offers: OfferType[]): CityType => offers
   .reduce((_city, offer) => offer.city, {} as CityType);
 
-export const getRandomItems = (items: string[], length: number): string[] => items.sort(() => 0.5 - Math.random()).slice(0,length);
+export const getRandomItems = (items: string[], length: number): string[] => items.slice().sort(() => 0.5 - Math.random()).slice(0,length);
 
 
-// export const updateOffersWithFavorites = (offers: OfferType[], updateData: OfferType): OfferType[] => {
+export const updateOffers = (offers: OfferType[], updateData: OfferType): OfferType[] => {
+  const updateDataIndex = offers.findIndex((offer) => offer.id === updateData.id);
+  if (updateDataIndex === -1) {
+    return offers;
+    // return [
+    //   ...offers,
+    //   updateData,
+    // ];
+  }
+  return [
+    ...offers.slice(0, updateDataIndex),
+    updateData,
+    ...offers.slice(updateDataIndex + 1),
+  ];
+};
+
+// export const updateOffersList = (offers: Offer[], updateData: Offer): Offer[] => {
 //   const updateDataIndex = offers.findIndex((offer) => offer.id === updateData.id);
 //   if (updateDataIndex === -1) {
-//     return [
-//       ...offers,
-//       updateData,
-//     ];
+//     return offers;
 //   }
+
 //   return [
 //     ...offers.slice(0, updateDataIndex),
-//     ...offers.slice(updateDataIndex + 1),
+//     updateData,
+//     ...offers.slice(updateDataIndex + 1, offers.length),
 //   ];
 // };
+
+export const updateFavoritesList = (offers: OfferType[], updateData: OfferType): OfferType[] => {
+  const updateDataIndex = offers.findIndex((offer) => offer.id === updateData.id);
+  if (updateDataIndex === -1) {
+    return [
+      ...offers,
+      updateData,
+    ];
+  }
+  return [
+    ...offers.slice(0, updateDataIndex),
+    ...offers.slice(updateDataIndex + 1),
+  ];
+};
+
+export const updateCurrentOffer = (offer: OfferType, updateData: OfferType): OfferType => {
+  if (offer.id !== updateData.id) {
+    return offer;
+  }
+  return updateData;
+};
+
+export const validateLogin = (login: string): string => {
+  // const loginReg = /\S+@\S+\.\S+/;
+  const loginReg = /^([A-Za-z0-9_\-.])+@([A-Za-z0-9_\-.])+\.([A-Za-z]{2,4})$/;
+  if (loginReg.test(login)) {
+    return '';
+  }
+  return 'Login must contain a valid email address';
+};
+
+export const validatePassword = (password: string): string => {
+  const passwordReg = /(?=.*\d)(?=.*[a-zA-Z])./;
+  if (passwordReg.test(password)) {
+    return '';
+  }
+  return 'Password must contain at least 1 letter and 1 number.\n No spaces allowed';
+};
+
+const MIN_REVIEW_LENGTH = 50;
+const MAX_REVIEW_LENGTH = 300;
+
+export const checkIsValidUserReview = (rating: number, comment: string): boolean => !((rating > 0) && ((comment.length >= MIN_REVIEW_LENGTH) && (comment.length < MAX_REVIEW_LENGTH)));

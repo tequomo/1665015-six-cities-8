@@ -1,37 +1,25 @@
-// import { OfferType } from '../../../types/offer-type';
-import { useEffect } from 'react';
-import { connect, ConnectedProps } from 'react-redux';
+import { useCallback, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { CustomClasses, LoadingStatus } from '../../../const';
 import { fetchFavoriteOffersAction } from '../../../services/api-actions';
-import { ThunkAppDispatch } from '../../../types/action';
-import { State } from '../../../types/state';
+import { getFavoriteOffers, getFavoriteOffersLoadingStatus } from '../../../store/reducers/favorites-data/selectors';
 import FavoritesEmpty from '../../layout/favorites-empty/favorites-empty';
 import FavoritesList from '../../layout/favorites-list/favorites-list';
 import Footer from '../../layout/footer/footer';
 import Header from '../../layout/header/header';
 import LoaderWrapper from '../../layout/loader-wrapper/loader-wrapper';
 
-// type FavoritesPropsType = {
-//   offers: OfferType[],
-// }
 
-const mapStateToProps = ({ favoriteOffers, favoriteOffersLoadingStatus }: State) => ({
-  favoriteOffers,
-  favoriteOffersLoadingStatus,
-});
+function FavoritesScreen(): JSX.Element {
 
-const mapDispatchToProps = (dispatch: ThunkAppDispatch) => ({
-  fetchFavoriteOffers() {
+  const favoriteOffers = useSelector(getFavoriteOffers);
+  const favoriteOffersLoadingStatus = useSelector(getFavoriteOffersLoadingStatus);
+
+  const dispatch = useDispatch();
+
+  const fetchFavoriteOffers = useCallback(() => {
     dispatch(fetchFavoriteOffersAction());
-  },
-});
-
-const connector = connect(mapStateToProps, mapDispatchToProps);
-
-type PropsFromRedux = ConnectedProps<typeof connector>;
-
-
-function FavoritesScreen({ favoriteOffers, fetchFavoriteOffers, favoriteOffersLoadingStatus }: PropsFromRedux): JSX.Element {
+  }, [dispatch]);
 
   useEffect(() => {
     fetchFavoriteOffers();
@@ -55,5 +43,4 @@ function FavoritesScreen({ favoriteOffers, fetchFavoriteOffers, favoriteOffersLo
   );
 }
 
-export { FavoritesScreen };
-export default connector(FavoritesScreen);
+export default FavoritesScreen;

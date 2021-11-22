@@ -1,97 +1,90 @@
 import { useParams } from 'react-router-dom';
 import { useEffect} from 'react';
 import { ChangeEvent, FormEvent, useState } from 'react';
-import { connect, ConnectedProps } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { fetchOfferReviewsAction, postOfferReviewAction } from '../../../services/api-actions';
-import { ThunkAppDispatch } from '../../../types/action';
 import RatingStars from '../rating-stars/rating-stars';
-import { State } from '../../../types/state';
 import { LoadingStatus } from '../../../const';
+import { getReviewLoadingStatus } from '../../../store/reducers/reviews-data/selectors';
+import { checkIsValidUserReview } from '../../../utils';
 
 type ReviewElementsType = {
-  offerReview: string,
-  offerRank: number,
+  comment: string,
+  rating: number,
 }
 
-const MIN_REVIEW_LENGTH = 50;
+const initReviewState = {
+  comment: '',
+  rating: 0,
+};
 
-const mapStateToProps = ({reviewLoadingStatus}: State) => ({
-  reviewLoadingStatus,
-});
+function ReviewsForm(): JSX.Element {
 
-const mapDispatchToProps = (dispatch: ThunkAppDispatch) => ({
-  handleFormSubmit(id: string, offerReview: string, offerRank: number): void {
-    const review = {comment: offerReview, rating: offerRank};
-    dispatch(postOfferReviewAction(id, review));
+  const reviewLoadingStatus = useSelector(getReviewLoadingStatus);
+
+  const dispatch = useDispatch();
+
+  const postOfferReview = (id: string, userReview: ReviewElementsType): void => {
+    dispatch(postOfferReviewAction(id, userReview));
     dispatch(fetchOfferReviewsAction(id));
-  },
-});
+  };
 
-const connector = connect(mapStateToProps, mapDispatchToProps);
-
-type PropsFromRedux = ConnectedProps<typeof connector>;
-
-
-function ReviewsForm({handleFormSubmit, reviewLoadingStatus}: PropsFromRedux): JSX.Element {
-
-  const [userReview, setUserReview] = useState<ReviewElementsType>({
-    offerReview: '',
-    offerRank: 0,
-  });
+  const [userReview, setUserReview] = useState<ReviewElementsType>(initReviewState);
 
   const { id } = useParams<{ id: string }>();
 
   useEffect(() => {
     if (reviewLoadingStatus === LoadingStatus.Succeeded) {
-      setUserReview({
-        ...userReview,
-        offerReview: '',
-        offerRank: 0,
-      });
+      setUserReview(initReviewState);
     }
-  }, [reviewLoadingStatus, userReview]);
+  }, [reviewLoadingStatus]);
 
 
-  const {offerRank, offerReview} = userReview;
+  const {comment, rating} = userReview;
 
-  const ratingChangeHandler = (e: ChangeEvent<HTMLInputElement>): void => {
+  const handleRatingChange = (e: ChangeEvent<HTMLInputElement>): void => {
     e.preventDefault();
-    setUserReview({
+    setUserReview(() => ({
       ...userReview,
-      offerReview,
-      offerRank: +(e.target.value),
-    });
+      rating: +(e.target.value),
+    }));
+    // eslint-disable-next-line no-console
+    console.log(userReview);
+    // eslint-disable-next-line no-console
+    console.log(e.target.value);
   };
 
-  const reviewChangeHandler = (e: ChangeEvent<HTMLTextAreaElement>): void => {
-    setUserReview({
+  const handleReviewChange = (e: ChangeEvent<HTMLTextAreaElement>): void => {
+    setUserReview(() => ({
       ...userReview,
-      offerReview: e.target.value,
-      offerRank,
-    });
+      comment: e.target.value,
+    }));
+    // eslint-disable-next-line no-console
+    console.log(userReview);
+    // eslint-disable-next-line no-console
+    console.log(e.target.value);
   };
 
-  const formSubmitHandler = (evt: FormEvent<HTMLFormElement>) => {
+  const handleFormSubmit = (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
-    handleFormSubmit(id, offerReview, offerRank);
+    postOfferReview(id, userReview);
   };
 
   return (
-    <form className="reviews__form form" action="#" method="post" onSubmit={formSubmitHandler}>
+    <form className="reviews__form form" action="#" method="post" onSubmit={handleFormSubmit}>
       <label className="reviews__label form__label" htmlFor="review">Your review</label>
       <div className="reviews__rating-form form__rating">
-        <RatingStars onRatingChange={ratingChangeHandler} offerRank={offerRank} />
+        <RatingStars onRatingChange={handleRatingChange} rating={rating} />
       </div>
-      <textarea className="reviews__textarea form__textarea" id="review" name="review" placeholder="Tell how was your stay, what you like and what can be improved" value={offerReview} onChange={reviewChangeHandler}></textarea>
+      <textarea className="reviews__textarea form__textarea" id="review" name="review" placeholder="Tell how was your stay, what you like and what can be improved" value={comment} onChange={handleReviewChange}></textarea>
       <div className="reviews__button-wrapper">
         <p className="reviews__help">
         To submit review please make sure to set <span className="reviews__star">rating</span> and describe your stay with at least <b className="reviews__text-amount">50 characters</b>.
         </p>
-        <button className="reviews__submit form__submit button" type="submit" disabled={!((offerRank > 0) && (offerReview.length >= MIN_REVIEW_LENGTH))}>Submit</button>
+        <button className="reviews__submit form__submit button" type="submit" disabled={checkIsValidUserReview(rating, comment)}>Submit</button>
       </div>
     </form>
   );
 }
 
-export { ReviewsForm };
-export default connector(ReviewsForm);
+export default ReviewsForm;

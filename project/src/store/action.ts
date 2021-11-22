@@ -1,93 +1,149 @@
+import { createAction } from '@reduxjs/toolkit';
 import { AppRoutes, AuthStatus, LoadingStatus } from '../const';
-import { ActionType, FilterOffersAction, LoadCurrentOfferAction, LoadFavoriteOffersAction, LoadNearbyOffersAction, LoadOfferReviewsAction, LoadOffersAction, ReceiveAuthDataAction, RedirectToRouteAction, RequireAuthorizationAction, RequireLogoutAction, ResetStateAction, SelectCityAction, SelectSortingAction, SetCurrentOfferLoadingStatusAction, SetFavoriteOffersLoadingStatusAction, SetOfferReviewsLoadingStatusAction, SetReviewLoadingStatusAction } from '../types/action';
+import { ActionType } from '../types/action';
 import { AuthUserData } from '../types/auth-data';
 import { OfferType } from '../types/offer-type';
 import { ReviewType } from '../types/review-type';
 
-export const selectCity = (selectedCity:string ): SelectCityAction => ({
-  type: ActionType.SelectCity,
-  payload: selectedCity,
-} as const);
 
-export const filterOffers = (offers: OfferType[]): FilterOffersAction => ({
-  type: ActionType.FilterOffers,
-  payload: offers,
-} as const);
+export const selectCity = createAction(
+  ActionType.SelectCity,
+  (selectedCity:string) => ({
+    payload: selectedCity,
+  }),
+);
 
-export const resetState = (): ResetStateAction => ({
-  type: ActionType.ResetState,
-} as const);
+export const filterOffers = createAction(
+  ActionType.FilterOffers,
+  (offers: OfferType[]) => ({
+    payload: offers,
+  }),
+);
 
-export const selectSorting = (currentSortingType: string): SelectSortingAction => ({
-  type: ActionType.SelectSorting,
-  payload: currentSortingType,
-} as const);
 
-export const loadOffers = (offers: OfferType[]): LoadOffersAction => ({
-  type: ActionType.LoadOffers,
-  payload: offers,
-} as const);
+export const selectSorting = createAction(
+  ActionType.SelectSorting,
+  (currentSortingType: string) => ({
+    payload: currentSortingType,
+  }),
+);
 
-export const loadCurrentOffer = (currentOffer: OfferType): LoadCurrentOfferAction => ({
-  type: ActionType.LoadCurrentOffer,
-  payload: currentOffer,
-} as const);
+export const loadOffers = createAction(
+  ActionType.LoadOffers,
+  (offers: OfferType[]) => ({
+    payload: offers,
+  }),
+);
 
-export const loadOfferReviews = (offerReviews: ReviewType[]): LoadOfferReviewsAction => ({
-  type: ActionType.LoadOfferReviews,
-  payload: offerReviews,
-} as const);
+export const loadCurrentOffer = createAction(
+  ActionType.LoadCurrentOffer,
+  (currentOffer: OfferType) => ({
+    payload: currentOffer,
+  }),
+);
 
-export const setCurrentOfferLoadingStatus = (currentOfferLoadingStatus: LoadingStatus): SetCurrentOfferLoadingStatusAction => ({
-  type: ActionType.SetCurrentOfferLoadingStatus,
-  payload: currentOfferLoadingStatus,
-} as const);
+export const loadOfferReviews = createAction(
+  ActionType.LoadOfferReviews,
+  (offerReviews: ReviewType[]) => ({
+    payload: offerReviews,
+  }),
+);
 
-export const setOfferReviewsLoadingStatus = (offerReviewsLoadingStatus: LoadingStatus): SetOfferReviewsLoadingStatusAction => ({
-  type: ActionType.SetOfferReviewsLoadingStatus,
-  payload: offerReviewsLoadingStatus,
-} as const);
+export const setOffersLoadingStatus = createAction(
+  ActionType.SetOffersLoadingStatus,
+  (offersLoadingStatus: LoadingStatus) => ({
+    payload: offersLoadingStatus,
+  }),
+);
 
-export const setReviewLoadingStatus = (reviewLoadingStatus: LoadingStatus): SetReviewLoadingStatusAction => ({
-  type: ActionType.SetReviewLoadingStatus,
-  payload: reviewLoadingStatus,
-} as const);
+export const setCurrentOfferLoadingStatus = createAction(
+  ActionType.SetCurrentOfferLoadingStatus,
+  (currentOfferLoadingStatus: LoadingStatus) => ({
+    payload: currentOfferLoadingStatus,
+  }),
+);
 
-export const setFavoriteOffersLoadingStatus = (favoriteOffersLoadingStatus: LoadingStatus): SetFavoriteOffersLoadingStatusAction => ({
-  type: ActionType.SetFavoriteOffersLoadingStatus,
-  payload: favoriteOffersLoadingStatus,
-} as const);
+export const setOfferReviewsLoadingStatus = createAction(
+  ActionType.SetOfferReviewsLoadingStatus,
+  (offerReviewsLoadingStatus: LoadingStatus) => ({
+    payload: offerReviewsLoadingStatus,
+  }),
+);
 
-export const loadNearbyOffers = (nearbyOffers: OfferType[]): LoadNearbyOffersAction => ({
-  type: ActionType.LoadNearbyOffers,
-  payload: nearbyOffers,
-} as const);
+export const setReviewLoadingStatus = createAction(
+  ActionType.SetReviewLoadingStatus,
+  (reviewLoadingStatus: LoadingStatus) => ({
+    payload: reviewLoadingStatus,
+  }),
+);
 
-export const loadFavoriteOffers = (favoriteOffers: OfferType[]): LoadFavoriteOffersAction => ({
-  type: ActionType.LoadFavoriteOffers,
-  payload: favoriteOffers,
-} as const);
+export const setFavoriteOffersLoadingStatus = createAction(
+  ActionType.SetFavoriteOffersLoadingStatus,
+  (favoriteOffersLoadingStatus: LoadingStatus) => ({
+    payload: favoriteOffersLoadingStatus,
+  }),
+);
+export const setToggleIsFavoriteLoadingStatus = createAction(
+  ActionType.SetToggleIsFavoriteLoadingStatus,
+  (toggleIsFavoriteLoadingStatus: LoadingStatus) => ({
+    payload: toggleIsFavoriteLoadingStatus,
+  }),
+);
 
-export const toggleIsFavorite = (favoriteOffers: OfferType[]): LoadFavoriteOffersAction => ({
-  type: ActionType.LoadFavoriteOffers,
-  payload: favoriteOffers,
-} as const);
+export const loadNearbyOffers = createAction(
+  ActionType.LoadNearbyOffers,
+  (nearbyOffers: OfferType[]) => ({
+    payload: nearbyOffers,
+  }),
+);
 
-export const requireAuthorization = (authStatus: AuthStatus): RequireAuthorizationAction => ({
-  type: ActionType.RequireAuthorization,
-  payload: authStatus,
-} as const);
+export const setNearbyOffersLoadingStatus = createAction(
+  ActionType.SetToggleIsFavoriteLoadingStatus,
+  (toggleIsFavoriteLoadingStatus: LoadingStatus) => ({
+    payload: toggleIsFavoriteLoadingStatus,
+  }),
+);
 
-export const requireLogout = (): RequireLogoutAction => ({
-  type: ActionType.RequireLogout,
-} as const);
+export const loadFavoriteOffers = createAction(
+  ActionType.LoadFavoriteOffers,
+  (favoriteOffers: OfferType[]) => ({
+    payload: favoriteOffers,
+  }),
+);
 
-export const redirectToRoute = (url: AppRoutes): RedirectToRouteAction => ({
-  type: ActionType.RedirectToRoute,
-  payload: url,
-} as const);
+export const toggleIsFavorite = createAction(
+  ActionType.LoadFavoriteOffers,
+  (favoriteOffers: OfferType[]) => ({
+    payload: favoriteOffers,
+  }),
+);
 
-export const receiveAuthData = (authUserData: AuthUserData): ReceiveAuthDataAction => ({
-  type: ActionType.ReceiveAuthData,
-  payload: authUserData,
-} as const);
+export const updateOffer = createAction(
+  ActionType.UpdateOffer,
+  (updatedOffer: OfferType) => ({
+    payload: updatedOffer,
+  }),
+);
+
+export const requireAuthorization = createAction(
+  ActionType.RequireAuthorization,
+  (authStatus: AuthStatus) => ({
+    payload: authStatus,
+  }),
+);
+
+export const requireLogout = createAction(ActionType.RequireLogout);
+
+export const redirectToRoute = createAction(
+  ActionType.RedirectToRoute,
+  (url: AppRoutes) => ({
+    payload: url,
+  }),
+);
+
+export const receiveAuthData = createAction(
+  ActionType.ReceiveAuthData,
+  (authUserData: AuthUserData) => ({
+    payload: authUserData,
+  }),
+);

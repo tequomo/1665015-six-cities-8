@@ -48,6 +48,7 @@ export const CustomClasses: ClassType = {
     tabsClassName: 'tabs__content',
     cardClassName: 'cities__place-card',
     wrapperClassName: 'cities__image-wrapper',
+    buttonClassName: 'place-card__bookmark-button--active',
   },
   NearPlaces: {
     listClassName: 'near-places__list',
@@ -101,3 +102,8 @@ export enum LoadingStatus {
   Succeeded = 'succeeded',
   Failed = 'failed',
 }
+
+export const Messages = {
+  AUTH_FAIL: 'Please enter valid email and password',
+  AUTH_INFO: 'Don\'t forget to sign in',
+};

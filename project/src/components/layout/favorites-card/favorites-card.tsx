@@ -1,9 +1,10 @@
-import { MouseEvent } from 'react';
-import { connect, ConnectedProps } from 'react-redux';
+import { MouseEvent, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { AppRoutes } from '../../../const';
-import { fetchFavoriteOffersAction, toggleIsFavoriteAction } from '../../../services/api-actions';
-import { ThunkAppDispatch } from '../../../types/action';
+import { AppRoutes, AuthStatus } from '../../../const';
+import { toggleIsFavoriteAction } from '../../../services/api-actions';
+import { redirectToRoute } from '../../../store/action';
+import { getAuthStatus } from '../../../store/reducers/user-auth/selectors';
 import { OfferType } from '../../../types/offer-type';
 import { capitalizeWord, getRatingWidth } from '../../../utils';
 
@@ -11,28 +12,32 @@ type FavoriteCardPropsType = {
   favoriteOffer: OfferType,
 }
 
-
-const mapDispatchToProps = (dispatch: ThunkAppDispatch) => ({
-  toggleIsFavorite(id: number, favoriteStatus: number) {
-    dispatch(toggleIsFavoriteAction(id, favoriteStatus));
-    dispatch(fetchFavoriteOffersAction());
-  },
-});
-
-const connector = connect(null, mapDispatchToProps);
-
-type PropsFromRedux = ConnectedProps<typeof connector>;
-type ConnectedComponentProps = PropsFromRedux & FavoriteCardPropsType;
-
-
-function FavoritesCard({favoriteOffer, toggleIsFavorite}: ConnectedComponentProps): JSX.Element {
+function FavoritesCard({favoriteOffer}: FavoriteCardPropsType): JSX.Element {
   const { price, type, title, rating, previewImage, id, isFavorite } = favoriteOffer;
+
+  const authStatus = useSelector(getAuthStatus);
+
+  const isAuth = authStatus === AuthStatus.Auth;
+
+  const dispatch = useDispatch();
+
+  const toggleIsFavorite = (favoriteId: number, favoriteStatus: number) => {
+    dispatch(toggleIsFavoriteAction(favoriteId, favoriteStatus));
+  };
 
   const handleFavoriteButtonClick = (evt: MouseEvent<HTMLButtonElement>) => {
     evt.preventDefault();
+    if (!isAuth) {
+      dispatch(redirectToRoute(AppRoutes.SignIn));
+      return;
+    }
     const favoriteStatus = +(!isFavorite);
     toggleIsFavorite(id, favoriteStatus);
   };
+
+  useEffect(() => {
+    toggleIsFavoriteAction(id, +(!isFavorite));
+  }, [id, isFavorite]);
 
   return (
     <article className="favorites__card place-card">
@@ -71,5 +76,4 @@ function FavoritesCard({favoriteOffer, toggleIsFavorite}: ConnectedComponentProp
   );
 }
 
-export { FavoritesCard };
-export default connector(FavoritesCard);
+export default FavoritesCard;

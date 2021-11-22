@@ -1,19 +1,22 @@
-import { useParams, useHistory } from 'react-router-dom';
-import { MouseEvent, useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
+import { MouseEvent, useCallback, useEffect, useState } from 'react';
 import { getCityData, getRatingWidth, getRandomItems } from '../../../utils';
 import Map from '../../layout/map/map';
 import OffersList from '../../layout/offers-list/offers-list';
 import ReviewsForm from '../../layout/reviews-form/reviews-form';
 import ReviewsList from '../../layout/reviews-list/review-list';
-import { OfferType } from '../../../types/offer-type';
 import { CustomClasses, AuthStatus, LoadingStatus, AppRoutes } from '../../../const';
 import GoodsList from './goods-list';
-import { State } from '../../../types/state';
-import { connect, ConnectedProps } from 'react-redux';
-import { ThunkAppDispatch } from '../../../types/action';
+import { useDispatch, useSelector } from 'react-redux';
 import { fetchNearbyOffersAction, fetchOfferReviewsAction, toggleIsFavoriteAction } from '../../../services/api-actions';
 import LoaderWrapper from '../../layout/loader-wrapper/loader-wrapper';
 import InteriorGallery from './interior-gallery';
+import { getAuthStatus } from '../../../store/reducers/user-auth/selectors';
+import { getNearbyOffers, getNearbyOffersLoadingStatus } from '../../../store/reducers/nearby-data/selectors';
+import { getOfferReviewsLoadingStatus } from '../../../store/reducers/reviews-data/selectors';
+import { OfferType } from '../../../types/offer-type';
+import { redirectToRoute } from '../../../store/action';
+
 
 const MAX_IMAGES_COUNT = 6;
 
@@ -21,40 +24,32 @@ type ParamsPropsType = {
   id: string,
 }
 
-type OfferContainerPropsType = {
+type OfferPropsType = {
   currentOffer: OfferType,
 }
 
-const mapStateToProps = ({authStatus, isCurrentOfferLoaded, nearbyOffers, isNearbyLoaded, offerReviews, offerReviewsLoadingStatus}: State) => ({
-  authStatus,
-  nearbyOffers,
-  isCurrentOfferLoaded,
-  isNearbyLoaded,
-  offerReviews,
-  offerReviewsLoadingStatus,
-});
+function OfferContainer({currentOffer}: OfferPropsType): JSX.Element {
 
-const mapDispatchToProps = (dispatch: ThunkAppDispatch) => ({
-  fetchNearbyOffers(id: string) {
-    dispatch(fetchNearbyOffersAction(id));
-  },
-  fetchOfferReviews(id: string) {
-    dispatch(fetchOfferReviewsAction(id));
-  },
-  toggleIsFavorite(id: number, favoriteStatus: number) {
-    dispatch(toggleIsFavoriteAction(id, favoriteStatus));
-  },
-});
-
-const connector = connect(mapStateToProps, mapDispatchToProps);
-
-type PropsFromRedux = ConnectedProps<typeof connector>;
-type ConnectedComponentProps = PropsFromRedux & OfferContainerPropsType;
-
-function OfferContainer({authStatus, currentOffer, nearbyOffers, offerReviews, isNearbyLoaded, offerReviewsLoadingStatus, fetchOfferReviews, fetchNearbyOffers, toggleIsFavorite}: ConnectedComponentProps): JSX.Element {
-
-  const history = useHistory();
   const paramsProps = useParams<ParamsPropsType>();
+
+  const authStatus = useSelector(getAuthStatus);
+  const nearbyOffers = useSelector(getNearbyOffers);
+  const nearbyOffersLoadingStatus = useSelector(getNearbyOffersLoadingStatus);
+  const offerReviewsLoadingStatus = useSelector(getOfferReviewsLoadingStatus);
+
+  const dispatch = useDispatch();
+
+  const fetchNearbyOffers = useCallback((id: string) => {
+    dispatch(fetchNearbyOffersAction(id));
+  }, [dispatch]);
+
+  const fetchOfferReviews = useCallback((id: string) => {
+    dispatch(fetchOfferReviewsAction(id));
+  }, [dispatch]);
+
+  const toggleIsFavorite = (id: number, favoriteStatus: number) => {
+    dispatch(toggleIsFavoriteAction(id, favoriteStatus));
+  };
 
   useEffect(() => {
     fetchNearbyOffers(paramsProps.id);
@@ -75,12 +70,10 @@ function OfferContainer({authStatus, currentOffer, nearbyOffers, offerReviews, i
   const handleFavoriteButtonClick = (evt: MouseEvent<HTMLButtonElement>) => {
     evt.preventDefault();
     if (!isAuth) {
-      history.push(AppRoutes.SignIn);
+      dispatch(redirectToRoute(AppRoutes.SignIn));
       return;
     }
     const favoriteStatus = +(!isFavorite);
-    // eslint-disable-next-line no-console
-    console.log(favoriteStatus);
     toggleIsFavorite(+paramsProps.id, favoriteStatus);
   };
 
@@ -152,7 +145,7 @@ function OfferContainer({authStatus, currentOffer, nearbyOffers, offerReviews, i
             </div>
             <section className="property__reviews reviews">
               <LoaderWrapper isLoad={offerReviewsLoadingStatus === LoadingStatus.Succeeded}>
-                <ReviewsList reviews={offerReviews}/>
+                <ReviewsList />
               </LoaderWrapper>
               {
                 isAuth && <ReviewsForm />
@@ -161,7 +154,7 @@ function OfferContainer({authStatus, currentOffer, nearbyOffers, offerReviews, i
           </div>
         </div>
         <section className="property__map map">
-          <LoaderWrapper isLoad={isNearbyLoaded} >
+          <LoaderWrapper isLoad={nearbyOffersLoadingStatus === LoadingStatus.Succeeded} >
             <Map city={getCityData(nearbyOffers)} offers={nearbyOffers} selectedOfferId={selectedOfferId} currentOffer={currentOffer}/>
           </LoaderWrapper>
         </section>
@@ -169,8 +162,8 @@ function OfferContainer({authStatus, currentOffer, nearbyOffers, offerReviews, i
       <div className="container">
         <section className="near-places places">
           <h2 className="near-places__title">Other places in the neighbourhood</h2>
-          <LoaderWrapper isLoad={isNearbyLoaded} >
-            <OffersList offers={nearbyOffers} transferActiveOfferId={getActiveOfferId} customClasses={CustomClasses.NearPlaces} isLoad={isNearbyLoaded}/>
+          <LoaderWrapper isLoad={nearbyOffersLoadingStatus === LoadingStatus.Succeeded} >
+            <OffersList offers={nearbyOffers} transferActiveOfferId={getActiveOfferId} customClasses={CustomClasses.NearPlaces} isLoad={nearbyOffersLoadingStatus === LoadingStatus.Succeeded}/>
           </LoaderWrapper>
         </section>
       </div>
@@ -178,5 +171,4 @@ function OfferContainer({authStatus, currentOffer, nearbyOffers, offerReviews, i
   );
 }
 
-export { OfferContainer };
-export default connector(OfferContainer);
+export default OfferContainer;
