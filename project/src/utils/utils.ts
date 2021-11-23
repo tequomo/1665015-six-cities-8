@@ -1,9 +1,9 @@
-import { AuthStatus, MAX_RATING_VALUE, SortingTypes } from './const';
-import { CityType, OfferType } from './types/offer-type';
+import { MAX_RATING_VALUE, MAX_REVIEW_LENGTH, MIN_REVIEW_LENGTH, SortingTypes } from '../const';
+import { OfferType } from '../types/offer-type';
 
 export const capitalizeWord = (word: string): string => word.charAt(0).toUpperCase() + word.slice(1);
 
-export const getRatingWidth = (rating: number): number => Math.round((rating / 5) * 100);
+export const getRatingWidth = (rating: number): number => (Math.round(rating) / 5) * 100;
 
 export const ratingValues = new Array(MAX_RATING_VALUE).fill(null).map((_, index) => index + 1).sort((a, b) => b - a);
 
@@ -31,14 +31,7 @@ export const sortingOffers = (currentSortingType: string, offers: OfferType[]): 
   }
 };
 
-export const isCheckedAuth = (authStatus: AuthStatus): boolean =>
-  authStatus === AuthStatus.Unknown;
-
-export const getCityData = (offers: OfferType[]): CityType => offers
-  .reduce((_city, offer) => offer.city, {} as CityType);
-
 export const getRandomItems = (items: string[], length: number): string[] => items.slice().sort(() => 0.5 - Math.random()).slice(0,length);
-
 
 export const updateOffers = (offers: OfferType[], updateData: OfferType): OfferType[] => {
   const updateDataIndex = offers.findIndex((offer) => offer.id === updateData.id);
@@ -88,8 +81,5 @@ export const validatePassword = (password: string): string => {
   }
   return 'Password must contain at least 1 letter and 1 number.\n No spaces allowed';
 };
-
-const MIN_REVIEW_LENGTH = 50;
-const MAX_REVIEW_LENGTH = 300;
 
 export const checkIsValidUserReview = (rating: number, comment: string): boolean => !((rating > 0) && ((comment.length >= MIN_REVIEW_LENGTH) && (comment.length < MAX_REVIEW_LENGTH)));

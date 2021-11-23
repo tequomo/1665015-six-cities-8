@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { AppRoutes } from '../../../const';
 import { toggleIsFavoriteAction } from '../../../services/api-actions';
 import { OfferType } from '../../../types/offer-type';
-import { capitalizeWord, getRatingWidth } from '../../../utils';
+import { capitalizeWord, getRatingWidth } from '../../../utils/utils';
 import FavoriteButton from '../favorite-button/favorite-button';
 
 type FavoriteCardPropsType = {

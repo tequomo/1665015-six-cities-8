@@ -1,6 +1,6 @@
 import { useParams } from 'react-router-dom';
 import { MouseEvent, useCallback, useEffect } from 'react';
-import { getRatingWidth, getRandomItems } from '../../../utils';
+import { getRatingWidth, getRandomItems } from '../../../utils/utils';
 import Map from '../../layout/map/map';
 import OffersList from '../../layout/offers-list/offers-list';
 import ReviewsForm from '../../layout/reviews-form/reviews-form';
@@ -54,15 +54,8 @@ function OfferContainer({currentOffer}: OfferPropsType): JSX.Element {
     fetchOfferReviews(paramsProps.id);
   }, [fetchNearbyOffers, fetchOfferReviews, paramsProps.id]);
 
-  // const [selectedOfferId, setSelectedOfferId] = useState<number | null>(null);
-
-  const getActiveOfferId = (id: number | null) => {
-    // setSelectedOfferId(id);
-  };
-
-
   const isAuth = authStatus === AuthStatus.Auth;
-  const {images, description, isPremium, isFavorite, title, rating, type, bedrooms, maxAdults, price, goods, city, host:{avatarUrl, isPro, name}} = currentOffer;
+  const {images, description, isPremium, isFavorite, title, rating, type, bedrooms, maxAdults, price, goods, host:{avatarUrl, isPro, name}} = currentOffer;
 
   const galleryItems = getRandomItems(images, MAX_IMAGES_COUNT);
 
@@ -150,7 +143,7 @@ function OfferContainer({currentOffer}: OfferPropsType): JSX.Element {
         </div>
         <section className="property__map map">
           <LoaderWrapper isLoad={nearbyOffersLoadingStatus === LoadingStatus.Succeeded} >
-            <Map city={city} offers={nearbyOffers} selectedOfferId={null} currentOffer={currentOffer}/>
+            <Map offers={nearbyOffers} selectedOfferId={null} currentOffer={currentOffer}/>
           </LoaderWrapper>
         </section>
       </section>
@@ -158,7 +151,7 @@ function OfferContainer({currentOffer}: OfferPropsType): JSX.Element {
         <section className="near-places places">
           <h2 className="near-places__title">Other places in the neighbourhood</h2>
           <LoaderWrapper isLoad={nearbyOffersLoadingStatus === LoadingStatus.Succeeded} >
-            <OffersList offers={nearbyOffers} transferActiveOfferId={getActiveOfferId} customClasses={CustomClasses.NearPlaces} isLoad={nearbyOffersLoadingStatus === LoadingStatus.Succeeded}/>
+            <OffersList offers={nearbyOffers} customClasses={CustomClasses.NearPlaces} />
           </LoaderWrapper>
         </section>
       </div>

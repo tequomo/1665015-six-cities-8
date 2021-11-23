@@ -32,7 +32,7 @@ function ReviewsList(): JSX.Element {
       <ul className="reviews__list">
         {
           reviews
-            .map((review) => <ReviewsItem key={`${review.id}-${review.user.name}`} review={review}/>)
+            .map((review) => <ReviewsItem key={`${review.user.name}-${review.id}`} review={review}/>)
         }
       </ul>
     </>

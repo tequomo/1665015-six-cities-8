@@ -2,7 +2,7 @@ import { OffersData } from '../../../types/state';
 import { LoadingStatus } from '../../../const';
 import { createReducer } from '@reduxjs/toolkit';
 import { loadOffers, setOffersLoadingStatus, updateOffer } from '../../action';
-import { updateOffers } from '../../../utils';
+import { updateOffers } from '../../../utils/utils';
 
 
 const initialState: OffersData = {

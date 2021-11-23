@@ -2,7 +2,7 @@ import { ChangeEvent, Fragment } from 'react';
 import { useSelector } from 'react-redux';
 import { LoadingStatus, RatingNames } from '../../../const';
 import { getReviewLoadingStatus } from '../../../store/reducers/reviews-data/selectors';
-import { ratingValues } from '../../../utils';
+import { ratingValues } from '../../../utils/utils';
 
 type RatingPropsType = {
   onRatingChange: (e: ChangeEvent<HTMLInputElement>) => void,

@@ -15,6 +15,7 @@ export type ClassType = {
   CurrentOffer: CurrentOfferType,
   MainScreen: MainScreenType,
   FavoritesScreen: FavotitesScreenType,
+  LocationsTab: LocationsTab,
 }
 
 export type NoPlacesClassType = {
@@ -44,4 +45,8 @@ export type MainScreenType = {
 
 export type FavotitesScreenType = {
   mainClassName: string,
+}
+
+export type LocationsTab = {
+  itemClassName: string,
 }

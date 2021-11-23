@@ -6,7 +6,7 @@ import { fetchOfferReviewsAction, postOfferReviewAction } from '../../../service
 import RatingStars from '../rating-stars/rating-stars';
 import { LoadingStatus } from '../../../const';
 import { getReviewLoadingStatus } from '../../../store/reducers/reviews-data/selectors';
-import { checkIsValidUserReview } from '../../../utils';
+import { checkIsValidUserReview } from '../../../utils/utils';
 
 type ReviewElementsType = {
   comment: string,
@@ -44,26 +44,17 @@ function ReviewsForm(): JSX.Element {
   const {comment, rating} = userReview;
 
   const handleRatingChange = (e: ChangeEvent<HTMLInputElement>): void => {
-    e.preventDefault();
-    setUserReview(() => ({
-      ...userReview,
+    setUserReview((state) => ({
+      ...state,
       rating: +(e.target.value),
     }));
-    // eslint-disable-next-line no-console
-    console.log(userReview);
-    // eslint-disable-next-line no-console
-    console.log(e.target.value);
   };
 
   const handleReviewChange = (e: ChangeEvent<HTMLTextAreaElement>): void => {
-    setUserReview(() => ({
-      ...userReview,
+    setUserReview((state) => ({
+      ...state,
       comment: e.target.value,
     }));
-    // eslint-disable-next-line no-console
-    console.log(userReview);
-    // eslint-disable-next-line no-console
-    console.log(e.target.value);
   };
 
   const handleFormSubmit = (evt: FormEvent<HTMLFormElement>) => {

@@ -5,7 +5,7 @@ import { AppRoutes } from '../../../const';
 import { toggleIsFavoriteAction } from '../../../services/api-actions';
 import { PlacesClassType } from '../../../types/classes-type';
 import { OfferType } from '../../../types/offer-type';
-import { capitalizeWord, getRatingWidth } from '../../../utils';
+import { capitalizeWord, getRatingWidth } from '../../../utils/utils';
 import FavoriteButton from '../favorite-button/favorite-button';
 import PlaceCardMark from './place-card-mark';
 
