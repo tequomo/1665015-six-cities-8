@@ -2,7 +2,7 @@ import { CurrentOfferData } from '../../../types/state';
 import { LoadingStatus } from '../../../const';
 import { createReducer } from '@reduxjs/toolkit';
 import { loadCurrentOffer, setCurrentOfferLoadingStatus, updateOffer } from '../../action';
-import { updateCurrentOffer } from '../../../utils';
+import { updateCurrentOffer } from '../../../utils/utils';
 
 
 const initialState: CurrentOfferData = {

@@ -16,15 +16,6 @@ const api = createAPI(
   () => store.dispatch(requireAuthorization(AuthStatus.NoAuth)),
 );
 
-
-// const store = createStore(
-//   rootReducer,
-//   composeWithDevTools(
-//     applyMiddleware(thunk.withExtraArgument(api)),
-//     applyMiddleware(redirect),
-//   ),
-// );
-
 const store = configureStore({
   reducer: rootReducer,
   middleware: (getDefaultMiddleware) =>

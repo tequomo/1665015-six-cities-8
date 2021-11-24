@@ -46,29 +46,6 @@ export const adaptAuthDataToClient = (data: AuthDataResponse): AuthUserData => {
   return adaptedProps;
 };
 
-// export const adaptReviewToClient = (data: BackendReviewType): ReviewType => {
-//   const {
-//     'avatar_url': del1,
-//     'is_pro': del2,
-//     ...adaptedUser
-//   } = {
-//     ...data.user,
-//     avatarUrl: data.user['avatar_url'],
-//     isPro: data.user['is_pro'],
-//   };
-
-//   const {
-//     ...adaptedData
-//   } = {
-//     ...data,
-//     user: {
-//       ...adaptedUser,
-//     },
-//   };
-
-//   return adaptedData;
-// };
-
 export const adaptReviewToClient = (data: BackendReviewType): ReviewType => ({
   comment: data.comment,
   date: data.date,

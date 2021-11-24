@@ -6,7 +6,7 @@ import { fetchOfferReviewsAction, postOfferReviewAction } from '../../../service
 import RatingStars from '../rating-stars/rating-stars';
 import { LoadingStatus } from '../../../const';
 import { getReviewLoadingStatus } from '../../../store/reducers/reviews-data/selectors';
-import { checkIsValidUserReview } from '../../../utils';
+import { checkIsValidUserReview } from '../../../utils/utils';
 
 type ReviewElementsType = {
   comment: string,
@@ -21,6 +21,7 @@ const initReviewState = {
 function ReviewsForm(): JSX.Element {
 
   const reviewLoadingStatus = useSelector(getReviewLoadingStatus);
+  const isReviewLoading = reviewLoadingStatus === LoadingStatus.Loading;
 
   const dispatch = useDispatch();
 
@@ -43,26 +44,17 @@ function ReviewsForm(): JSX.Element {
   const {comment, rating} = userReview;
 
   const handleRatingChange = (e: ChangeEvent<HTMLInputElement>): void => {
-    e.preventDefault();
-    setUserReview(() => ({
-      ...userReview,
+    setUserReview((state) => ({
+      ...state,
       rating: +(e.target.value),
     }));
-    // eslint-disable-next-line no-console
-    console.log(userReview);
-    // eslint-disable-next-line no-console
-    console.log(e.target.value);
   };
 
   const handleReviewChange = (e: ChangeEvent<HTMLTextAreaElement>): void => {
-    setUserReview(() => ({
-      ...userReview,
+    setUserReview((state) => ({
+      ...state,
       comment: e.target.value,
     }));
-    // eslint-disable-next-line no-console
-    console.log(userReview);
-    // eslint-disable-next-line no-console
-    console.log(e.target.value);
   };
 
   const handleFormSubmit = (evt: FormEvent<HTMLFormElement>) => {
@@ -76,12 +68,12 @@ function ReviewsForm(): JSX.Element {
       <div className="reviews__rating-form form__rating">
         <RatingStars onRatingChange={handleRatingChange} rating={rating} />
       </div>
-      <textarea className="reviews__textarea form__textarea" id="review" name="review" placeholder="Tell how was your stay, what you like and what can be improved" value={comment} onChange={handleReviewChange}></textarea>
+      <textarea className="reviews__textarea form__textarea" id="review" name="review" placeholder="Tell how was your stay, what you like and what can be improved" value={comment} onChange={handleReviewChange} disabled={isReviewLoading}></textarea>
       <div className="reviews__button-wrapper">
         <p className="reviews__help">
         To submit review please make sure to set <span className="reviews__star">rating</span> and describe your stay with at least <b className="reviews__text-amount">50 characters</b>.
         </p>
-        <button className="reviews__submit form__submit button" type="submit" disabled={checkIsValidUserReview(rating, comment)}>Submit</button>
+        <button className="reviews__submit form__submit button" type="submit" disabled={checkIsValidUserReview(rating, comment) || isReviewLoading}>Submit</button>
       </div>
     </form>
   );

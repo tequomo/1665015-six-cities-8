@@ -13,7 +13,7 @@ function FavoriteButton({onFavoriteButtonClick, isFavorite}: ButtonPropsType): J
       <svg className="place-card__bookmark-icon" width="18" height="19">
         <use xlinkHref="#icon-bookmark"></use>
       </svg>
-      <span className="visually-hidden">${isFavorite ? 'In bookmarks' : 'To bookmarks'}</span>
+      <span className="visually-hidden">{isFavorite ? 'In bookmarks' : 'To bookmarks'}</span>
     </button>
   );
 }

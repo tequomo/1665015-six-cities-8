@@ -1,5 +1,5 @@
 import { ReviewType } from '../../../types/review-type';
-import { getRatingWidth, formatReviewDate } from '../../../utils';
+import { getRatingWidth, formatReviewDate } from '../../../utils/utils';
 
 type ReviewsItemPropsType = {
   review: ReviewType,

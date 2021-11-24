@@ -3,10 +3,9 @@ import { Icon, Marker } from 'leaflet';
 import { useEffect, useRef } from 'react';
 import { PinIconUrl } from '../../../const';
 import useMap from '../../../hooks/useMap';
-import { CityType, OfferType } from '../../../types/offer-type';
+import { OfferType } from '../../../types/offer-type';
 
 type MapPropsType = {
-  city: CityType,
   offers: OfferType[],
   selectedOfferId: number | null,
   currentOffer?: OfferType,
@@ -24,7 +23,9 @@ const activePinIcon = new Icon({
   iconAnchor: [15, 40],
 });
 
-function Map({city, offers, selectedOfferId, currentOffer}: MapPropsType): JSX.Element {
+function Map({offers, selectedOfferId, currentOffer}: MapPropsType): JSX.Element {
+
+  const city = currentOffer ? currentOffer.city: offers[0].city;
 
   const mapRef = useRef(null);
 

@@ -1,6 +1,24 @@
 import { toast } from 'react-toastify';
 import { APIRoutes, AppRoutes, AuthStatus, LoadingStatus, Messages } from '../const';
-import { loadCurrentOffer, loadFavoriteOffers, loadNearbyOffers, loadOfferReviews, loadOffers, receiveAuthData, redirectToRoute, requireAuthorization, requireLogout, setCurrentOfferLoadingStatus, setFavoriteOffersLoadingStatus, setNearbyOffersLoadingStatus, setOfferReviewsLoadingStatus, setOffersLoadingStatus, setReviewLoadingStatus, setToggleIsFavoriteLoadingStatus, updateOffer } from '../store/action';
+import {
+  loadCurrentOffer,
+  loadFavoriteOffers,
+  loadNearbyOffers,
+  loadOfferReviews,
+  loadOffers,
+  receiveAuthData,
+  redirectToRoute,
+  requireAuthorization,
+  requireLogout,
+  setCurrentOfferLoadingStatus,
+  setFavoriteOffersLoadingStatus,
+  setNearbyOffersLoadingStatus,
+  setOfferReviewsLoadingStatus,
+  setOffersLoadingStatus,
+  setReviewLoadingStatus,
+  setToggleIsFavoriteLoadingStatus,
+  updateOffer
+} from '../store/action';
 import { ThunkActionResult } from '../types/action';
 import { AuthDataRequest, AuthDataResponse } from '../types/auth-data';
 import { BackendOfferType } from '../types/offer-type';
@@ -11,9 +29,14 @@ import { dropToken, saveToken } from './token';
 
 export const fetchOffersAction = (): ThunkActionResult =>
   async (dispatch, _getState, api): Promise<void> => {
-    const { data } = await api.get<BackendOfferType[]>(APIRoutes.Hotels);
-    dispatch(loadOffers(adaptMultipleToClient(data)));
-    dispatch(setOffersLoadingStatus(LoadingStatus.Succeeded));
+    try {
+      const { data } = await api.get<BackendOfferType[]>(APIRoutes.Hotels);
+      dispatch(loadOffers(adaptMultipleToClient(data)));
+      dispatch(setOffersLoadingStatus(LoadingStatus.Succeeded));
+    } catch {
+      dispatch(setOffersLoadingStatus(LoadingStatus.Failed));
+      toast.error(Messages.OFFER_LOADING_ERROR);
+    }
   };
 
 export const fetchCurrentOfferAction = (id: string): ThunkActionResult =>
@@ -24,6 +47,7 @@ export const fetchCurrentOfferAction = (id: string): ThunkActionResult =>
       dispatch(setCurrentOfferLoadingStatus(LoadingStatus.Succeeded));
     } catch {
       dispatch(setCurrentOfferLoadingStatus(LoadingStatus.Failed));
+      toast.error(Messages.OFFER_LOADING_ERROR);
     }
   };
 
@@ -38,18 +62,6 @@ export const fetchFavoriteOffersAction = (): ThunkActionResult =>
     }
   };
 
-// export const toggleIsFavoriteAction = (id: number, favoriteStatus: number): ThunkActionResult =>
-//   async (dispatch, _getState, api): Promise<void> => {
-//     try {
-//       // const { data } = await api.post<BackendOfferType>(`${APIRoutes.Favorite}/${id}/${favoriteStatus}`);
-//       await api.post<BackendOfferType>(`${APIRoutes.Favorite}/${id}/${favoriteStatus}`);
-//       // dispatch(loadCurrentOffer(adaptSingleToClient(data)));
-//       dispatch(setToggleIsFavoriteLoadingStatus(LoadingStatus.Succeeded));
-//     } catch {
-//       dispatch(setToggleIsFavoriteLoadingStatus(LoadingStatus.Failed));
-//     }
-//   };
-
 export const toggleIsFavoriteAction = (id: number, favoriteStatus: number): ThunkActionResult =>
   async (dispatch, _getState, api): Promise<void> => {
     try {
@@ -58,6 +70,8 @@ export const toggleIsFavoriteAction = (id: number, favoriteStatus: number): Thun
       dispatch(setToggleIsFavoriteLoadingStatus(LoadingStatus.Succeeded));
     } catch {
       dispatch(setToggleIsFavoriteLoadingStatus(LoadingStatus.Failed));
+      dispatch(redirectToRoute(AppRoutes.SignIn));
+      toast.warning(Messages.FAVORITE_NO_AUTH);
     }
   };
 
@@ -75,9 +89,15 @@ export const fetchOfferReviewsAction = (id: string): ThunkActionResult =>
 
 export const postOfferReviewAction = (id: string, { comment, rating }: PostReviewType): ThunkActionResult =>
   async (dispatch, _getState, api) => {
-    const { data } =  await api.post((`${APIRoutes.Reviews}/${id}`), { comment, rating });
-    dispatch(loadOfferReviews(adaptSomeReviewsToClient(data)));
-    dispatch(setReviewLoadingStatus(LoadingStatus.Succeeded));
+    try {
+      dispatch(setReviewLoadingStatus(LoadingStatus.Loading));
+      const { data } =  await api.post((`${APIRoutes.Reviews}/${id}`), { comment, rating });
+      dispatch(loadOfferReviews(adaptSomeReviewsToClient(data)));
+      dispatch(setReviewLoadingStatus(LoadingStatus.Succeeded));
+    } catch {
+      dispatch(setReviewLoadingStatus(LoadingStatus.Failed));
+      toast.error(Messages.REVIEW_POST_ERROR);
+    }
   };
 
 export const fetchNearbyOffersAction = (id: string): ThunkActionResult =>
@@ -88,6 +108,7 @@ export const fetchNearbyOffersAction = (id: string): ThunkActionResult =>
       dispatch(setNearbyOffersLoadingStatus(LoadingStatus.Succeeded));
     } catch {
       dispatch(setNearbyOffersLoadingStatus(LoadingStatus.Failed));
+      toast.error(Messages.OFFER_LOADING_ERROR);
     }
   };
 
@@ -115,7 +136,6 @@ export const loginAction = ({login: email, password}: AuthDataRequest): ThunkAct
       toast.error(Messages.AUTH_FAIL);
     }
   };
-
 
 export const logoutAction = (): ThunkActionResult =>
   async (dispatch, _getState, api) => {

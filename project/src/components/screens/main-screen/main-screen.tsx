@@ -5,7 +5,6 @@ import { fetchOffersAction } from '../../../services/api-actions';
 import { selectCity, selectSorting } from '../../../store/action';
 import { getSelectedCity, getCurrentSortingType } from '../../../store/reducers/app-state/selectors';
 import { getOffersLoadingStatus, getSortedOffers } from '../../../store/reducers/offers-data/selectors';
-import { getCityData } from '../../../utils';
 import Header from '../../layout/header/header';
 import LoaderWrapper from '../../layout/loader-wrapper/loader-wrapper';
 import Locations from '../../layout/locations/locations';
@@ -61,12 +60,14 @@ function MainScreen(): JSX.Element {
                   <h2 className="visually-hidden">Places</h2>
                   <b className="places__found">{offers.length} place{offers.length > 1 ? 's' : ''} to stay in {selectedCity}</b>
                   <PlacesSort onSelectSorting={onSelectSorting} currentSortingType={currentSortingType}/>
-                  <OffersList offers={offers} transferActiveOfferId={getActiveOfferId} customClasses={CustomClasses.CitiesPlaces} isLoad={offersLoadingStatus === LoadingStatus.Succeeded}/>
+                  <LoaderWrapper isLoad={offersLoadingStatus === LoadingStatus.Succeeded}>
+                    <OffersList offers={offers} transferActiveOfferId={getActiveOfferId} customClasses={CustomClasses.CitiesPlaces} />
+                  </LoaderWrapper>
                 </section> :  <NoPlaces selectedCity={selectedCity} />}
               <div className="cities__right-section">
                 {(offersLoadingStatus === LoadingStatus.Succeeded) &&
               <section className="cities__map map">
-                <Map city={getCityData(offers)} offers={offers} selectedOfferId={selectedOfferId} />
+                <Map offers={offers} selectedOfferId={selectedOfferId} />
               </section>}
               </div>
             </div>

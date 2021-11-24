@@ -1,14 +1,12 @@
 import { MouseEvent } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { AppRoutes, AuthStatus } from '../../../const';
+import { AppRoutes } from '../../../const';
 import { toggleIsFavoriteAction } from '../../../services/api-actions';
-import { redirectToRoute } from '../../../store/action';
-import { getAuthStatus } from '../../../store/reducers/user-auth/selectors';
 import { PlacesClassType } from '../../../types/classes-type';
 import { OfferType } from '../../../types/offer-type';
-import { capitalizeWord, getRatingWidth } from '../../../utils';
-import FavoriteButton from './favorite-button';
+import { capitalizeWord, getRatingWidth } from '../../../utils/utils';
+import FavoriteButton from '../favorite-button/favorite-button';
 import PlaceCardMark from './place-card-mark';
 
 type CardPropsType = {
@@ -22,24 +20,12 @@ function PlaceCard({offer, onCardOver, onCardOut, customClasses}: CardPropsType)
   const { isPremium, isFavorite, price, type, title, rating, previewImage, id } = offer;
   const {cardClassName, wrapperClassName} = customClasses;
 
-  const authStatus = useSelector(getAuthStatus);
-
   const dispatch = useDispatch();
-
-  const toggleIsFavorite = (offerId: number, favoriteStatus: number): void => {
-    dispatch(toggleIsFavoriteAction(offerId, favoriteStatus));
-  };
-
-  const isAuth = authStatus === AuthStatus.Auth;
 
   const handleFavoriteButtonClick = (evt: MouseEvent<HTMLButtonElement>) => {
     evt.preventDefault();
-    if (!isAuth) {
-      dispatch(redirectToRoute(AppRoutes.SignIn));
-      return;
-    }
     const favoriteStatus = +(!isFavorite);
-    toggleIsFavorite(id, favoriteStatus);
+    dispatch(toggleIsFavoriteAction(id, favoriteStatus));
   };
 
   return (

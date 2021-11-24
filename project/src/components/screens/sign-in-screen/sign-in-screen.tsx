@@ -1,18 +1,20 @@
 import Header from '../../layout/header/header';
 import { AuthDataRequest } from '../../../types/auth-data';
 import { loginAction } from '../../../services/api-actions';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useRef, FormEvent, MouseEvent } from 'react';
-import { AppRoutes, CITIES } from '../../../const';
-import { getRandomItems, validateLogin, validatePassword } from '../../../utils';
+import { AppRoutes, AuthStatus, CITIES } from '../../../const';
+import { getRandomItems, validateLogin, validatePassword } from '../../../utils/utils';
 import { selectCity } from '../../../store/action';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
+import { getAuthStatus } from '../../../store/reducers/user-auth/selectors';
 
 const CITIES_COUNT = 1;
 
 function SignInScreen(): JSX.Element {
 
-  // const authStatus = useSelector(getAuthStatus);
+  const authStatus = useSelector(getAuthStatus);
+  const isAuth = authStatus === AuthStatus.Auth;
 
   const dispatch = useDispatch();
 
@@ -23,16 +25,8 @@ function SignInScreen(): JSX.Element {
     dispatch(selectCity(cityName));
   };
 
-
   const loginRef = useRef<HTMLInputElement | null>(null);
   const passwordRef = useRef<HTMLInputElement | null>(null);
-  // const isAuth = authStatus === AuthStatus.Auth;
-
-  // const history = useHistory();
-
-  // if(isAuth) {
-  //   history.push(AppRoutes.Main);
-  // }
 
   const handleLoginChange = (evt: FormEvent<HTMLInputElement>) => {
     if (loginRef.current) {
@@ -66,6 +60,10 @@ function SignInScreen(): JSX.Element {
   const handleCityClick = (e: MouseEvent<HTMLAnchorElement>): void => {
     onCityClick(e.currentTarget.innerText);
   };
+
+  if (isAuth) {
+    return <Redirect to={AppRoutes.Main} />;
+  }
 
   return (
     <div className="page page--gray page--login">

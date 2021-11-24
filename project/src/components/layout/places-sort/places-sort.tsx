@@ -1,5 +1,5 @@
 import { memo, MouseEvent, useState } from 'react';
-import { SortingTypes } from '../../../const';
+import { CustomClasses, SortingTypes } from '../../../const';
 
 type SortProps = {
   currentSortingType: string,
@@ -29,11 +29,11 @@ function PlacesSort({currentSortingType, onSelectSorting}: SortProps): JSX.Eleme
           <use xlinkHref="#icon-arrow-select"></use>
         </svg>
       </span>
-      <ul className={`places__options places__options--custom ${isOpened ? 'places__options--opened' : ''}`}>
+      <ul className={`places__options places__options--custom ${isOpened ? CustomClasses.PlacesSort.listClassName : ''}`}>
         {
           Object.values(SortingTypes)
             .map((type) => (
-              <li key={type} className={`places__option ${currentSortingType === type ? 'places__option--active' : ''}`} tabIndex={0} onClick={(e) => handleSortItemClick(e)}>
+              <li key={type} className={`places__option ${currentSortingType === type ? CustomClasses.PlacesSort.itemClassName : ''}`} tabIndex={0} onClick={(e) => handleSortItemClick(e)}>
                 {type}
               </li>),
             )

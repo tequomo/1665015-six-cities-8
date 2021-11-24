@@ -1,7 +1,7 @@
 import { createReducer } from '@reduxjs/toolkit';
 import { LoadingStatus } from '../../../const';
 import { FavoritesData } from '../../../types/state';
-import { updateFavoritesList } from '../../../utils';
+import { updateFavoritesList } from '../../../utils/utils';
 import { loadFavoriteOffers, setFavoriteOffersLoadingStatus, setToggleIsFavoriteLoadingStatus, updateOffer } from '../../action';
 
 

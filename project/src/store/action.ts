@@ -20,7 +20,6 @@ export const filterOffers = createAction(
   }),
 );
 
-
 export const selectSorting = createAction(
   ActionType.SelectSorting,
   (currentSortingType: string) => ({
@@ -83,6 +82,7 @@ export const setFavoriteOffersLoadingStatus = createAction(
     payload: favoriteOffersLoadingStatus,
   }),
 );
+
 export const setToggleIsFavoriteLoadingStatus = createAction(
   ActionType.SetToggleIsFavoriteLoadingStatus,
   (toggleIsFavoriteLoadingStatus: LoadingStatus) => ({

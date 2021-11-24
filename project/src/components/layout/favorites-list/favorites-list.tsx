@@ -1,7 +1,7 @@
 import { useSelector } from 'react-redux';
 import { getFavoriteCities } from '../../../store/reducers/favorites-data/selectors';
 import { OfferType } from '../../../types/offer-type';
-import { getSelectedCityOffers } from '../../../utils';
+import { getSelectedCityOffers } from '../../../utils/utils';
 import FavoritesLocations from '../favorites-locations/favorites-locations';
 
 type FavoriteListPropsType = {

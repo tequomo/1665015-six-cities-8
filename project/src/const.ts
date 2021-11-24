@@ -42,6 +42,9 @@ export enum PinIconUrl {
 
 export const MAX_RATING_VALUE = 5;
 
+export const MIN_REVIEW_LENGTH = 50;
+export const MAX_REVIEW_LENGTH = 300;
+
 export const CustomClasses: ClassType = {
   CitiesPlaces: {
     listClassName: 'cities__places-list',
@@ -78,6 +81,9 @@ export const CustomClasses: ClassType = {
   FavoritesScreen: {
     mainClassName: 'page__main--favorites-empty',
   },
+  LocationsTab: {
+    itemClassName: 'tabs__item--active',
+  },
 };
 
 export const SortingTypes: SortTypes =  {
@@ -106,4 +112,7 @@ export enum LoadingStatus {
 export const Messages = {
   AUTH_FAIL: 'Please enter valid email and password',
   AUTH_INFO: 'Don\'t forget to sign in',
+  FAVORITE_NO_AUTH: 'You are not logged in',
+  REVIEW_POST_ERROR: 'Review sending failed',
+  OFFER_LOADING_ERROR: 'Offers loading failed',
 };
