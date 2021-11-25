@@ -1,7 +1,7 @@
 import Header from '../../layout/header/header';
 import { Link } from 'react-router-dom';
 import './not-found.css';
-import { AppRoutes } from '../../../const';
+import { AppRoute } from '../../../const';
 
 function NotFoundScreen(): JSX.Element {
   return (
@@ -17,7 +17,7 @@ function NotFoundScreen(): JSX.Element {
                 <svg width="28" height="43" viewBox="0 0 28 43" fill="none" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" clipRule="evenodd" d="M21.62.914a1.166 1.166 0 0 1 2.278.504L15.33 40.086a1.166 1.166 0 1 1-2.277-.504L21.621.914z" fill="#4481C3"/></svg><span className="not-found__status">Page not found</span>
               </div>
               <p className="not-found__status-description">
-                <Link className="not-found__link" to={AppRoutes.Main} title="Main Page">
+                <Link className="not-found__link" to={AppRoute.Main} title="Main Page">
                   Back to main page
                 </Link>
               </p>

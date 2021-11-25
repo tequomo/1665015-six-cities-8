@@ -4,7 +4,7 @@ import SignInScreen from '../screens/sign-in-screen/sign-in-screen';
 import FavoritesScreen from '../screens/favorites-screen/favorites-screen';
 import OfferScreen from '../screens/offer-screen/offer-screen';
 import NotFoundScreen from '../screens/not-found/not-found';
-import { AppRoutes } from '../../const';
+import { AppRoute } from '../../const';
 import PrivateRoute from '../routes/private-route';
 import browserHistory from '../../browser-history';
 
@@ -13,15 +13,15 @@ function App(): JSX.Element {
   return (
     <BrowserRouter history={browserHistory}>
       <Switch>
-        <Route exact path={AppRoutes.Main}>
+        <Route exact path={AppRoute.Main}>
           <MainScreen />
         </Route>
-        <Route exact path={AppRoutes.SignIn}>
+        <Route exact path={AppRoute.SignIn}>
           <SignInScreen />
         </Route>
-        <PrivateRoute exact path={AppRoutes.Favorites} render={() => <FavoritesScreen />}>
+        <PrivateRoute exact path={AppRoute.Favorites} render={() => <FavoritesScreen />}>
         </PrivateRoute>
-        <Route exact path={AppRoutes.Room}>
+        <Route exact path={AppRoute.Room}>
           <OfferScreen />
         </Route>
         <Route>

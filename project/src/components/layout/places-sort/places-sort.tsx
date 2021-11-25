@@ -11,13 +11,13 @@ function PlacesSort({currentSortingType, onSelectSorting}: SortProps): JSX.Eleme
   const [isOpened, setIsOpened] = useState(false);
 
   const handleSortFormClick = (): void => {
-    setIsOpened((prevState) => prevState = !prevState);
+    setIsOpened((prevState) => !prevState);
   };
 
   const handleSortItemClick = (e: MouseEvent<HTMLElement>): void => {
     e.stopPropagation();
     onSelectSorting(e.currentTarget.innerText);
-    setIsOpened((prevState) => prevState = !prevState);
+    setIsOpened((prevState) => !prevState);
   };
 
   return (

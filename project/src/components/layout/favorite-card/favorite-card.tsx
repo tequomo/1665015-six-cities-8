@@ -1,7 +1,7 @@
 import { MouseEvent, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { AppRoutes } from '../../../const';
+import { AppRoute } from '../../../const';
 import { toggleIsFavoriteAction } from '../../../services/api-actions';
 import { OfferType } from '../../../types/offer-type';
 import { capitalizeWord, getRatingWidth } from '../../../utils/utils';
@@ -48,7 +48,7 @@ function FavoriteCard({favoriteOffer}: FavoriteCardPropsType): JSX.Element {
           </div>
         </div>
         <h2 className="place-card__name">
-          <Link to={`${AppRoutes.Offer}${id}`}>
+          <Link to={`${AppRoute.Offer}${id}`}>
             {title}
           </Link>
         </h2>

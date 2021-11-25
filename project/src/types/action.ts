@@ -1,7 +1,7 @@
 import { AxiosInstance } from 'axios';
 import { Action } from 'redux';
 import { ThunkAction, ThunkDispatch } from 'redux-thunk';
-import { AppRoutes, AuthStatus, LoadingStatus } from '../const';
+import { AppRoute, AuthStatus, LoadingStatus } from '../const';
 import { AuthUserData } from './auth-data';
 import { OfferType } from './offer-type';
 import { PostReviewType, ReviewType } from './review-type';
@@ -83,7 +83,7 @@ export type RequireLogoutAction = {
 
 export type RedirectToRouteAction = {
   type: ActionType.RedirectToRoute,
-  payload: AppRoutes,
+  payload: AppRoute,
 }
 
 export type ReceiveAuthDataAction = {

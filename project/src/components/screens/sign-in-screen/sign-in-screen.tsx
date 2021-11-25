@@ -3,7 +3,7 @@ import { AuthDataRequest } from '../../../types/auth-data';
 import { loginAction } from '../../../services/api-actions';
 import { useDispatch, useSelector } from 'react-redux';
 import { useRef, FormEvent, MouseEvent } from 'react';
-import { AppRoutes, AuthStatus, CITIES } from '../../../const';
+import { AppRoute, AuthStatus, CITIES } from '../../../const';
 import { getRandomItems, validateLogin, validatePassword } from '../../../utils/utils';
 import { selectCity } from '../../../store/action';
 import { Link, Redirect } from 'react-router-dom';
@@ -62,7 +62,7 @@ function SignInScreen(): JSX.Element {
   };
 
   if (isAuth) {
-    return <Redirect to={AppRoutes.Main} />;
+    return <Redirect to={AppRoute.Main} />;
   }
 
   return (
@@ -87,7 +87,7 @@ function SignInScreen(): JSX.Element {
           </section>
           <section className="locations locations--login locations--current">
             <div className="locations__item">
-              <Link to={AppRoutes.Main} className="locations__item-link" onClick={handleCityClick}>
+              <Link to={AppRoute.Main} className="locations__item-link" onClick={handleCityClick}>
                 <span>{getRandomItems(CITIES, CITIES_COUNT)}</span>
               </Link>
             </div>

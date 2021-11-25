@@ -1,7 +1,7 @@
 import { ClassType } from './types/classes-type';
 import { SortTypes } from './types/sort';
 
-export enum AppRoutes {
+export enum AppRoute {
   Main = '/',
   SignIn = '/login',
   SignOut = '/logout',
@@ -16,7 +16,7 @@ export enum AuthStatus {
   Unknown = 'UNKNOWN',
 }
 
-export enum RatingNames {
+export enum RatingName {
   terribly,
   badly,
   notBad,
@@ -95,7 +95,7 @@ export const SortingTypes: SortTypes =  {
   TOP_RATED: 'Top rated first',
 };
 
-export enum APIRoutes {
+export enum APIRoute {
     Hotels = '/hotels',
     Login = '/login',
     Logout = '/logout',

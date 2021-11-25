@@ -1,4 +1,3 @@
-// import { useState } from 'react';
 import { memo, MouseEvent } from 'react';
 import { CITIES } from '../../../const';
 import LocationsItem from './locations-item';
