@@ -1,4 +1,4 @@
-import { MAX_RATING_VALUE, MAX_REVIEW_LENGTH, MIN_REVIEW_LENGTH, SortingTypes } from '../const';
+import { MAX_RATING_VALUE, ReviewLength, SortingTypes } from '../const';
 import { OfferType } from '../types/offer-type';
 
 export const capitalizeWord = (word: string): string => word.charAt(0).toUpperCase() + word.slice(1);
@@ -82,4 +82,4 @@ export const validatePassword = (password: string): string => {
   return 'Password must contain at least 1 letter and 1 number.\n No spaces allowed';
 };
 
-export const checkIsValidUserReview = (rating: number, comment: string): boolean => !((rating > 0) && ((comment.length >= MIN_REVIEW_LENGTH) && (comment.length < MAX_REVIEW_LENGTH)));
+export const checkIsValidUserReview = (rating: number, comment: string): boolean => !((rating > 0) && ((comment.length >= ReviewLength.Min) && (comment.length < ReviewLength.Max)));

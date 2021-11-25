@@ -42,8 +42,10 @@ export enum PinIconUrl {
 
 export const MAX_RATING_VALUE = 5;
 
-export const MIN_REVIEW_LENGTH = 50;
-export const MAX_REVIEW_LENGTH = 300;
+export enum ReviewLength {
+  Min = 50,
+  Max = 300,
+}
 
 export const CustomClasses: ClassType = {
   CitiesPlaces: {
