@@ -18,7 +18,7 @@ describe('Reducer: offersData', () => {
     expect(offersData(void 0, { type: 'UNKNOWN_TYPE' }))
       .toEqual(state);
   });
-  it('should update state if nearby offers is loaded', () => {
+  it('should update state if offers is loaded', () => {
     expect(offersData(state, loadOffers(offers)))
       .toEqual({
         ...state,
@@ -38,7 +38,7 @@ describe('Reducer: offersData', () => {
       });
   });
 
-  it('should update favorites when doing updating process', () => {
+  it('should update state when doing updating process', () => {
     const initialState = {
       ...state,
       offers: offers,
@@ -55,54 +55,13 @@ describe('Reducer: offersData', () => {
     };
 
     expect(offersData(initialState, updateOffer(updatedOfferSameId)).offers)
-      .toEqual(expect.not.arrayContaining([randomOffer]));
+      .toEqual(expect.arrayContaining([updatedOfferSameId]));
 
-    // expect(offersData(initialState, updateOffer(updatedOfferUniqueId)).offers)
-    //   .toEqual(expect.arrayContaining([updatedOfferUniqueId]));
+    expect(offersData(initialState, updateOffer(updatedOfferSameId)).offers)
+      .toEqual(expect.not.arrayContaining([randomOffer]));
 
     expect(offersData(initialState, updateOffer(updatedOfferUniqueId)).offers)
       .toEqual(initialState.offers);
   });
 
-  // it('should update nearby offers when doing updating process', () => {
-  //   const initialState = {
-  //     ...state,
-  //     nearbyOffers: offers,
-  //   };
-  //   const randomOffer = offers[Math.floor(Math.random() * offers.length)];
-  //   const uniqueId = offers.reduce((sum, current) => sum + current.id, 1);
-  //   const updatedOfferSameId = {
-  //     ...getFakeOffer(),
-  //     id: randomOffer.id,
-  //   };
-  //   const updatedOfferUniqueId = {
-  //     ...getFakeOffer(),
-  //     id: uniqueId,
-  //   };
-  //   expect(nearbyData(initialState, updateOffer(updatedOfferSameId)).nearbyOffers)
-  //     .toEqual(expect.arrayContaining([updatedOfferSameId]));
-
-  //   expect(nearbyData(initialState, updateOffer(updatedOfferSameId)).nearbyOffers)
-  //     .toEqual(expect.not.arrayContaining([randomOffer]));
-
-  //   expect(nearbyData(initialState, updateOffer(updatedOfferUniqueId)).nearbyOffers)
-  //     .toEqual(initialState.nearbyOffers);
-  // });
-
 });
-
-
-// const offersData = createReducer(initialState, (builder) => {
-//   builder
-//     .addCase(loadOffers, (state, action) => {
-//       state.offers = action.payload;
-//     })
-//     .addCase(setOffersLoadingStatus, (state, action) => {
-//       state.offersLoadingStatus = action.payload;
-//     })
-//     .addCase(updateOffer, (state, action) => {
-//       state.offers = updateOffers(state.offers, action.payload);
-//     });
-// });
-
-// export { offersData };

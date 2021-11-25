@@ -60,6 +60,7 @@ describe('Reducer: favoritesData', () => {
     };
     expect(favoritesData(initialState, updateOffer(updatedOfferSameId)).favoriteOffers)
       .toEqual(expect.not.arrayContaining([randomOffer]));
+
     expect(favoritesData(initialState, updateOffer(updatedOfferUniqueId)).favoriteOffers)
       .toEqual(expect.arrayContaining([updatedOfferUniqueId]));
   });
