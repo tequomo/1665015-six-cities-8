@@ -19,4 +19,5 @@ function Header({renderAuth}: HeaderPropsType): JSX.Element {
   );
 }
 
+export { Header };
 export default memo(Header);

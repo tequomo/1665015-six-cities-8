@@ -43,4 +43,5 @@ function PlacesSort({currentSortingType, onSelectSorting}: SortProps): JSX.Eleme
   );
 }
 
+export { PlacesSort };
 export default memo(PlacesSort);

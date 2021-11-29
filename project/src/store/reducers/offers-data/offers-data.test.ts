@@ -1,7 +1,6 @@
 import { OffersData } from '../../../types/state';
 import { LoadingStatus } from '../../../const';
 import { loadOffers, setOffersLoadingStatus, updateOffer } from '../../action';
-// import { updateOffers } from '../../../utils/utils';
 import { offersData } from './offers-data';
 import { getFakeOffers, getFakeOffer } from '../../../utils/mock';
 

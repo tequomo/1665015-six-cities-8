@@ -11,6 +11,9 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { rootReducer } from './store/reducers/root-reducer';
 import { configureStore } from '@reduxjs/toolkit';
+import { Router as BrowserRouter } from 'react-router-dom';
+import browserHistory from './browser-history';
+
 
 const api = createAPI(
   () => store.dispatch(requireAuthorization(AuthStatus.NoAuth)),
@@ -31,8 +34,10 @@ store.dispatch(checkAuthAction());
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
-      <ToastContainer />
-      <App />
+      <BrowserRouter history={browserHistory}>
+        <ToastContainer />
+        <App />
+      </BrowserRouter>
     </Provider>
   </React.StrictMode>,
   document.getElementById('root'));

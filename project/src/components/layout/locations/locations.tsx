@@ -25,4 +25,5 @@ function Locations({onMenuItemClick, selectedCity}: LocationsProps): JSX.Element
   );
 }
 
+export { Locations };
 export default memo(Locations);

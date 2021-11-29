@@ -14,15 +14,11 @@ function Auth(): JSX.Element {
 
   const dispatch = useDispatch();
 
-  const doSignOut = () => {
-    dispatch(logoutAction());
-  };
-
   const isAuth = authStatus === AuthStatus.Auth;
 
   const handleSignOut = (e: MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();
-    doSignOut();
+    dispatch(logoutAction());
   };
 
   return (
@@ -36,7 +32,7 @@ function Auth(): JSX.Element {
           </Link>
         </li>
         {
-          isAuth && <SignOutBlock handleSignOut={handleSignOut} />
+          isAuth && <SignOutBlock onSignOut={handleSignOut} />
         }
       </ul>
     </nav>

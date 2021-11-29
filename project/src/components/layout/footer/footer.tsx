@@ -11,4 +11,5 @@ function Footer(): JSX.Element {
   );
 }
 
+export { Footer };
 export default memo(Footer);

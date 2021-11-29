@@ -1,7 +1,6 @@
 import { LoadingStatus } from '../../../const';
 import { FavoritesData } from '../../../types/state';
 import { getFakeOffers, getFakeOffer } from '../../../utils/mock';
-// import { updateFavoritesList } from '../../../utils/utils';
 import { loadFavoriteOffers,
   setFavoriteOffersLoadingStatus,
   setToggleIsFavoriteLoadingStatus,

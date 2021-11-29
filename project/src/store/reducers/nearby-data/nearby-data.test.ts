@@ -1,7 +1,6 @@
 import { LoadingStatus } from '../../../const';
 import { NearbyData } from '../../../types/state';
 import { getFakeOffers, getFakeOffer } from '../../../utils/mock';
-// import { updateOffers } from '../../../utils/utils';
 import { loadNearbyOffers, setNearbyOffersLoadingStatus, updateOffer } from '../../action';
 import { nearbyData } from './nearby-data';
 

@@ -2,7 +2,7 @@ import { BackendHostType, BackendOfferType, CityType, HostType, LocationType, Of
 import { datatype, lorem, system, address, internet, name } from 'faker';
 import { AuthUserData, AuthDataResponse, AuthDataRequest } from '../types/auth-data';
 import { BackendReviewType, PostReviewType, ReviewType } from '../types/review-type';
-import { AuthStatus, DEFAULT_CITY, LoadingStatus, SortingTypes } from '../const';
+import { AuthStatus, LoadingStatus, SortingTypes } from '../const';
 import { State } from '../types/state';
 
 const FAKE_ITEMS_COUNT = 6;
@@ -13,7 +13,7 @@ export const getFakeLocation = (): LocationType => ({
   zoom: datatype.number(),
 });
 
-const getFakeCity = (): CityType => ({
+export const getFakeCity = (): CityType => ({
   name: address.city(),
   location: getFakeLocation(),
 });
@@ -34,7 +34,7 @@ const getFakeBackendHost = (): BackendHostType => ({
 
 type FakerActionType = () => string;
 
-const generateFakeList = (fakerAction: FakerActionType): string[] => new Array(FAKE_ITEMS_COUNT).fill(null).map(() => fakerAction());
+export const generateFakeList = (fakerAction: FakerActionType): string[] => new Array(FAKE_ITEMS_COUNT).fill(null).map(() => fakerAction());
 
 export const getFakeOffer = (): OfferType => ({
   bedrooms: datatype.number(),
@@ -135,35 +135,37 @@ export const getFakeBackendReviews = (): BackendReviewType[] => (
   new Array(FAKE_ITEMS_COUNT).fill(null).map(getFakeBackendReview)
 );
 
+const fakeOffer = getFakeOffer();
+
 export const getFakeStore = (authStatus: AuthStatus): State => ({
   OFFERS_DATA: {
-    offers: getFakeOffers(),
-    offersLoadingStatus: LoadingStatus.Idle,
+    offers: [fakeOffer],
+    offersLoadingStatus: LoadingStatus.Succeeded,
   },
   CURRENT_OFFER_DATA: {
-    currentOffer: getFakeOffer(),
-    currentOfferLoadingStatus: LoadingStatus.Idle,
+    currentOffer: fakeOffer,
+    currentOfferLoadingStatus: LoadingStatus.Succeeded,
   },
   REVIEWS_DATA: {
-    offerReviews: getFakeReviews(),
-    offerReviewsLoadingStatus: LoadingStatus.Idle,
+    offerReviews: [],
+    offerReviewsLoadingStatus: LoadingStatus.Succeeded,
     reviewLoadingStatus: LoadingStatus.Idle,
   },
   NEARBY_DATA: {
-    nearbyOffers: getFakeOffers(),
-    nearbyOffersLoadingStatus: LoadingStatus.Idle,
+    nearbyOffers: [fakeOffer],
+    nearbyOffersLoadingStatus: LoadingStatus.Succeeded,
   },
   FAVORITES_DATA: {
-    favoriteOffers: getFakeOffers(),
-    favoriteOffersLoadingStatus: LoadingStatus.Idle,
-    toggleIsFavoriteLoadingStatus: LoadingStatus.Idle,
+    favoriteOffers: [fakeOffer],
+    favoriteOffersLoadingStatus: LoadingStatus.Succeeded,
+    toggleIsFavoriteLoadingStatus: LoadingStatus.Succeeded,
   },
   USER_AUTH: {
-    authStatus: AuthStatus.Unknown,
+    authStatus: authStatus,
     authUserData: null,
   },
   STATE: {
-    selectedCity: DEFAULT_CITY,
+    selectedCity: fakeOffer.city.name,
     currentSortingType: SortingTypes.DEFAULT,
   },
 });

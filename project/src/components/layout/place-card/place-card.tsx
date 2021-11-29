@@ -29,11 +29,11 @@ function PlaceCard({offer, onCardOver, onCardOut, customClasses}: CardPropsType)
   };
 
   return (
-    <article className={`${cardClassName} place-card`} onMouseEnter={() => onCardOver(id)} onMouseLeave={() => onCardOut()}>
+    <article className={`${cardClassName} place-card`} onMouseEnter={() => onCardOver(id)} onMouseLeave={() => onCardOut()} data-testid="place-card">
       {isPremium && <PlaceCardMark />}
       <div className={`${wrapperClassName} place-card__image-wrapper`}>
         <Link to={`${AppRoute.Offer}${id}`}>
-          <img className="place-card__image" src={previewImage} width="260" height="200" alt="Great Housing!" />
+          <img className="place-card__image" src={previewImage} width="260" height="200" alt="Great Housing!" data-testid="path-to-offer"/>
         </Link>
       </div>
       <div className="place-card__info">
@@ -51,7 +51,7 @@ function PlaceCard({offer, onCardOver, onCardOut, customClasses}: CardPropsType)
           </div>
         </div>
         <h2 className="place-card__name">
-          <Link to={`${AppRoute.Offer}${id}`}>
+          <Link to={`${AppRoute.Offer}${id}`} data-testid="path-to-offer">
             {title}
           </Link>
         </h2>
