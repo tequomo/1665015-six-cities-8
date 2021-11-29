@@ -19,7 +19,7 @@ function RatingStars({onRatingChange, rating}: RatingPropsType): JSX.Element {
       {ratingValues.map((rank) => (
         <Fragment key={rank}>
           <input className="form__rating-input visually-hidden" name="rating" value={rank} id={`rating-${rank}-star`} type="radio" checked={rank === rating} onChange={onRatingChange} disabled={reviewLoadingStatus === LoadingStatus.Loading}/>
-          <label htmlFor={`rating-${rank}-star`} className="reviews__rating-label form__rating-label" title={RatingName[rank-1]}>
+          <label htmlFor={`rating-${rank}-star`} className="reviews__rating-label form__rating-label" title={RatingName[rank-1].toLowerCase()}>
             <svg className="form__star-image" width="37" height="33">
               <use xlinkHref="#icon-star"></use>
             </svg>
