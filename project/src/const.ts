@@ -25,11 +25,11 @@ export enum HttpCode {
 }
 
 export enum RatingName {
-  terribly,
-  badly,
-  notBad,
-  good,
-  perfect,
+  'Terribly',
+  'Badly',
+  'Not bad',
+  'Good',
+  'Perfect',
 }
 
 export const CITIES: string[] = [
