@@ -4,7 +4,7 @@ import { ChangeEvent, FormEvent, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchOfferReviewsAction, postOfferReviewAction } from '../../../services/api-actions';
 import RatingStars from '../rating-stars/rating-stars';
-import { LoadingStatus } from '../../../const';
+import { LoadingStatus, ReviewLength } from '../../../const';
 import { getReviewLoadingStatus } from '../../../store/reducers/reviews-data/selectors';
 import { checkIsValidUserReview } from '../../../utils/utils';
 
@@ -71,7 +71,19 @@ function ReviewsForm(): JSX.Element {
       <textarea className="reviews__textarea form__textarea" id="review" name="review" placeholder="Tell how was your stay, what you like and what can be improved" value={comment} onChange={handleReviewChange} disabled={isReviewLoading}></textarea>
       <div className="reviews__button-wrapper">
         <p className="reviews__help">
-        To submit review please make sure to set <span className="reviews__star">rating</span> and describe your stay with at least <b className="reviews__text-amount">50 characters</b>.
+        To submit review please make sure to set <span className="reviews__star">rating</span> and describe your stay with
+          {
+            comment.length < ReviewLength.Min ? ' at least ': ' up to '
+          }
+          <b className="reviews__text-amount">
+            {
+              comment.length < ReviewLength.Min ? ' 50 ' : ' 300 '
+            } characters
+          </b>.
+          {
+            ((comment.length < ReviewLength.Min ) && (comment.length > (ReviewLength.Min - 10))) && `${ReviewLength.Min - comment.length} characters are missing.`
+          }
+          { (comment.length >= ReviewLength.Max ) && `${comment.length - (ReviewLength.Max - 1) } characters are redundant.`}
         </p>
         <button className="reviews__submit form__submit button" type="submit" disabled={checkIsValidUserReview(rating, comment) || isReviewLoading}>Submit</button>
       </div>

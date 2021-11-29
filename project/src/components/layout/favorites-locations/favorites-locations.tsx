@@ -1,7 +1,7 @@
 import { MouseEvent } from 'react';
 import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { AppRoutes } from '../../../const';
+import { AppRoute } from '../../../const';
 import { selectCity } from '../../../store/action';
 import { OfferType } from '../../../types/offer-type';
 import FavoriteCard from '../favorite-card/favorite-card';
@@ -26,7 +26,7 @@ function FavoritesLocations({locationOffers}: FavoritePropsType): JSX.Element {
     <li className="favorites__locations-items">
       <div className="favorites__locations locations locations--current">
         <div className="locations__item">
-          <Link className="locations__item-link" to={AppRoutes.Main} onClick={handleCityClick}>
+          <Link className="locations__item-link" to={AppRoute.Main} onClick={handleCityClick}>
             <span>{locationOffers[0].city.name}</span>
           </Link>
         </div>

@@ -66,7 +66,7 @@ function OfferContainer({currentOffer}: OfferPropsType): JSX.Element {
   };
 
   return (
-    <main className="page__main page__main--property">
+    <main className="page__main page__main--property" data-testid="offer-container">
       <section className="property">
         <div className="property__gallery-container container">
           <InteriorGallery galleryItems={galleryItems}/>

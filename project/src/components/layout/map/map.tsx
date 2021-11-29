@@ -2,7 +2,7 @@ import 'leaflet/dist/leaflet.css';
 import { Icon, Marker } from 'leaflet';
 import { useEffect, useRef } from 'react';
 import { PinIconUrl } from '../../../const';
-import useMap from '../../../hooks/useMap';
+import useMap from '../../../hooks/use-map';
 import { OfferType } from '../../../types/offer-type';
 
 type MapPropsType = {

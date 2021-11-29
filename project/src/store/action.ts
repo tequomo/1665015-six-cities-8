@@ -1,5 +1,5 @@
 import { createAction } from '@reduxjs/toolkit';
-import { AppRoutes, AuthStatus, LoadingStatus } from '../const';
+import { AppRoute, AuthStatus, LoadingStatus } from '../const';
 import { ActionType } from '../types/action';
 import { AuthUserData } from '../types/auth-data';
 import { OfferType } from '../types/offer-type';
@@ -136,7 +136,7 @@ export const requireLogout = createAction(ActionType.RequireLogout);
 
 export const redirectToRoute = createAction(
   ActionType.RedirectToRoute,
-  (url: AppRoutes) => ({
+  (url: AppRoute) => ({
     payload: url,
   }),
 );

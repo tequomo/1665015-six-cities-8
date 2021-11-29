@@ -1,6 +1,6 @@
 import { useSelector } from 'react-redux';
 import { Redirect, Route, RouteProps } from 'react-router';
-import { AppRoutes, AuthStatus } from '../../const';
+import { AppRoute, AuthStatus } from '../../const';
 import { getAuthStatus } from '../../store/reducers/user-auth/selectors';
 
 type PrivateRouteProps = RouteProps & {
@@ -18,7 +18,7 @@ function PrivateRoute({exact, path, render}: PrivateRouteProps): JSX.Element {
       render={(renderProps) => (
         authStatus === AuthStatus.Auth
           ? render(renderProps)
-          : <Redirect to={AppRoutes.SignIn} />
+          : <Redirect to={AppRoute.SignIn} />
       )}
     />
   );

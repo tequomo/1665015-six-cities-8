@@ -1,15 +1,15 @@
 import { MouseEvent } from 'react';
 import { Link } from 'react-router-dom';
-import { AppRoutes } from '../../../const';
+import { AppRoute } from '../../../const';
 
 type SignOutBlockProps = {
-  handleSignOut: (e: MouseEvent<HTMLAnchorElement>) => void,
+  onSignOut: (e: MouseEvent<HTMLAnchorElement>) => void,
 }
 
-function SignOutBlock({handleSignOut}: SignOutBlockProps): JSX.Element {
+function SignOutBlock({onSignOut}: SignOutBlockProps): JSX.Element {
   return (
     <li className="header__nav-item">
-      <Link className="header__nav-link" to={AppRoutes.SignOut} onClick={handleSignOut}>
+      <Link className="header__nav-link" to={AppRoute.SignOut} onClick={onSignOut}>
         <span className="header__signout">Sign out</span>
       </Link>
     </li>

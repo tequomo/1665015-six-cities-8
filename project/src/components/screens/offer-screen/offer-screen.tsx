@@ -8,7 +8,7 @@ import LoaderWrapper from '../../layout/loader-wrapper/loader-wrapper';
 import OfferContainer from './offer-container';
 import { OfferType } from '../../../types/offer-type';
 import NotFoundScreen from '../not-found/not-found';
-import { AppRoutes, AuthStatus, LoadingStatus } from '../../../const';
+import { AppRoute, AuthStatus, LoadingStatus } from '../../../const';
 import { getAuthStatus } from '../../../store/reducers/user-auth/selectors';
 import { getCurrentOffer, getCurrentOfferLoadingStatus } from '../../../store/reducers/current-offer-data/selectors';
 
@@ -35,7 +35,7 @@ function OfferScreen(): JSX.Element {
 
   useEffect(() => {
     if(authStatus === AuthStatus.NoAuth) {
-      <Redirect to={AppRoutes.SignIn} />;
+      <Redirect to={AppRoute.SignIn} />;
     }
   }, [authStatus]);
 

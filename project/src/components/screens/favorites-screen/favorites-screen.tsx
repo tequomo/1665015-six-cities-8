@@ -30,7 +30,7 @@ function FavoritesScreen(): JSX.Element {
       <Header renderAuth />
 
       <LoaderWrapper isLoad={favoriteOffersLoadingStatus === LoadingStatus.Succeeded} >
-        <main className={`page__main page__main--favorites ${favoriteOffers.length === 0 ? CustomClasses.FavoritesScreen.mainClassName : ''}`}>
+        <main className={`page__main page__main--favorites ${favoriteOffers.length === 0 ? CustomClasses.FavoritesScreen.mainClassName : ''}`} data-testid="favorites-screen">
           <div className="page__favorites-container container">
             {
               favoriteOffers.length === 0 ? <FavoritesEmpty /> : <FavoritesList favoriteOffers={favoriteOffers} />

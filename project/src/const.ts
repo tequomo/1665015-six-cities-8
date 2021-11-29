@@ -1,7 +1,7 @@
 import { ClassType } from './types/classes-type';
 import { SortTypes } from './types/sort';
 
-export enum AppRoutes {
+export enum AppRoute {
   Main = '/',
   SignIn = '/login',
   SignOut = '/logout',
@@ -16,7 +16,15 @@ export enum AuthStatus {
   Unknown = 'UNKNOWN',
 }
 
-export enum RatingNames {
+export enum HttpCode {
+  Ok = 200,
+  NoContent = 204,
+  BadRequest = 400,
+  Unauthorized = 401,
+  NotFound = 404,
+}
+
+export enum RatingName {
   terribly,
   badly,
   notBad,
@@ -42,8 +50,10 @@ export enum PinIconUrl {
 
 export const MAX_RATING_VALUE = 5;
 
-export const MIN_REVIEW_LENGTH = 50;
-export const MAX_REVIEW_LENGTH = 300;
+export enum ReviewLength {
+  Min = 50,
+  Max = 300,
+}
 
 export const CustomClasses: ClassType = {
   CitiesPlaces: {
@@ -93,7 +103,7 @@ export const SortingTypes: SortTypes =  {
   TOP_RATED: 'Top rated first',
 };
 
-export enum APIRoutes {
+export enum APIRoute {
     Hotels = '/hotels',
     Login = '/login',
     Logout = '/logout',

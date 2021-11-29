@@ -1,4 +1,3 @@
-// import { useState } from 'react';
 import { memo, MouseEvent } from 'react';
 import { CITIES } from '../../../const';
 import LocationsItem from './locations-item';
@@ -26,4 +25,5 @@ function Locations({onMenuItemClick, selectedCity}: LocationsProps): JSX.Element
   );
 }
 
+export { Locations };
 export default memo(Locations);

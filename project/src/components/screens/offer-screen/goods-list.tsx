@@ -2,7 +2,7 @@ type GoodsType = {
   goods: string[],
 }
 
-function GoodsListComponent({goods}: GoodsType): JSX.Element {
+function GoodsList({goods}: GoodsType): JSX.Element {
   return (
     <div className="property__inside">
       <h2 className="property__inside-title">What&apos;s inside</h2>
@@ -16,4 +16,4 @@ function GoodsListComponent({goods}: GoodsType): JSX.Element {
   );
 }
 
-export default GoodsListComponent;
+export default GoodsList;

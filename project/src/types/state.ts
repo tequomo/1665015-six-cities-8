@@ -22,7 +22,6 @@ export type CurrentOfferData = {
 
 export type NearbyData = {
   nearbyOffers: OfferType[],
-  // isNearbyLoaded: boolean,
   nearbyOffersLoadingStatus: LoadingStatus,
 }
 

@@ -1,5 +1,5 @@
 import { toast } from 'react-toastify';
-import { APIRoutes, AppRoutes, AuthStatus, LoadingStatus, Messages } from '../const';
+import { APIRoute, AppRoute, AuthStatus, LoadingStatus, Messages } from '../const';
 import {
   loadCurrentOffer,
   loadFavoriteOffers,
@@ -30,7 +30,7 @@ import { dropToken, saveToken } from './token';
 export const fetchOffersAction = (): ThunkActionResult =>
   async (dispatch, _getState, api): Promise<void> => {
     try {
-      const { data } = await api.get<BackendOfferType[]>(APIRoutes.Hotels);
+      const { data } = await api.get<BackendOfferType[]>(APIRoute.Hotels);
       dispatch(loadOffers(adaptMultipleToClient(data)));
       dispatch(setOffersLoadingStatus(LoadingStatus.Succeeded));
     } catch {
@@ -42,7 +42,7 @@ export const fetchOffersAction = (): ThunkActionResult =>
 export const fetchCurrentOfferAction = (id: string): ThunkActionResult =>
   async (dispatch, _getState, api): Promise<void> => {
     try {
-      const { data } = await api.get<BackendOfferType>(`${APIRoutes.Hotels}/${id}`);
+      const { data } = await api.get<BackendOfferType>(`${APIRoute.Hotels}/${id}`);
       dispatch(loadCurrentOffer(adaptSingleToClient(data)));
       dispatch(setCurrentOfferLoadingStatus(LoadingStatus.Succeeded));
     } catch {
@@ -54,7 +54,7 @@ export const fetchCurrentOfferAction = (id: string): ThunkActionResult =>
 export const fetchFavoriteOffersAction = (): ThunkActionResult =>
   async (dispatch, _getState, api): Promise<void> => {
     try {
-      const { data } = await api.get<BackendOfferType[]>(APIRoutes.Favorite);
+      const { data } = await api.get<BackendOfferType[]>(APIRoute.Favorite);
       dispatch(loadFavoriteOffers(adaptMultipleToClient(data)));
       dispatch(setFavoriteOffersLoadingStatus(LoadingStatus.Succeeded));
     } catch {
@@ -65,12 +65,12 @@ export const fetchFavoriteOffersAction = (): ThunkActionResult =>
 export const toggleIsFavoriteAction = (id: number, favoriteStatus: number): ThunkActionResult =>
   async (dispatch, _getState, api): Promise<void> => {
     try {
-      const { data } = await api.post<BackendOfferType>((`${APIRoutes.Favorite}/${id}/${favoriteStatus}`));
+      const { data } = await api.post<BackendOfferType>((`${APIRoute.Favorite}/${id}/${favoriteStatus}`));
       dispatch(updateOffer(adaptSingleToClient(data)));
       dispatch(setToggleIsFavoriteLoadingStatus(LoadingStatus.Succeeded));
     } catch {
       dispatch(setToggleIsFavoriteLoadingStatus(LoadingStatus.Failed));
-      dispatch(redirectToRoute(AppRoutes.SignIn));
+      dispatch(redirectToRoute(AppRoute.SignIn));
       toast.warning(Messages.FAVORITE_NO_AUTH);
     }
   };
@@ -79,7 +79,7 @@ export const toggleIsFavoriteAction = (id: number, favoriteStatus: number): Thun
 export const fetchOfferReviewsAction = (id: string): ThunkActionResult =>
   async (dispatch, _getState, api): Promise<void> => {
     try {
-      const { data } = await api.get<BackendReviewType[]>(`${APIRoutes.Reviews}/${id}`);
+      const { data } = await api.get<BackendReviewType[]>(`${APIRoute.Reviews}/${id}`);
       dispatch(loadOfferReviews(adaptSomeReviewsToClient(data)));
       dispatch(setOfferReviewsLoadingStatus(LoadingStatus.Succeeded));
     } catch {
@@ -91,7 +91,7 @@ export const postOfferReviewAction = (id: string, { comment, rating }: PostRevie
   async (dispatch, _getState, api) => {
     try {
       dispatch(setReviewLoadingStatus(LoadingStatus.Loading));
-      const { data } =  await api.post((`${APIRoutes.Reviews}/${id}`), { comment, rating });
+      const { data } =  await api.post((`${APIRoute.Reviews}/${id}`), { comment, rating });
       dispatch(loadOfferReviews(adaptSomeReviewsToClient(data)));
       dispatch(setReviewLoadingStatus(LoadingStatus.Succeeded));
     } catch {
@@ -103,7 +103,7 @@ export const postOfferReviewAction = (id: string, { comment, rating }: PostRevie
 export const fetchNearbyOffersAction = (id: string): ThunkActionResult =>
   async (dispatch, _getState, api): Promise<void> => {
     try {
-      const { data } = await api.get<BackendOfferType[]>(`${APIRoutes.Hotels}/${id}${APIRoutes.Nearby}`);
+      const { data } = await api.get<BackendOfferType[]>(`${APIRoute.Hotels}/${id}${APIRoute.Nearby}`);
       dispatch(loadNearbyOffers(adaptMultipleToClient(data)));
       dispatch(setNearbyOffersLoadingStatus(LoadingStatus.Succeeded));
     } catch {
@@ -115,7 +115,7 @@ export const fetchNearbyOffersAction = (id: string): ThunkActionResult =>
 export const checkAuthAction = (): ThunkActionResult =>
   async (dispatch, _getState, api) => {
     try {
-      const {data} = await api.get<AuthDataResponse>(APIRoutes.Login);
+      const {data} = await api.get<AuthDataResponse>(APIRoute.Login);
       dispatch(requireAuthorization(AuthStatus.Auth));
       dispatch(receiveAuthData(adaptAuthDataToClient(data)));
     } catch {
@@ -127,11 +127,11 @@ export const checkAuthAction = (): ThunkActionResult =>
 export const loginAction = ({login: email, password}: AuthDataRequest): ThunkActionResult =>
   async (dispatch, _getState, api) => {
     try {
-      const { data } = await api.post<AuthDataResponse>(APIRoutes.Login, {email, password});
+      const { data } = await api.post<AuthDataResponse>(APIRoute.Login, {email, password});
       saveToken(data.token);
       dispatch(requireAuthorization(AuthStatus.Auth));
       dispatch(receiveAuthData(adaptAuthDataToClient(data)));
-      dispatch(redirectToRoute(AppRoutes.Main));
+      dispatch(redirectToRoute(AppRoute.Main));
     } catch {
       toast.error(Messages.AUTH_FAIL);
     }
@@ -139,7 +139,7 @@ export const loginAction = ({login: email, password}: AuthDataRequest): ThunkAct
 
 export const logoutAction = (): ThunkActionResult =>
   async (dispatch, _getState, api) => {
-    api.delete(APIRoutes.Logout);
+    api.delete(APIRoute.Logout);
     dropToken();
     dispatch(requireLogout());
   };
