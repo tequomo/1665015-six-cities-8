@@ -1,5 +1,6 @@
 {
-  "name": "project",
+  "name": "six-cities",
+  "homepage": "https://tequomo.github.io/1665015-six-cities-8",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -20,7 +21,9 @@
     "build": "react-scripts build",
     "test": "react-scripts test --passWithNoTests",
     "eject": "react-scripts eject",
-    "eslint": "eslint --ext .tsx --ext .ts src/"
+    "eslint": "eslint --ext .tsx --ext .ts src/",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
   },
   "eslintConfig": {
     "extends": [
@@ -58,6 +61,7 @@
     "axios-mock-adapter": "^1.19.0",
     "eslint-config-htmlacademy": "^4.1.0",
     "faker": "^5.5.3",
+    "gh-pages": "^3.2.3",
     "redux-devtools-extension": "^2.13.9",
     "typescript": "^4.4.3"
   }
